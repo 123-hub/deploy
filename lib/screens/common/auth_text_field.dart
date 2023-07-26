@@ -18,7 +18,7 @@ class AuthTextField extends StatelessWidget {
   final bool isPasswordField;
   final bool? showPassword;
   final VoidCallback? visibilityButton;
-
+// TODO: Make input type as a parameter
   @override
   Widget build(BuildContext context) {
     return TextField(
