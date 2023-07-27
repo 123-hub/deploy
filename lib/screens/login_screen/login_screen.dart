@@ -3,6 +3,7 @@ import 'package:flutter_project_labour_app/controllers/app_state_controller.dart
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
+import 'package:flutter_project_labour_app/screens/dashboard_screen/dashboard_screen.dart';
 import 'package:flutter_project_labour_app/screens/login_screen/forgot_password/enter_email_screen.dart';
 import 'package:flutter_project_labour_app/screens/login_screen/components/social_login_button.dart';
 import 'package:flutter_project_labour_app/screens/login_screen/components/social_login_divider.dart';
@@ -93,7 +94,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 LongButton(
                   text: 'Sign In',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.off(() => DashboardScreen());
+                  },
                 ),
                 SizedBox(
                   height: 26.h,

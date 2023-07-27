@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/screens/dashboard_screen/dashboard_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class SignUpComplete extends StatelessWidget {
   const SignUpComplete({super.key});
@@ -42,7 +44,9 @@ class SignUpComplete extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.offAll(() => DashboardScreen());
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primeryRed),
                         shape: MaterialStateProperty.all(
@@ -53,7 +57,9 @@ class SignUpComplete extends StatelessWidget {
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 20.w, vertical: 10.h),
+                          horizontal: 20.w,
+                          vertical: 10.h,
+                        ),
                         child: Text(
                           'Lets Go',
                           style: branding16sp,
