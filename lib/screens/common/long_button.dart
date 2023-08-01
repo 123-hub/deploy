@@ -15,7 +15,7 @@ class LongButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onPressed,
-      minWidth: double.infinity,
+      minWidth: MediaQuery.of(context).size.width,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.r),
       ),

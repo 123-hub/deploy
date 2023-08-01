@@ -53,29 +53,38 @@ TextStyle chatTileMessage = TextStyle(
 );
 
 TextStyle emptyPageTitle = TextStyle(
-  fontSize: 18.sp,
-  fontFamily: 'Gilroy',
-  fontWeight: FontWeight.w700,
-  color: emptyPageTitleColor
-);
+    fontSize: 18.sp,
+    fontFamily: 'Gilroy',
+    fontWeight: FontWeight.w700,
+    color: emptyPageTitleColor);
 
 TextStyle emptyPageSubTitle = TextStyle(
-  fontSize: 16.sp,
-  fontFamily: 'Gilroy',
-  fontWeight: FontWeight.w400,
-  color: emptyPageTitleColor
-);
+    fontSize: 16.sp,
+    fontFamily: 'Gilroy',
+    fontWeight: FontWeight.w400,
+    color: emptyPageTitleColor);
 
 TextStyle bottomSheetTitle = TextStyle(
-  fontSize: 24.sp,
-  fontFamily: 'Gilroy',
-  fontWeight: FontWeight.w600,
-  color: subtitleGrey
-);
+    fontSize: 24.sp,
+    fontFamily: 'Gilroy',
+    fontWeight: FontWeight.w600,
+    color: subtitleGrey);
 
 TextStyle bottomSheetSubTitle = TextStyle(
   fontSize: 14.sp,
   fontFamily: 'Gilroy',
   fontWeight: FontWeight.w600,
   color: subtitleGrey,
+);
+
+TextStyle gilroy12_600 = TextStyle(
+  fontSize: 12.sp,
+  fontFamily: 'Gilroy',
+  fontWeight: FontWeight.w600,
+);
+
+TextStyle gilroy12_400 = TextStyle(
+  fontSize: 12.sp,
+  fontFamily: 'Gilroy',
+  fontWeight: FontWeight.w400,
 );
