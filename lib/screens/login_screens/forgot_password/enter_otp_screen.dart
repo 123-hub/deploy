@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
-import 'package:flutter_project_labour_app/screens/login_screen/components/auth_back_appbar.dart';
-import 'package:flutter_project_labour_app/screens/login_screen/forgot_password/enter_otp_screen.dart';
+import 'package:flutter_project_labour_app/screens/login_screens/components/auth_back_appbar.dart';
+import 'package:flutter_project_labour_app/screens/login_screens/forgot_password/reset_password_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pinput/pinput.dart';
 
-class EnterEmailScreen extends StatelessWidget {
-  EnterEmailScreen({super.key});
+class EnterOTPScreen extends StatelessWidget {
+  EnterOTPScreen({super.key});
   final emailTextController = TextEditingController();
 
   @override
@@ -27,10 +27,10 @@ class EnterEmailScreen extends StatelessWidget {
                 ),
                 const AuthBackAppBar(),
                 SizedBox(
-                  height: 206.h,
+                  height: 200.h,
                 ),
                 Text(
-                  'Enter Email',
+                  'Enter OTP',
                   style: authHeading,
                 ),
                 SizedBox(
@@ -43,11 +43,30 @@ class EnterEmailScreen extends StatelessWidget {
                 SizedBox(
                   height: 39.h,
                 ),
-                AuthTextField(
-                  emailTextController: emailTextController,
-                  hintText: 'Enter your email',
-                  isPasswordField: false,
-                  primaryIcon: Icons.alternate_email,
+                Align(
+                  alignment: Alignment.center,
+                  child: Pinput(
+                    length: 6,
+                    onCompleted: (String? pin) {
+                      debugPrint(pin);
+                    },
+                    separator: SizedBox(width: 11.w),
+                    defaultPinTheme: PinTheme(
+                      height: 47.h,
+                      width: 47.w,
+                      textStyle: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24.sp,
+                        color: otpColor,
+                      ),
+                      decoration: BoxDecoration(
+                        color: otpBoxColor,
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: Colors.transparent),
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 33.h,
@@ -55,7 +74,7 @@ class EnterEmailScreen extends StatelessWidget {
                 LongButton(
                   text: 'Submit',
                   onPressed: () {
-                    Get.off(() => EnterOTPScreen());
+                    Get.off(() => ResetPasswordScreen());
                   },
                 ),
               ],

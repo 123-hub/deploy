@@ -1,4 +1,4 @@
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/job_card_without_tag.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_card_without_tag.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 

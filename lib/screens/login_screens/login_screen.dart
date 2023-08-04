@@ -3,11 +3,11 @@ import 'package:flutter_project_labour_app/controllers/app_state_controller.dart
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/dashboard_screen.dart';
-import 'package:flutter_project_labour_app/screens/login_screen/forgot_password/enter_email_screen.dart';
-import 'package:flutter_project_labour_app/screens/login_screen/components/social_login_button.dart';
-import 'package:flutter_project_labour_app/screens/login_screen/components/social_login_divider.dart';
-import 'package:flutter_project_labour_app/screens/signup_screen/signup_screen.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
+import 'package:flutter_project_labour_app/screens/login_screens/forgot_password/enter_email_screen.dart';
+import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_button.dart';
+import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_divider.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/signup_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

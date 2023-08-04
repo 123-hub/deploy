@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/dashboard_screen.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

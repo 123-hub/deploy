@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/app_state_controller.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/back_appbar.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/empty_screen.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/job_search_bar.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/back_appbar.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/empty_screen.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';

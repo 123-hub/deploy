@@ -3,11 +3,11 @@ import 'package:flutter_project_labour_app/controllers/app_state_controller.dart
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/next_button.dart';
 import 'package:flutter_project_labour_app/screens/common/skill_capsul.dart';
-import 'package:flutter_project_labour_app/screens/signup_screen/components/add_skill_text_field.dart';
-import 'package:flutter_project_labour_app/screens/signup_screen/components/age_slider.dart';
-import 'package:flutter_project_labour_app/screens/signup_screen/components/gender_drop_down_menu.dart';
-import 'package:flutter_project_labour_app/screens/signup_screen/components/normal_text_field.dart';
-import 'package:flutter_project_labour_app/screens/signup_screen/signup_complete_screen.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/components/add_skill_text_field.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/components/age_slider.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/components/gender_drop_down_menu.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/components/normal_text_field.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/signup_complete_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

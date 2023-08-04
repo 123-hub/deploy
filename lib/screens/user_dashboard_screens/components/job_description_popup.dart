@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/screens/common/bullet_pointes.dart';
 import 'package:flutter_project_labour_app/screens/common/company_info_tile.dart';
 import 'package:flutter_project_labour_app/screens/common/job_desc_tile.dart';
-import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/back_appbar.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/work_experience_card.dart';
+import 'package:flutter_project_labour_app/screens/common/company_info_tile.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/back_appbar.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ClientProfileScreen extends StatelessWidget {
+  const ClientProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -109,43 +109,77 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            Row(
-              children: [
-                Text(
-                  'Expected Wage:',
-                  style: tileHeader.copyWith(color: aboutGrey),
-                ),
-                SizedBox(
-                  width: 5.w,
-                ),
-                Text(
-                  '\$28/hr:',
-                  style: tileHeader.copyWith(
-                      color: aboutGrey, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 13.h,
-            ),
             const Divider(),
             SizedBox(
               height: 13.h,
             ),
             Text(
-              'Work Experience',
+              'Company Info',
               style: tileHeader.copyWith(color: aboutGrey),
             ),
             SizedBox(
               height: 15.h,
             ),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 2,
-              itemBuilder: (BuildContext context, int index) {
-                return const WorkExperienceCard();
-              },
+            const CompanyInfoTile(
+              title: 'Website',
+              value: 'www.larsentoubro.com',
+            ),
+            SizedBox(
+              height: 13.h,
+            ),
+            const CompanyInfoTile(
+              title: 'Founded',
+              value: '2018',
+            ),
+            SizedBox(
+              height: 13.h,
+            ),
+            const CompanyInfoTile(
+              title: 'Size',
+              value: '400 Employee',
+            ),
+            SizedBox(
+              height: 30.h,
+            ),
+            const Divider(),
+            SizedBox(
+              height: 15.h,
+            ),
+            Text(
+              'Recently Hired',
+              style: tileHeader.copyWith(color: aboutGrey),
+            ),
+            SizedBox(
+              height: 22.h,
+            ),
+            Row(
+              children: [
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage:
+                          const AssetImage('assets/images/worker.png'),
+                      radius: 30.r,
+                    ),
+                    Text('Mason Baxter',
+                        style: gilroy12_600.copyWith(color: aboutGrey)),
+                  ],
+                ),
+                SizedBox(
+                  width: 25.w,
+                ),
+                Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage:
+                          const AssetImage('assets/images/worker.png'),
+                      radius: 30.r,
+                    ),
+                    Text('Mason Baxter',
+                        style: gilroy12_600.copyWith(color: aboutGrey)),
+                  ],
+                )
+              ],
             )
           ],
         ),

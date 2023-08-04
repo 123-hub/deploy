@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/app_state_controller.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/filter_popup.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/home_screen_appbar.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/job_card.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/job_description_popup.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/job_search_bar.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/filter_popup.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/home_screen_appbar.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_card.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_description_popup.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/back_appbar.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/chat_card.dart';
-import 'package:flutter_project_labour_app/screens/dashboard_screen/components/job_search_bar.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/back_appbar.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/chat_card.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConversationScreen extends StatelessWidget {
