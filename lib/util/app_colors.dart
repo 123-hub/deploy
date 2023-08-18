@@ -22,3 +22,4 @@ const Color emptyPageTitleColor = Color(0xFF4A4A4A);
 const Color jobDescTileTextGrey = Color(0xFF2B2B2B);
 const Color bulletThumb = Color(0xFFD9D9D9);
 const Color ratingYellow = Color(0xFFFCFF52);
+const Color authIconColor = Color(0xFF898989);

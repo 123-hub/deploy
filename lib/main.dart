@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: ClientDashboardScreen(),
+      child: LoginScreen(),
     );
   }
 }

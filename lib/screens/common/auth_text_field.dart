@@ -8,8 +8,10 @@ class AuthTextField extends StatelessWidget {
     required this.hintText,
     required this.isPasswordField,
     required this.primaryIcon,
+    required this.textInputType,
     this.showPassword,
     this.visibilityButton,
+    this.errorText,
   });
 
   final TextEditingController emailTextController;
@@ -18,12 +20,14 @@ class AuthTextField extends StatelessWidget {
   final bool isPasswordField;
   final bool? showPassword;
   final VoidCallback? visibilityButton;
-// TODO: Make input type as a parameter
+  final TextInputType textInputType;
+  final String? errorText;
+
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: emailTextController,
-      keyboardType: TextInputType.emailAddress,
+      keyboardType: textInputType,
       style: TextStyle(
         fontFamily: 'Gilroy',
         fontSize: 16.sp,
@@ -31,6 +35,7 @@ class AuthTextField extends StatelessWidget {
       ),
       obscureText: isPasswordField ? !showPassword! : false,
       decoration: InputDecoration(
+        errorText: errorText,
         icon: Icon(primaryIcon),
         suffixIcon: isPasswordField
             ? IconButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/screens/login_screens/login_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
@@ -45,7 +46,7 @@ class SignUpComplete extends StatelessWidget {
                     SizedBox(height: 20.h),
                     ElevatedButton(
                       onPressed: () {
-                        Get.offAll(() => DashboardScreen());
+                        Get.offAll(() => LoginScreen());
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(primeryRed),

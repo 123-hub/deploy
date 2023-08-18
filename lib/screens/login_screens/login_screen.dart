@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/app_state_controller.dart';
+import 'package:flutter_project_labour_app/controllers/login_screen_controller.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
+import 'package:flutter_project_labour_app/screens/common/role_drop_down_menu.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/role_signup_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
-import 'package:flutter_project_labour_app/screens/login_screens/forgot_password/enter_email_screen.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/labour_forgot_password/enter_email_screen.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_button.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_divider.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/signup_screen.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/labour_signup_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,9 +17,7 @@ import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
-  final emailTextController = TextEditingController();
-  final passwordTextController = TextEditingController();
-  final appStateController = Get.put(AppStateController());
+  final loginScreenController = Get.put(LoginScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +30,11 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 40.h,
+                  height: 30.h,
                 ),
                 const AuthAppBar(),
                 SizedBox(
-                  height: 138.h,
+                  height: 100.h,
                 ),
                 Text(
                   'Login to your account',
@@ -50,24 +50,47 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 39.h,
                 ),
-                AuthTextField(
-                  emailTextController: emailTextController,
-                  hintText: 'Enter your email',
-                  isPasswordField: false,
-                  primaryIcon: Icons.alternate_email,
+                Obx(
+                  () {
+                    return RoleDropDownMenu(
+                      value: loginScreenController.role.value,
+                      onChanged: loginScreenController.onRoleChange,
+                    );
+                  },
                 ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Obx(() {
+                  return AuthTextField(
+                    emailTextController:
+                        loginScreenController.emailTextController,
+                    hintText: 'Enter your email',
+                    isPasswordField: false,
+                    primaryIcon: Icons.alternate_email,
+                    textInputType: TextInputType.emailAddress,
+                    errorText: loginScreenController.isEmailValid.value
+                        ? null
+                        : loginScreenController.emailErrorMessage,
+                  );
+                }),
                 SizedBox(
                   height: 33.h,
                 ),
                 Obx(() {
                   return AuthTextField(
-                    emailTextController: passwordTextController,
+                    emailTextController:
+                        loginScreenController.passwordTextController,
                     hintText: 'Enter your password',
                     isPasswordField: true,
                     primaryIcon: Icons.lock_outline,
-                    showPassword: appStateController.showPassword.value,
+                    showPassword: loginScreenController.showPassword.value,
+                    textInputType: TextInputType.visiblePassword,
+                    errorText: loginScreenController.isPasswordValid.value
+                        ? null
+                        : loginScreenController.passwordErrorMessage,
                     visibilityButton: () {
-                      appStateController.chageShowPassword();
+                      loginScreenController.chageShowPassword();
                     },
                   );
                 }),
@@ -94,8 +117,19 @@ class LoginScreen extends StatelessWidget {
                 ),
                 LongButton(
                   text: 'Sign In',
-                  onPressed: () {
-                    Get.off(() => DashboardScreen());
+                  onPressed: () async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    var isValid = loginScreenController.areTextFieldValid();
+                    debugPrint('Are text field Valid: $isValid');
+                    if (isValid) {
+                      await loginScreenController.loginUser();
+                      if (loginScreenController.loginResponse.value != null) {
+                        debugPrint('Login Succesfull');
+                        Get.off(() => DashboardScreen());
+                      } else {
+                        debugPrint('facing problem');
+                      }
+                    }
                   },
                 ),
                 SizedBox(
@@ -133,7 +167,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(() => SignUpScreen());
+                        Get.to(() => const RoleSignUpScreen());
                       },
                       child: Text(
                         'Create one',
