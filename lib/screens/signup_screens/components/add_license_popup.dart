@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/signup_screen_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_signup_screen_controller.dart';
 import 'package:flutter_project_labour_app/models/license_model.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/screens/common/text_field_date_picker.dart';

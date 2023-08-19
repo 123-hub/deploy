@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/signup_screen_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_signup_screen_controller.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/components/auth_back_appbar.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/labour_forgot_password/enter_otp_screen.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/contractor_signup/enter_contractor_otp_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class EnterEmailScreen extends StatelessWidget {
-  EnterEmailScreen({super.key});
-  final signupScreenController = Get.put(LabourSignupScreenController(), permanent: true);
+class EnterContractorEmailScreen extends StatelessWidget {
+  EnterContractorEmailScreen({super.key});
+  final contractorSignUpScreenController = Get.put(ContractorSignUpScreenController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class EnterEmailScreen extends StatelessWidget {
                 ),
                 AuthTextField(
                   emailTextController:
-                      signupScreenController.emailTextController,
+                      contractorSignUpScreenController.emailTextController,
                   hintText: 'Enter your email',
                   isPasswordField: false,
                   primaryIcon: Icons.alternate_email,
@@ -59,9 +59,9 @@ class EnterEmailScreen extends StatelessWidget {
                   text: 'Submit',
                   onPressed: () async {
                     FocusManager.instance.primaryFocus?.unfocus();
-                    var sent = await signupScreenController.sendOtp();
+                    var sent = await contractorSignUpScreenController.sendOtp();
                     if (sent) {
-                      Get.off(() => EnterOTPScreen());
+                      Get.off(() => EnterContractorOTPScreen());
                     }
                   },
                 ),

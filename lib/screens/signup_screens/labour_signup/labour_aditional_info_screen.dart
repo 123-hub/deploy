@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/signup_screen_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_signup_screen_controller.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/next_button.dart';

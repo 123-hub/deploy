@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/components/long_grey_button.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/labour_forgot_password/enter_email_screen.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/contractor_signup/enter_contractor_email_screen.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/enter_email_screen.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/labour_signup_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
@@ -53,7 +54,9 @@ class RoleSignUpScreen extends StatelessWidget {
                 ),
                 LongOutlineButton(
                   text: 'Contractor',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.off(() => EnterContractorEmailScreen());
+                  },
                 ),
               ],
             ),

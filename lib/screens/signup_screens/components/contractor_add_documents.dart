@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/labour_signup_screen_controller.dart';
-import 'package:flutter_project_labour_app/models/document_model.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_signup_screen_controller.dart';
+import 'package:flutter_project_labour_app/models/contractor_document_model.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
@@ -8,12 +8,14 @@ import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Future<dynamic> addDocumentPopup(
-    BuildContext context, LabourSignupScreenController controller) {
+Future<dynamic> contractorAddDocumentPopup(
+    BuildContext context, ContractorSignUpScreenController controller) {
   var formKey = GlobalKey<FormState>();
-  var documentNameTextController = TextEditingController();
-  var documentURLTextController = TextEditingController();
-  var descriptionTextController = TextEditingController();
+  var ownerDrivingLicenseTextController = TextEditingController();
+  var insuranceLiabilityTextController = TextEditingController();
+  var wcbDocumentTextController = TextEditingController();
+  var businessLicenseTextController = TextEditingController();
+  var documentUrlTextController = TextEditingController();
 
   return showModalBottomSheet(
     showDragHandle: true,
@@ -45,24 +47,40 @@ Future<dynamic> addDocumentPopup(
                 height: 32.h,
               ),
               UnderlineTextField(
-                controller: documentNameTextController,
-                hintText: 'Enter Document Name',
+                controller: ownerDrivingLicenseTextController,
+                hintText: 'Enter Owner Driving license',
                 validator: validate,
               ),
               SizedBox(
                 height: 20.h,
               ),
               UnderlineTextField(
-                controller: documentURLTextController,
+                controller: insuranceLiabilityTextController,
+                hintText: 'Enter insurance liability',
+                validator: validate,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              UnderlineTextField(
+                controller: wcbDocumentTextController,
+                hintText: 'Enter WCB document',
+                validator: validate,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              UnderlineTextField(
+                controller: businessLicenseTextController,
+                hintText: 'Enter Business License',
+                validator: validate,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              UnderlineTextField(
+                controller: documentUrlTextController,
                 hintText: 'Enter Document URL',
-                validator: validate,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              UnderlineTextField(
-                controller: descriptionTextController,
-                hintText: 'Enter Document Description',
                 validator: validate,
               ),
               SizedBox(
@@ -74,10 +92,12 @@ Future<dynamic> addDocumentPopup(
                   if (formKey.currentState!.validate()) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     debugPrint('Valid');
-                    var document = DocumentModel(
-                      documentName: documentNameTextController.text,
-                      documentUrl: documentURLTextController.text,
-                      description: descriptionTextController.text,
+                    var document = ContractorDocumentModel(
+                      ownerDrivingLicense: ownerDrivingLicenseTextController.text,
+                      insuranceLiability: insuranceLiabilityTextController.text,
+                      wcbDocument: wcbDocumentTextController.text,
+                      businessLicense: businessLicenseTextController.text,
+                      documentUrl: documentUrlTextController.text,
                     );
                     debugPrint(document.toJson().toString());
                     var added = controller.addDocument(document);

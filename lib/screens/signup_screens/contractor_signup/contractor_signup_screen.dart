@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/labour_signup_screen_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_signup_screen_controller.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/next_button.dart';
 import 'package:flutter_project_labour_app/screens/common/text_field_date_picker.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/contractor_signup/contractor_aditional_info_screen.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/labour_aditional_info_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
@@ -11,13 +12,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class LabourSignUpScreen extends StatelessWidget {
-  LabourSignUpScreen({super.key});
+class ContractorSignUpScreen extends StatelessWidget {
+  ContractorSignUpScreen({super.key});
 
-  final signupScreenController = Get.find<LabourSignupScreenController>();
+  final contractorSignUpScreenController = Get.find<ContractorSignUpScreenController>();
   @override
   Widget build(BuildContext context) {
-    debugPrint(signupScreenController.emailTextController.text);
+    debugPrint(contractorSignUpScreenController.emailTextController.text);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -50,14 +51,14 @@ class LabourSignUpScreen extends StatelessWidget {
                 Obx(() {
                   return AuthTextField(
                     emailTextController:
-                        signupScreenController.firstNameTextController,
+                        contractorSignUpScreenController.firstNameTextController,
                     hintText: 'First Name',
                     isPasswordField: false,
                     primaryIcon: Icons.person_outline,
                     textInputType: TextInputType.name,
-                    errorText: signupScreenController.isFirstNameValid.value
+                    errorText: contractorSignUpScreenController.isFirstNameValid.value
                         ? null
-                        : signupScreenController.firstNameErrorMessage,
+                        : contractorSignUpScreenController.firstNameErrorMessage,
                   );
                 }),
                 SizedBox(
@@ -66,14 +67,14 @@ class LabourSignUpScreen extends StatelessWidget {
                 Obx(() {
                   return AuthTextField(
                     emailTextController:
-                        signupScreenController.lastNameTextController,
+                        contractorSignUpScreenController.lastNameTextController,
                     hintText: 'Last Name',
                     isPasswordField: false,
                     primaryIcon: Icons.person_2_outlined,
                     textInputType: TextInputType.name,
-                    errorText: signupScreenController.isLastNameValid.value
+                    errorText: contractorSignUpScreenController.isLastNameValid.value
                         ? null
-                        : signupScreenController.lastNameErrorMessage,
+                        : contractorSignUpScreenController.lastNameErrorMessage,
                   );
                 }),
                 SizedBox(
@@ -82,14 +83,14 @@ class LabourSignUpScreen extends StatelessWidget {
                 Obx(() {
                   return AuthTextField(
                     emailTextController:
-                        signupScreenController.phoneNumberTextController,
+                        contractorSignUpScreenController.phoneNumberTextController,
                     hintText: 'Phone number',
                     isPasswordField: false,
                     primaryIcon: Icons.phone,
                     textInputType: TextInputType.phone,
-                    errorText: signupScreenController.isPhoneNumberValid.value
+                    errorText: contractorSignUpScreenController.isPhoneNumberValid.value
                         ? null
-                        : signupScreenController.phoneNumberErrorMessage,
+                        : contractorSignUpScreenController.phoneNumberErrorMessage,
                   );
                 }),
                 SizedBox(
@@ -97,7 +98,7 @@ class LabourSignUpScreen extends StatelessWidget {
                 ),
                 Obx(() {
                   return TextFieldDatePicker(
-                    controller: signupScreenController.dateTextController,
+                    controller: contractorSignUpScreenController.dateTextController,
                     hintText: 'Enter your DOB',
                     initialDate: DateTime(2005),
                     firstDate: DateTime(1940),
@@ -105,13 +106,13 @@ class LabourSignUpScreen extends StatelessWidget {
                     onTap: (DateTime date) {
                       String formatedDate =
                           DateFormat('dd/MM/yyyy').format(date);
-                      signupScreenController.dateTextController.text =
+                      contractorSignUpScreenController.dateTextController.text =
                           formatedDate;
-                      signupScreenController.dateOfBirth = date;
+                      contractorSignUpScreenController.dateOfBirth = date;
                     },
-                    errorMessage: signupScreenController.isDOBValid.value
+                    errorMessage: contractorSignUpScreenController.isDOBValid.value
                         ? null
-                        : signupScreenController.dobErrorMessage,
+                        : contractorSignUpScreenController.dobErrorMessage,
                   );
                 }),
                 SizedBox(
@@ -130,17 +131,17 @@ class LabourSignUpScreen extends StatelessWidget {
                 Obx(() {
                   return AuthTextField(
                     emailTextController:
-                        signupScreenController.passwordTextController,
+                        contractorSignUpScreenController.passwordTextController,
                     hintText: 'Enter Your Password',
                     isPasswordField: true,
                     primaryIcon: Icons.lock_outline,
-                    showPassword: signupScreenController.showPassword.value,
+                    showPassword: contractorSignUpScreenController.showPassword.value,
                     textInputType: TextInputType.visiblePassword,
-                    errorText: signupScreenController.isPasswordValid.value
+                    errorText: contractorSignUpScreenController.isPasswordValid.value
                         ? null
-                        : signupScreenController.passwordErrorMessage,
+                        : contractorSignUpScreenController.passwordErrorMessage,
                     visibilityButton: () {
-                      signupScreenController.chageShowPassword();
+                      contractorSignUpScreenController.chageShowPassword();
                     },
                   );
                 }),
@@ -150,19 +151,19 @@ class LabourSignUpScreen extends StatelessWidget {
                 Obx(() {
                   return AuthTextField(
                     emailTextController:
-                        signupScreenController.confirmPasswordTextController,
+                        contractorSignUpScreenController.confirmPasswordTextController,
                     hintText: 'Confirm Your password',
                     isPasswordField: true,
                     primaryIcon: Icons.lock_outline,
                     showPassword:
-                        signupScreenController.showConfirmPassword.value,
+                        contractorSignUpScreenController.showConfirmPassword.value,
                     textInputType: TextInputType.visiblePassword,
-                    errorText: signupScreenController
+                    errorText: contractorSignUpScreenController
                             .isConfirmPasswordValid.value
                         ? null
-                        : signupScreenController.confirmPasswordErrorMessage,
+                        : contractorSignUpScreenController.confirmPasswordErrorMessage,
                     visibilityButton: () {
-                      signupScreenController.chageConfirmShowPassword();
+                      contractorSignUpScreenController.chageConfirmShowPassword();
                     },
                   );
                 }),
@@ -175,8 +176,8 @@ class LabourSignUpScreen extends StatelessWidget {
                     text: 'Next',
                     isArrowPresent: true,
                     onPressed: () {
-                      if (signupScreenController.isFirstPageValid()) {
-                        Get.to(() => AdditionalInfoScreen());
+                      if (contractorSignUpScreenController.isFirstPageValid()) {
+                        Get.to(() => ContractorAdditionalInfoScreen());
                       }
                     },
                   ),

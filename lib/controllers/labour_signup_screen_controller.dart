@@ -5,6 +5,7 @@ import 'package:flutter_project_labour_app/models/document_model.dart';
 import 'package:flutter_project_labour_app/models/experience_model.dart';
 import 'package:flutter_project_labour_app/models/license_model.dart';
 import 'package:flutter_project_labour_app/util/endpoints.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -229,33 +230,7 @@ class LabourSignupScreenController extends GetxController {
     notifyChildrens();
   }
 
-  void showErrorSnackBar(String message) {
-    Get.showSnackbar(
-      GetSnackBar(
-        title: 'Error',
-        message: message,
-        icon: const Icon(
-          Icons.error,
-          color: Colors.red,
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  void showDoneSnackBar(String message) {
-    Get.showSnackbar(
-      GetSnackBar(
-        title: 'Success',
-        message: message,
-        icon: const Icon(
-          Icons.verified,
-          color: Colors.green,
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
+  
 
   void deleteTradeType(String tradeType) {
     tradeTypes.remove(tradeType);
@@ -349,4 +324,5 @@ class LabourSignupScreenController extends GetxController {
       return false;
     }
   }
+  
 }

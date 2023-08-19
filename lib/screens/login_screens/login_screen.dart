@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/login_screen_controller.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_dashboard_screen.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/screens/common/role_drop_down_menu.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/role_signup_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/labour_forgot_password/enter_email_screen.dart';
+import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/enter_email_screen.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_button.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_divider.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/labour_signup_screen.dart';
@@ -125,7 +126,11 @@ class LoginScreen extends StatelessWidget {
                       await loginScreenController.loginUser();
                       if (loginScreenController.loginResponse.value != null) {
                         debugPrint('Login Succesfull');
-                        Get.off(() => DashboardScreen());
+                        if (loginScreenController.role.value == 'labour') {
+                          Get.off(() => DashboardScreen());
+                        } else {
+                          Get.off(() => ClientDashboardScreen());
+                        }
                       } else {
                         debugPrint('facing problem');
                       }
