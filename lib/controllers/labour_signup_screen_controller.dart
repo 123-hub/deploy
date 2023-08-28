@@ -48,6 +48,9 @@ class LabourSignupScreenController extends GetxController {
   var expiryDateErrorMessage = 'Enter Expiry Date';
   var dateOfBirth = DateTime.now();
   var licencExpiry = DateTime.now();
+  var isSendingOTP = false.obs;
+  var isVerifyingOTP = false.obs;
+  var isCreatingID = false.obs;
 
   bool isFirstPageValid() {
     if (firstNameTextController.text.trim().isEmpty) {
@@ -230,8 +233,6 @@ class LabourSignupScreenController extends GetxController {
     notifyChildrens();
   }
 
-  
-
   void deleteTradeType(String tradeType) {
     tradeTypes.remove(tradeType);
     notifyChildrens();
@@ -256,14 +257,12 @@ class LabourSignupScreenController extends GetxController {
 
   void selectDays(int day) {
     debugPrint('selected day index $day');
-    if (day == 7) {
-      day = 0;
-    }
     days[day] = !days[day];
     notifyChildrens();
   }
 
   Future<bool> sendOtp() async {
+    isSendingOTP(true);
     var response = await http.post(
       Uri.parse(Endpoints.labourOTP),
       headers: Endpoints.jsonHeader,
@@ -271,6 +270,7 @@ class LabourSignupScreenController extends GetxController {
         "email": emailTextController.text.trim(),
       }),
     );
+    isSendingOTP(false);
     if (response.statusCode < 299) {
       showDoneSnackBar('OTP Sent Successfully');
       return true;
@@ -285,12 +285,14 @@ class LabourSignupScreenController extends GetxController {
       showErrorSnackBar('Enter valid OTP');
       return false;
     }
+    isVerifyingOTP(true);
     debugPrint('The email is ${emailTextController.text.trim()}');
     var response = await http.post(
       Uri.parse(Endpoints.varifyLabourOTP),
       headers: Endpoints.jsonHeader,
       body: jsonEncode({"email": emailTextController.text.trim(), "otp": otp}),
     );
+    isVerifyingOTP(false);
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
       if (body['success'] == true) {
@@ -308,12 +310,14 @@ class LabourSignupScreenController extends GetxController {
   }
 
   Future<bool> labourSignUp() async {
+    isCreatingID(true);
     printError(info: getSignUpData().toString());
     var response = await http.post(
       Uri.parse(Endpoints.labourSignup),
       headers: Endpoints.jsonHeader,
       body: jsonEncode(getSignUpData()),
     );
+    isCreatingID(false);
     if (response.statusCode < 299) {
       showDoneSnackBar('Account Made Succesfully');
       return true;
@@ -324,5 +328,4 @@ class LabourSignupScreenController extends GetxController {
       return false;
     }
   }
-  
 }

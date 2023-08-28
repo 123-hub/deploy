@@ -4,7 +4,6 @@ import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/next_button.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/contractor_signup/contractor_documents_screen.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/labour_experience_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

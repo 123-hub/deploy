@@ -5,7 +5,6 @@ import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/next_button.dart';
 import 'package:flutter_project_labour_app/screens/common/text_field_date_picker.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/contractor_signup/contractor_aditional_info_screen.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/labour_aditional_info_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

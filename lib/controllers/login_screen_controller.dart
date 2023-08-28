@@ -3,13 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/models/login_response.dart';
 import 'package:flutter_project_labour_app/util/endpoints.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
-enum Role {
-  labour,
-  contractor,
-}
 
 class LoginScreenController extends GetxController {
   final emailTextController = TextEditingController();
@@ -21,6 +17,7 @@ class LoginScreenController extends GetxController {
   var role = Rx<String?>(null);
   var loginResponse = Rx<LoginResponse?>(null);
   var showPassword = false.obs;
+  var isLoading = false.obs;
 
   void chageShowPassword() {
     showPassword(!showPassword.value);
@@ -57,7 +54,10 @@ class LoginScreenController extends GetxController {
       GetSnackBar(
         title: 'Error',
         message: message,
-        icon: const Icon(Icons.error),
+        icon: const Icon(
+          Icons.error,
+          color: Colors.red,
+        ),
         duration: const Duration(seconds: 3),
       ),
     );
@@ -68,6 +68,7 @@ class LoginScreenController extends GetxController {
       showErrorSnackBar('Choose a role');
       return;
     }
+    isLoading(true);
     String url = (role.value == 'labour')
         ? Endpoints.labourLogin
         : Endpoints.contractorLogin;
@@ -79,10 +80,14 @@ class LoginScreenController extends GetxController {
         "password": passwordTextController.text.trim(),
       }),
     );
+    isLoading(false);
     if (response.statusCode < 299) {
       loginResponse.value =
           LoginResponse.fromJson(jsonDecode(response.body)['data']);
-      debugPrint(loginResponse.value.toString());
+      const storage = FlutterSecureStorage();
+      await storage.write(key: 'role', value: role.value);
+      await storage.write(key: 'token', value: loginResponse.value!.accessToken);
+      await storage.write(key: 'refreshToken', value: loginResponse.value!.refreshToken);
     } else if (response.statusCode < 499) {
       isPasswordValid(false);
       passwordErrorMessage = 'Wrong password';

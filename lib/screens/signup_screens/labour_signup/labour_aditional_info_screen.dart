@@ -16,12 +16,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:weekday_selector/weekday_selector.dart';
 
 class AdditionalInfoScreen extends StatelessWidget {
   AdditionalInfoScreen({super.key});
   final skillTextController = TextEditingController();
   final signupScreenController = Get.find<LabourSignupScreenController>();
+  final List<String> days = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class AdditionalInfoScreen extends StatelessWidget {
                               signupScreenController.expectedRateTextController,
                           hintText: 'Expected Hourly Rate',
                           isPasswordField: false,
-                          primaryIcon: Icons.currency_rupee,
+                          primaryIcon: Icons.attach_money,
                           textInputType: TextInputType.number,
                           errorText: signupScreenController
                                   .isHourlyRateValid.value
@@ -83,14 +83,49 @@ class AdditionalInfoScreen extends StatelessWidget {
                       SizedBox(
                         height: 14.h,
                       ),
-                      Obx(() {
-                        return WeekdaySelector(
-                          selectedColor: Colors.white,
-                          selectedFillColor: primeryRed,
-                          onChanged: signupScreenController.selectDays,
-                          values: signupScreenController.days,
-                        );
-                      }),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 40.h,
+                        child: Obx(() {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              for (int i = 0;
+                                  i < signupScreenController.days.length;
+                                  i++)
+                                InkWell(
+                                  onTap: () {
+                                    signupScreenController.selectDays(i);
+                                  },
+                                  child: Container(
+                                    height: 35.h,
+                                    width: 35.h,
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: signupScreenController.days[i]
+                                          ? primeryRed
+                                          : searchBarColor,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        days[i],
+                                        style: TextStyle(
+                                          fontFamily: 'Gilroy',
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: signupScreenController.days[i]
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                            ],
+                          );
+                        }),
+                      ),
                       SizedBox(
                         height: 30.h,
                       ),

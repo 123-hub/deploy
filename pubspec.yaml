@@ -13,16 +13,18 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.8.4
+  flutter_secure_storage: ^8.0.0
   flutter_slidable: ^3.0.0
   get: ^4.6.5
   http: ^1.1.0
   intl: ^0.18.1
+  lottie: ^2.6.0
   modal_bottom_sheet: ^2.1.2
+  modal_progress_hud_nsn: ^0.4.0
   pinput: ^2.2.31
   syncfusion_flutter_core: ^22.1.39
   syncfusion_flutter_sliders: ^22.1.39
   toggle_switch: ^2.1.0
-  weekday_selector: ^1.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -33,6 +35,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/animations/
 
   fonts:
     - family: Branding SF
