@@ -30,7 +30,7 @@ class UserSearchScreen extends StatelessWidget {
             SizedBox(
               height: 27.h,
             ),
-            JobSearchBar(searchTextController: searchTextController),
+            JobSearchBar(searchTextController: searchTextController, readOnly: false,),
             SizedBox(
               height: 17.h,
             ),

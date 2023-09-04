@@ -1,3 +1,5 @@
+import 'package:flutter_project_labour_app/models/document_model.dart';
+
 class Document {
   Document({
     required this.id,
@@ -8,15 +10,15 @@ class Document {
     required this.createdAt,
     required this.updatedAt,
   });
-  late final int id;
-  late final int labourId;
-  late final String documentName;
-  late final String documentUrl;
-  late final String description;
-  late final String createdAt;
-  late final String updatedAt;
-  
-  Document.fromJson(Map<String, dynamic> json){
+  late  int? id;
+  late  int? labourId;
+  late  String documentName;
+  late  String documentUrl;
+  late  String description;
+  late  String? createdAt;
+  late  String? updatedAt;
+
+  Document.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     labourId = json['labour_id'];
     documentName = json['document_name'];
@@ -36,5 +38,13 @@ class Document {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
+  }
+
+  DocumentModel toModel() {
+    return DocumentModel(
+      documentName: documentName,
+      documentUrl: documentUrl,
+      description: description,
+    );
   }
 }

@@ -33,6 +33,12 @@ TextStyle branding16sp = TextStyle(
   fontWeight: FontWeight.w900,
 );
 
+TextStyle gilroy16sp = TextStyle(
+  fontSize: 16.sp,
+  fontFamily: 'Gilroy',
+  fontWeight: FontWeight.w600,
+);
+
 TextStyle gilroy18sp = TextStyle(
   fontSize: 18.sp,
   fontFamily: 'Gilroy',

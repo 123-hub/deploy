@@ -20,6 +20,7 @@ class LabourExperienceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Obx(() {
         return ProgressHud(
           inAsyncCall: signupScreenController.isCreatingID.value,

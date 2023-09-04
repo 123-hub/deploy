@@ -14,12 +14,6 @@ class AppStateController extends GetxController {
 
   @override
   void onInit() {
-    jobTiels.addAll([
-      for (int i = 0; i < 20; i++)
-        JobCardWithoutTag(
-          price: i,
-        )
-    ]);
     super.onInit();
   }
 

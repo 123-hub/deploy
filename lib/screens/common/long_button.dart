@@ -35,3 +35,26 @@ class LongButton extends StatelessWidget {
     );
   }
 }
+
+class InactiveLongButton extends StatelessWidget {
+  const InactiveLongButton({
+    super.key,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      onPressed: () {},
+      minWidth: MediaQuery.of(context).size.width,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      color: const Color(0xFFFF4E34),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 12.h),
+        child: const CircularProgressIndicator(color: Colors.white,),
+      ),
+    );
+  }
+}

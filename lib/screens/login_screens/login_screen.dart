@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/controllers/apply_job_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_dashboard_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_profile_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/controllers/labour_profile_controller.dart';
 import 'package:flutter_project_labour_app/controllers/login_screen_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_dashboard_screen.dart';
@@ -10,7 +14,6 @@ import 'package:flutter_project_labour_app/screens/common/progress_hud.dart';
 import 'package:flutter_project_labour_app/screens/common/role_drop_down_menu.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/role_signup_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/enter_email_screen.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_button.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_divider.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
@@ -26,6 +29,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Obx(() {
         return ProgressHud(
           inAsyncCall: loginScreenController.isLoading.value,
@@ -116,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
-                                Get.to(() => EnterEmailScreen());
+                                showErrorSnackBar("Feature coming soon");
                               },
                               child: Text(
                                 'Forgot Password?',
@@ -133,6 +137,7 @@ class LoginScreen extends StatelessWidget {
                           LongButton(
                             text: 'Sign In',
                             onPressed: () async {
+                              loginScreenController.changeIsLoading(true);
                               FocusManager.instance.primaryFocus?.unfocus();
                               var isValid =
                                   loginScreenController.areTextFieldValid();
@@ -150,6 +155,17 @@ class LoginScreen extends StatelessWidget {
                                     );
                                     var status = await labourProfileController
                                         .getProfile();
+                                    var applyJobController = Get.put(
+                                      ApplyJobController(),
+                                      permanent: true,
+                                    );
+                                    var dashboardController = Get.put(
+                                      LabourDashboardController(),
+                                      permanent: true,
+                                    );
+                                    await applyJobController.getAllJobs();
+                                    await applyJobController.getAppliedJobs();
+                                    await applyJobController.getSavedJobs();
                                     if (status) {
                                       Get.off(() => DashboardScreen());
                                     } else {
@@ -162,9 +178,18 @@ class LoginScreen extends StatelessWidget {
                                       ContractorProfileController(),
                                       permanent: true,
                                     );
+                                    var dashboardController = Get.put(
+                                      ContractorDashboardController(),
+                                      permanent: true,
+                                    );
+                                    var contractorJobController = Get.put(
+                                      ContractorJobController(),
+                                      permanent: true,
+                                    );
                                     var status =
                                         await contractorProfileController
                                             .getProfile();
+                                    await contractorJobController.getJobs();
                                     if (status) {
                                       Get.off(() => ClientDashboardScreen());
                                     } else {
@@ -177,6 +202,7 @@ class LoginScreen extends StatelessWidget {
                                   debugPrint('facing problem');
                                 }
                               }
+                              loginScreenController.changeIsLoading(false);
                             },
                           ),
                           SizedBox(

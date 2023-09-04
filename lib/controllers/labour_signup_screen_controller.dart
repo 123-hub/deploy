@@ -160,7 +160,7 @@ class LabourSignupScreenController extends GetxController {
       "last_name": lastNameTextController.text.trim(),
       "phone_number": phoneNumberTextController.text.trim(),
       "dob": '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(dateOfBirth)}Z',
-      "expected_hour_rate": double.parse(expectedRateTextController.text),
+      "expected_hour_rate": int.parse(expectedRateTextController.text),
       "trade_type": [...tradeTypes.map((element) => element)],
       "availability_dates": getDays(),
       "experience": experiences.map((element) => element.toJson()).toList(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/models/job.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,9 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class JobCard extends StatelessWidget {
   const JobCard({
     required this.onTap,
+    required this.job,
     super.key,
   });
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final Job job;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,7 @@ class JobCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(11.r),
             ),
             child: Padding(
-              padding: EdgeInsets.only(
-                  right: 16.w, left: 16.w, bottom: 16.h),
+              padding: EdgeInsets.only(right: 16.w, left: 16.w, bottom: 16.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -33,15 +35,15 @@ class JobCard extends StatelessWidget {
                       vertical: 0.h,
                     ),
                     title: Text(
-                      'ABC Company',
+                      job.name,
                       style: authInfoHeading,
                     ),
                     subtitle: Text(
-                      'Delhi, India',
+                      job.enterLocation,
                       style: subtitle.copyWith(color: cardSubtitle),
                     ),
                     trailing: Text(
-                      '\$28',
+                      '\$${job.salaryRange}',
                       style: gilroy20sp,
                     ),
                   ),
@@ -53,35 +55,28 @@ class JobCard extends StatelessWidget {
                     height: 5.h,
                   ),
                   Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                    job.description,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: subtitle.copyWith(color: cardSubtitle),
                   ),
                   SizedBox(
                     height: 5.h,
                   ),
-                  Row(
+                  Wrap(
+                    spacing: 10,
                     children: [
-                      Chip(
-                        label: Text(
-                          '3 Months',
-                          style:
-                              subtitle.copyWith(color: Colors.black),
-                        ),
-                        backgroundColor: lightBlue,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Chip(
-                        label: Text(
-                          'Labour',
-                          style:
-                              subtitle.copyWith(color: Colors.black),
-                        ),
-                        backgroundColor: searchBarColor,
-                      ),
+                      for (int i = 0; i < job.skills.length; i++)
+                        Chip(
+                          label: Text(
+                            job.skills[i],
+                            style: subtitle.copyWith(color: Colors.black),
+                          ),
+                          backgroundColor:
+                              i % 2 == 0 ? lightBlue : searchBarColor,
+                        )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

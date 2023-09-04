@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/controllers/apply_job_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_dashboard_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_profile_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/controllers/labour_profile_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_dashboard_screen.dart';
 import 'package:flutter_project_labour_app/screens/login_screens/login_screen.dart';
@@ -19,18 +23,43 @@ class StartUpScreen extends StatelessWidget {
     }
     var role = await StorageAccess.getRole();
     if (role == 'labour') {
-      var labourProfileController =
-          Get.put(LabourProfileController(), permanent: true);
+      var labourProfileController = Get.put(
+        LabourProfileController(),
+        permanent: true,
+      );
       var success = await labourProfileController.getProfile();
+      var applyJobController = Get.put(
+        ApplyJobController(),
+        permanent: true,
+      );
+      var dashboardController = Get.put(
+        LabourDashboardController(),
+        permanent: true,
+      );
+
+      await applyJobController.getAllJobs();
+      await applyJobController.getAppliedJobs();
+      await applyJobController.getSavedJobs();
       if (success) {
         Get.off(() => DashboardScreen());
       } else {
         Get.off(() => LoginScreen());
       }
     } else {
-      var contractProfileController =
-          Get.put(ContractorProfileController(), permanent: true);
+      var contractProfileController = Get.put(
+        ContractorProfileController(),
+        permanent: true,
+      );
+      var dashboardController = Get.put(
+        ContractorDashboardController(),
+        permanent: true,
+      );
+      var contractorJobController = Get.put(
+        ContractorJobController(),
+        permanent: true,
+      );
       var success = await contractProfileController.getProfile();
+      await contractorJobController.getJobs();
       if (success) {
         Get.off(() => ClientDashboardScreen());
       } else {

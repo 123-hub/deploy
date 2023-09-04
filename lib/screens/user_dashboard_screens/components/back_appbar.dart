@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/app_state_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_dashboard_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +7,7 @@ class BackAppBar extends StatelessWidget {
   BackAppBar({
     super.key,
   });
-  final appStateController = Get.put(AppStateController());
+  final dashboardController = Get.find<LabourDashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BackAppBar extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () {
-            appStateController.changeDashboardScreen(0);
+            dashboardController.changeDashboardScreen(0);
           },
           icon: const Icon(
             Icons.arrow_back_ios,

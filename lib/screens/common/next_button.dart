@@ -16,7 +16,7 @@ class NextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 115.w,
+      width: 130.w,
       child: MaterialButton(
         onPressed: onPressed,
         shape: RoundedRectangleBorder(

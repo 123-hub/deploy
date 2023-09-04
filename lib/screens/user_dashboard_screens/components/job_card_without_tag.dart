@@ -1,62 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/models/job.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class JobCardWithoutTag extends StatelessWidget {
   const JobCardWithoutTag({
-    required this.price,
+    required this.job,
+    required this.onTap,
     super.key,
   });
-  final int price;
+  final Job job;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: searchBarColor),
-            borderRadius: BorderRadius.circular(11.r),
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(right: 16.w, left: 16.w, bottom: 16.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 0.w,
-                    vertical: 0.h,
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: searchBarColor),
+              borderRadius: BorderRadius.circular(11.r),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.w, left: 16.w, bottom: 16.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 0.w,
+                      vertical: 0.h,
+                    ),
+                    title: Text(
+                      job.name,
+                      style: authInfoHeading,
+                    ),
+                    subtitle: Text(
+                      job.enterLocation,
+                      style: subtitle.copyWith(color: cardSubtitle),
+                    ),
+                    trailing: Text(
+                      '\$${job.salaryRange}',
+                      style: gilroy20sp,
+                    ),
                   ),
-                  title: Text(
-                    'ABC Company',
-                    style: authInfoHeading,
+                  Text(
+                    'Description',
+                    style: subtitle.copyWith(color: Colors.black),
                   ),
-                  subtitle: Text(
-                    'Delhi, India',
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Text(
+                    job.description,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: subtitle.copyWith(color: cardSubtitle),
                   ),
-                  trailing: Text(
-                    '\$$price',
-                    style: gilroy20sp,
+                  SizedBox(
+                    height: 5.h,
                   ),
-                ),
-                Text(
-                  'Description',
-                  style: subtitle.copyWith(color: Colors.black),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                  style: subtitle.copyWith(color: cardSubtitle),
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

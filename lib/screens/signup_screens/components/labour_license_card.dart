@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/models/license_model.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/parce_date.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
@@ -35,7 +36,7 @@ class LabourLicenseCard extends StatelessWidget {
                 height: 5.h,
               ),
               Text(
-                'Expires on: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(license.expiryDate))}',
+                'Expires on: ${parceDate(license.expiryDate)}',
                 style: bottomSheetSubTitle,
               ),
               SizedBox(

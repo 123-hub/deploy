@@ -1,5 +1,7 @@
-class Document {
-  Document({
+import 'package:flutter_project_labour_app/models/contractor_document_model.dart';
+
+class ContractorDocument {
+  ContractorDocument({
     required this.id,
     required this.contractorId,
     required this.ownerDrivingLicense,
@@ -10,17 +12,17 @@ class Document {
     required this.createdAt,
     required this.updatedAt,
   });
-  late final int id;
-  late final int contractorId;
-  late final String ownerDrivingLicense;
-  late final String insuranceLiability;
-  late final String wcbDocument;
-  late final String businessLicense;
-  late final String documentUrl;
-  late final String createdAt;
-  late final String updatedAt;
-  
-  Document.fromJson(Map<String, dynamic> json){
+  late int? id;
+  late int? contractorId;
+  late String ownerDrivingLicense;
+  late String insuranceLiability;
+  late String wcbDocument;
+  late String businessLicense;
+  late String documentUrl;
+  late String? createdAt;
+  late String? updatedAt;
+
+  ContractorDocument.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     contractorId = json['contractor_id'];
     ownerDrivingLicense = json['owner_driving_license'];
@@ -44,5 +46,15 @@ class Document {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
+  }
+
+  ContractorDocumentModel toModel() {
+    return ContractorDocumentModel(
+      ownerDrivingLicense: ownerDrivingLicense,
+      insuranceLiability: insuranceLiability,
+      wcbDocument: wcbDocument,
+      businessLicense: businessLicense,
+      documentUrl: documentUrl,
+    );
   }
 }

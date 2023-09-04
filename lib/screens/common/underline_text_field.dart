@@ -7,11 +7,13 @@ class UnderlineTextField extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.validator,
+    this.textInputType
   });
 
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
   final String hintText;
+  final TextInputType? textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class UnderlineTextField extends StatelessWidget {
       validator: validator,
       controller: controller,
       textInputAction: TextInputAction.go,
+      keyboardType: textInputType,
       style: TextStyle(
         fontFamily: 'Gilroy',
         fontSize: 16.sp,

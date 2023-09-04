@@ -20,25 +20,25 @@ class ContractorProfile {
     required this.createdAt,
     required this.updatedAt,
   });
-  late final int id;
-  late final String firstName;
-  late final String lastName;
-  late final String email;
-  late final String phoneNumber;
-  late final String dateOfBirth;
-  late final String companyName;
-  late final String companyAddress;
-  late final String companyPhoneNumber;
-  late final String companyWebsite;
-  late final String companyFaxNumber;
-  late final String businessLicenseNumber;
-  late final String wcbNumber;
-  late final List<Document> documents;
-  late final bool isApproved;
-  late final String createdAt;
-  late final String updatedAt;
-  
-  ContractorProfile.fromJson(Map<String, dynamic> json){
+  late int id;
+  late String firstName;
+  late String lastName;
+  late String email;
+  late String phoneNumber;
+  late String dateOfBirth;
+  late String companyName;
+  late String companyAddress;
+  late String companyPhoneNumber;
+  late String companyWebsite;
+  late String companyFaxNumber;
+  late String businessLicenseNumber;
+  late String wcbNumber;
+  late List<ContractorDocument> documents;
+  late bool isApproved;
+  late String createdAt;
+  late String updatedAt;
+
+  ContractorProfile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
@@ -52,7 +52,9 @@ class ContractorProfile {
     companyFaxNumber = json['company_fax_number'];
     businessLicenseNumber = json['business_license_number'];
     wcbNumber = json['wcb_number'];
-    documents = List.from(json['documents']).map((e)=>Document.fromJson(e)).toList();
+    documents = List.from(json['documents'])
+        .map((e) => ContractorDocument.fromJson(e))
+        .toList();
     isApproved = json['is_approved'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -73,11 +75,10 @@ class ContractorProfile {
     data['company_fax_number'] = companyFaxNumber;
     data['business_license_number'] = businessLicenseNumber;
     data['wcb_number'] = wcbNumber;
-    data['documents'] = documents.map((e)=>e.toJson()).toList();
+    data['documents'] = documents.map((e) => e.toJson()).toList();
     data['is_approved'] = isApproved;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
   }
 }
-

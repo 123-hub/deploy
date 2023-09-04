@@ -49,6 +49,11 @@ class LoginScreenController extends GetxController {
     role(value);
   }
 
+  void changeIsLoading(bool value) {
+    isLoading(value);
+    notifyChildrens();
+  }
+
   void showErrorSnackBar(String message) {
     Get.showSnackbar(
       GetSnackBar(
@@ -68,7 +73,6 @@ class LoginScreenController extends GetxController {
       showErrorSnackBar('Choose a role');
       return;
     }
-    isLoading(true);
     String url = (role.value == 'labour')
         ? Endpoints.labourLogin
         : Endpoints.contractorLogin;
@@ -80,14 +84,15 @@ class LoginScreenController extends GetxController {
         "password": passwordTextController.text.trim(),
       }),
     );
-    isLoading(false);
     if (response.statusCode < 299) {
       loginResponse.value =
           LoginResponse.fromJson(jsonDecode(response.body)['data']);
       const storage = FlutterSecureStorage();
       await storage.write(key: 'role', value: role.value);
-      await storage.write(key: 'token', value: loginResponse.value!.accessToken);
-      await storage.write(key: 'refreshToken', value: loginResponse.value!.refreshToken);
+      await storage.write(
+          key: 'token', value: loginResponse.value!.accessToken);
+      await storage.write(
+          key: 'refreshToken', value: loginResponse.value!.refreshToken);
     } else if (response.statusCode < 499) {
       isPasswordValid(false);
       passwordErrorMessage = 'Wrong password';

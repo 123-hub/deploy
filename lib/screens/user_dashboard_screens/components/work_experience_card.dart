@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/models/experience.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/parce_date.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WorkExperienceCard extends StatelessWidget {
   const WorkExperienceCard({
+    required this.experience,
     super.key,
   });
+  final Experience experience;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +20,10 @@ class WorkExperienceCard extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/L&T.png',
-              height: 45.h,
+            Icon(
+              Icons.work_history_outlined,
+              size: 40.h,
+              color: aboutGrey,
             ),
             SizedBox(
               width: 26.w,
@@ -27,48 +32,32 @@ class WorkExperienceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'L&T Pvt Ltd.',
+                  experience.position,
                   style: subtitle.copyWith(color: aboutGrey),
                 ),
                 SizedBox(
                   height: 3.h,
                 ),
                 Text(
-                  'Delhi, India',
+                  experience.companyName,
                   style: subtitle.copyWith(color: cardSubtitle),
                 ),
                 SizedBox(
-                  height: 5.h,
+                  height: 3.h,
                 ),
-                Row(
-                  children: [
-                    Chip(
-                      label: Text(
-                        '3 Months',
-                        style:
-                            subtitle.copyWith(color: Colors.black),
-                      ),
-                      backgroundColor: lightBlue,
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Chip(
-                      label: Text(
-                        'Labour',
-                        style:
-                            subtitle.copyWith(color: Colors.black),
-                      ),
-                      backgroundColor: searchBarColor,
-                    ),
-                  ],
-                )
+                Chip(
+                  label: Text(
+                    "${parceDate(experience.from)} - ${parceDate(experience.to)}",
+                    style: subtitle.copyWith(color: Colors.black),
+                  ),
+                  backgroundColor: lightBlue,
+                ),
               ],
             )
           ],
         ),
         Text(
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
+          experience.description,
           style: subtitle.copyWith(
             color: aboutGrey,
             fontWeight: FontWeight.w400,

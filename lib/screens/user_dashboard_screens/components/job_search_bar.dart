@@ -6,15 +6,21 @@ class JobSearchBar extends StatelessWidget {
   const JobSearchBar({
     super.key,
     required this.searchTextController,
+    required this.readOnly,
+    this.onTap,
   });
 
   final TextEditingController searchTextController;
+  final VoidCallback? onTap;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
       child: TextField(
+        readOnly: readOnly,
+        onTap: onTap,
         controller: searchTextController,
         decoration: InputDecoration(
           filled: true,
@@ -37,4 +43,3 @@ class JobSearchBar extends StatelessWidget {
     );
   }
 }
-

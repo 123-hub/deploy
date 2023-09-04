@@ -16,5 +16,8 @@ class Endpoints {
   static const String contractorSignup = '$contractorUrl/sign-up';
   static const String labourProfile = '$labourUrl/profile';
   static const String contractorProfile = '$contractorUrl/profile';
-
+  static const String labourJob = '$labourUrl/jobs';
+  static const String labourApplyJobs = '$labourUrl/apply-job';
+  static const String labourSaveJob = '$labourUrl/save-job';
+  static const String contractorJob = '$contractorUrl/job';
 }

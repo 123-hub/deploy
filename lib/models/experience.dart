@@ -1,3 +1,5 @@
+import 'package:flutter_project_labour_app/models/experience_model.dart';
+
 class Experience {
   Experience({
     required this.id,
@@ -10,17 +12,17 @@ class Experience {
     required this.createdAt,
     required this.updatedAt,
   });
-  late final int id;
-  late final int labourId;
-  late final String position;
-  late final String companyName;
-  late final String description;
-  late final String from;
-  late final String to;
-  late final String createdAt;
-  late final String updatedAt;
-  
-  Experience.fromJson(Map<String, dynamic> json){
+  late int? id;
+  late int? labourId;
+  late String position;
+  late String companyName;
+  late String description;
+  late String from;
+  late String to;
+  late String? createdAt;
+  late String? updatedAt;
+
+  Experience.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     labourId = json['labour_id'];
     position = json['position'];
@@ -44,5 +46,15 @@ class Experience {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
+  }
+
+  ExperienceModel toModel() {
+    return ExperienceModel(
+      position: position,
+      companyName: companyName,
+      description: description,
+      from: from,
+      to: to,
+    );
   }
 }

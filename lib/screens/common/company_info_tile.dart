@@ -20,9 +20,13 @@ class CompanyInfoTile extends StatelessWidget {
           title,
           style: gilroy12_600.copyWith(color: aboutGrey),
         ),
-        Text(
-          value,
-          style: gilroy12_400.copyWith(color: aboutGrey),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.6,
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: gilroy12_400.copyWith(color: aboutGrey),
+          ),
         ),
       ],
     );

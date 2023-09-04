@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/app_state_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_chat_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_profile_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/user_search_secreen.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_home_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ClientDashboardScreen extends StatelessWidget {
   ClientDashboardScreen({super.key});
   final List<Widget> screens = [
-    Center(
-      child: Text(
-        'HOME',
-        style: TextStyle(fontSize: 50),
-      ),
-    ),
+    ContractorHomeScreen(),
     UserSearchScreen(),
     Center(
       child: Text(
@@ -23,21 +19,21 @@ class ClientDashboardScreen extends StatelessWidget {
       ),
     ),
     ClientChatScreen(),
-    const ClientProfileScreen(),
+    ClientProfileScreen(),
   ];
-  final appStateController = Get.put(AppStateController());
+  final dashboardController = Get.find<ContractorDashboardController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
         return SafeArea(
-            child: screens[appStateController.dashboardIndex.value]);
+            child: screens[dashboardController.dashboardIndex.value]);
       }),
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(
           showSelectedLabels: false,
-          currentIndex: appStateController.dashboardIndex.value,
-          onTap: appStateController.changeDashboardScreen,
+          currentIndex: dashboardController.dashboardIndex.value,
+          onTap: dashboardController.changeDashboardScreen,
           items: [
             BottomNavigationBarItem(
               label: 'Home',

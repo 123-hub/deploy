@@ -22,25 +22,25 @@ class LabourProfile {
     required this.createdAt,
     required this.updatedAt,
   });
-  late final int id;
-  late final String email;
-  late final String firstName;
-  late final String lastName;
-  late final String phoneNumber;
-  late final String dob;
-  late final int expectedHourRate;
-  late final List<String> tradeType;
-  late final String availabilityDates;
-  late final List<Experience> experience;
-  late final List<License> licenses;
-  late final bool isDriving;
-  late final String licenseExpiryDate;
-  late final List<Document> documents;
-  late final bool isApproved;
-  late final String createdAt;
-  late final String updatedAt;
-  
-  LabourProfile.fromJson(Map<String, dynamic> json){
+  late int id;
+  late String email;
+  late String firstName;
+  late String lastName;
+  late String phoneNumber;
+  late String dob;
+  late int expectedHourRate;
+  late List<String> tradeType;
+  late String availabilityDates;
+  late List<Experience> experience;
+  late List<License> licenses;
+  late bool isDriving;
+  late String licenseExpiryDate;
+  late List<Document> documents;
+  late bool isApproved;
+  late String createdAt;
+  late String updatedAt;
+
+  LabourProfile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
     firstName = json['first_name'];
@@ -50,11 +50,15 @@ class LabourProfile {
     expectedHourRate = json['expected_hour_rate'];
     tradeType = List.castFrom<dynamic, String>(json['trade_type']);
     availabilityDates = json['availability_dates'];
-    experience = List.from(json['experience']).map((e)=>Experience.fromJson(e)).toList();
-    licenses = List.from(json['licenses']).map((e)=>License.fromJson(e)).toList();
+    experience = List.from(json['experience'])
+        .map((e) => Experience.fromJson(e))
+        .toList();
+    licenses =
+        List.from(json['licenses']).map((e) => License.fromJson(e)).toList();
     isDriving = json['is_driving'];
     licenseExpiryDate = json['license_expiry_date'];
-    documents = List.from(json['documents']).map((e)=>Document.fromJson(e)).toList();
+    documents =
+        List.from(json['documents']).map((e) => Document.fromJson(e)).toList();
     isApproved = json['is_approved'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -71,17 +75,14 @@ class LabourProfile {
     data['expected_hour_rate'] = expectedHourRate;
     data['trade_type'] = tradeType;
     data['availability_dates'] = availabilityDates;
-    data['experience'] = experience.map((e)=>e.toJson()).toList();
-    data['licenses'] = licenses.map((e)=>e.toJson()).toList();
+    data['experience'] = experience.map((e) => e.toJson()).toList();
+    data['licenses'] = licenses.map((e) => e.toJson()).toList();
     data['is_driving'] = isDriving;
     data['license_expiry_date'] = licenseExpiryDate;
-    data['documents'] = documents.map((e)=>e.toJson()).toList();
+    data['documents'] = documents.map((e) => e.toJson()).toList();
     data['is_approved'] = isApproved;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
   }
 }
-
-
-

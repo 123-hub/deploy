@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/client_back_app_bar.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/back_appbar.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/chat_card.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
@@ -19,11 +20,11 @@ class ClientChatScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            BackAppBar(),
+            ContractorBackAppBar(),
             SizedBox(
               height: 27.h,
             ),
-            JobSearchBar(searchTextController: searchTextController),
+            JobSearchBar(searchTextController: searchTextController, readOnly: false,),
             SizedBox(
               height: 17.h,
             ),
