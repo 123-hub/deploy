@@ -28,7 +28,7 @@ class LabourProfile {
   late String lastName;
   late String phoneNumber;
   late String dob;
-  late int expectedHourRate;
+  late num expectedHourRate;
   late List<String> tradeType;
   late String availabilityDates;
   late List<Experience> experience;

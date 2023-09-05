@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/models/job.dart';
 import 'package:flutter_project_labour_app/models/job_model.dart';
+import 'package:flutter_project_labour_app/models/labour_profile.dart';
 import 'package:flutter_project_labour_app/util/endpoints.dart';
 import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_project_labour_app/util/storage_access.dart';
@@ -13,6 +14,9 @@ class ContractorJobController extends GetxController {
   var duration = Rx<String?>(null);
   var skills = <String>[].obs;
   var allJobs = <Job>[].obs;
+  var allHired = <int, List<LabourProfile>>{}.obs;
+  var currentApplicants = <LabourProfile>[].obs;
+  var recentHires = <LabourProfile>[].obs;
   final jobNameTextController = TextEditingController();
   final jobTypeTextController = TextEditingController();
   final salaryRangeTextController = TextEditingController();
@@ -27,6 +31,8 @@ class ContractorJobController extends GetxController {
   var isdurationValid = true.obs;
   var isDescriptionValid = true.obs;
   var isLoading = false.obs;
+  var isApplicantsLoading = false.obs;
+  var isHiring = false.obs;
   var jobNameMessage = 'Enter a Job Name';
   var jobTypeMessage = 'Enter a Job Type';
   var salaryRangeMessage = 'Enter a Salary Range';
@@ -114,6 +120,26 @@ class ContractorJobController extends GetxController {
     notifyChildrens();
   }
 
+  void changeApplicantsLoading(bool value) {
+    isApplicantsLoading(value);
+    notifyChildrens();
+  }
+
+  void changeIsHiring(bool value) {
+    isHiring(value);
+    notifyChildrens();
+  }
+
+  bool isHired(int jobId, int labourId) {
+    if (allHired.containsKey(jobId)) {
+      var labours = allHired[jobId]!.where((element) => element.id == labourId);
+      if (labours.isNotEmpty) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   JobModel getJobData() {
     return JobModel(
       name: jobNameTextController.text,
@@ -129,12 +155,10 @@ class ContractorJobController extends GetxController {
   void updateJobData(Job job) {
     jobNameTextController.text = job.name;
     jobTypeTextController.text = job.type;
-    salaryRangeTextController.text =
-        job.salaryRange.toString();
+    salaryRangeTextController.text = job.salaryRange.toString();
     skills.value = job.skills;
     locationTextController.text = job.enterLocation;
-    durationTextController.text =
-        job.duration.split(' ')[0];
+    durationTextController.text = job.duration.split(' ')[0];
     descriptionTextController.text = job.description;
     duration.value = job.duration.split(' ')[1];
   }
@@ -223,6 +247,84 @@ class ContractorJobController extends GetxController {
     } else {
       debugPrint(response.statusCode.toString());
       debugPrint(response.body);
+      return false;
+    }
+  }
+
+  Future<bool> getJobApplicants(int id) async {
+    changeApplicantsLoading(true);
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.get(
+      Uri.parse('${Endpoints.contractorJobApplicants}?id=$id'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      var applicants = body['data']['labour'] as List;
+      currentApplicants.clear();
+      currentApplicants.addAll(
+        applicants.map((e) => LabourProfile.fromJson(e)),
+      );
+      changeApplicantsLoading(false);
+      return true;
+    } else {
+      changeApplicantsLoading(false);
+      return false;
+    }
+  }
+
+  Future<bool> hire(int jobId, int labourId) async {
+    changeIsHiring(true);
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.post(
+      Uri.parse('${Endpoints.contractorhired}?labour_id=$labourId&id=$jobId'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    changeIsHiring(false);
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body);
+    if (response.statusCode < 299) {
+      await getAllHired();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> getAllHired() async {
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.get(
+      Uri.parse(Endpoints.contractorhired),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      var datas = body['data'] as List;
+      allHired.clear();
+      for (var data in datas) {
+        var job = Job.fromJson(data['job']);
+        var hires = LabourProfile.fromJson(data['labour']);
+        if (allHired.containsKey(job.id)) {
+          allHired[job.id]!.add(hires);
+        } else {
+          allHired[job.id] = [hires];
+        }
+      }
+      notifyChildrens();
+      for (var items in allHired.entries) {
+        debugPrint('${items.key}: ${items.value.map((e) => e.id).toList()}');
+      }
+      return true;
+    } else {
       return false;
     }
   }

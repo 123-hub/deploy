@@ -131,6 +131,9 @@ class LabourExperienceScreen extends StatelessWidget {
                       onPressed: () async {
                         bool success =
                             await signupScreenController.labourSignUp();
+                        Get.delete<LabourSignupScreenController>(
+                          force: true,
+                        );
                         if (success) {
                           Get.to(() => const SignUpComplete());
                         }
@@ -146,4 +149,3 @@ class LabourExperienceScreen extends StatelessWidget {
     );
   }
 }
-

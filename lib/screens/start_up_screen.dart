@@ -28,19 +28,19 @@ class StartUpScreen extends StatelessWidget {
         permanent: true,
       );
       var success = await labourProfileController.getProfile();
-      var applyJobController = Get.put(
-        ApplyJobController(),
-        permanent: true,
-      );
-      var dashboardController = Get.put(
-        LabourDashboardController(),
-        permanent: true,
-      );
-
-      await applyJobController.getAllJobs();
-      await applyJobController.getAppliedJobs();
-      await applyJobController.getSavedJobs();
       if (success) {
+        var applyJobController = Get.put(
+          ApplyJobController(),
+          permanent: true,
+        );
+        var dashboardController = Get.put(
+          LabourDashboardController(),
+          permanent: true,
+        );
+
+        await applyJobController.getAllJobs();
+        await applyJobController.getAppliedJobs();
+        await applyJobController.getSavedJobs();
         Get.off(() => DashboardScreen());
       } else {
         Get.off(() => LoginScreen());
@@ -50,17 +50,18 @@ class StartUpScreen extends StatelessWidget {
         ContractorProfileController(),
         permanent: true,
       );
-      var dashboardController = Get.put(
-        ContractorDashboardController(),
-        permanent: true,
-      );
-      var contractorJobController = Get.put(
-        ContractorJobController(),
-        permanent: true,
-      );
       var success = await contractProfileController.getProfile();
-      await contractorJobController.getJobs();
       if (success) {
+        var dashboardController = Get.put(
+          ContractorDashboardController(),
+          permanent: true,
+        );
+        var contractorJobController = Get.put(
+          ContractorJobController(),
+          permanent: true,
+        );
+        await contractorJobController.getJobs();
+        await contractorJobController.getAllHired();
         Get.off(() => ClientDashboardScreen());
       } else {
         Get.off(() => LoginScreen());

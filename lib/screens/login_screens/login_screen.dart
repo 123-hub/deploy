@@ -146,6 +146,9 @@ class LoginScreen extends StatelessWidget {
                                 await loginScreenController.loginUser();
                                 if (loginScreenController.loginResponse.value !=
                                     null) {
+                                  Get.delete<LoginScreenController>(
+                                      force: true);
+
                                   debugPrint('Login Succesfull');
                                   if (loginScreenController.role.value ==
                                       'labour') {
@@ -167,7 +170,10 @@ class LoginScreen extends StatelessWidget {
                                     await applyJobController.getAppliedJobs();
                                     await applyJobController.getSavedJobs();
                                     if (status) {
-                                      Get.off(() => DashboardScreen());
+                                      Get.delete<LoginScreenController>(
+                                        force: true,
+                                      );
+                                      Get.offAll(() => DashboardScreen());
                                     } else {
                                       showErrorSnackBar(
                                         'Some Error occured while fetching your profile',
@@ -190,8 +196,13 @@ class LoginScreen extends StatelessWidget {
                                         await contractorProfileController
                                             .getProfile();
                                     await contractorJobController.getJobs();
+                                    await contractorJobController.getAllHired();
+
                                     if (status) {
-                                      Get.off(() => ClientDashboardScreen());
+                                      Get.delete<LoginScreenController>(
+                                        force: true,
+                                      );
+                                      Get.offAll(() => ClientDashboardScreen());
                                     } else {
                                       showErrorSnackBar(
                                         'Some Error occured while fetching your profile',

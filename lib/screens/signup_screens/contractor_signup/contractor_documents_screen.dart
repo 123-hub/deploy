@@ -104,6 +104,9 @@ class ContractorDocumentScreen extends StatelessWidget {
                         bool success = await contractorSignUpScreenController
                             .contractorSignup();
                         if (success) {
+                          Get.delete<ContractorSignUpScreenController>(
+                            force: true,
+                          );
                           Get.to(() => const SignUpComplete());
                         }
                       },

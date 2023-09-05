@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/contractor_job_card.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/job_desc_popup_with_applicants.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/helper_screens/update_job_screen.dart';
 import 'package:flutter_project_labour_app/screens/common/progress_hud.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/home_screen_appbar.dart';
@@ -56,7 +57,13 @@ class ContractorHomeScreen extends StatelessWidget {
                     itemCount: contractorJobController.allJobs.length,
                     itemBuilder: (BuildContext context, int index) {
                       return FocusedMenuHolder(
-                        onPressed: () {},
+                        onPressed: () {
+                          contractorJobDescriptionWithApplicantsPopUp(
+                            context,
+                            contractorJobController.allJobs[index],
+                            contractorJobController,
+                          );
+                        },
                         menuWidth: MediaQuery.of(context).size.width - 66.w,
                         menuOffset: 20.h,
                         menuItemExtent: 50.h,

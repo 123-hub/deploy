@@ -14,4 +14,8 @@ class StorageAccess {
   static Future<String?> getRefreshToken() async {
     return await storage.read(key: "refreshToken");
   }
+
+  static Future deleteValues() async {
+    await storage.deleteAll();
+  }
 }
