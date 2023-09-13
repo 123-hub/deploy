@@ -20,6 +20,10 @@ class Endpoints {
   static const String labourApplyJobs = '$labourUrl/apply-job';
   static const String labourSaveJob = '$labourUrl/save-job';
   static const String contractorJob = '$contractorUrl/job';
-  static const String contractorJobApplicants = '$contractorUrl/job-application';
+  static const String contractorJobApplicants =
+      '$contractorUrl/job-application';
   static const String contractorhired = '$contractorUrl/hire';
+  static const String labourChat = '$labourUrl/chat';
+  static const String labourGetRooms = '$labourChat/room';
+  static const String labourGetMessages = '$labourChat/message';
 }

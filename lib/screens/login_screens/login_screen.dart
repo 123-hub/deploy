@@ -158,18 +158,19 @@ class LoginScreen extends StatelessWidget {
                                     );
                                     var status = await labourProfileController
                                         .getProfile();
-                                    var applyJobController = Get.put(
-                                      ApplyJobController(),
-                                      permanent: true,
-                                    );
-                                    var dashboardController = Get.put(
-                                      LabourDashboardController(),
-                                      permanent: true,
-                                    );
-                                    await applyJobController.getAllJobs();
-                                    await applyJobController.getAppliedJobs();
-                                    await applyJobController.getSavedJobs();
+
                                     if (status) {
+                                      var applyJobController = Get.put(
+                                        ApplyJobController(),
+                                        permanent: true,
+                                      );
+                                      var dashboardController = Get.put(
+                                        LabourDashboardController(),
+                                        permanent: true,
+                                      );
+                                      await applyJobController.getAllJobs();
+                                      await applyJobController.getAppliedJobs();
+                                      await applyJobController.getSavedJobs();
                                       Get.delete<LoginScreenController>(
                                         force: true,
                                       );
@@ -184,21 +185,23 @@ class LoginScreen extends StatelessWidget {
                                       ContractorProfileController(),
                                       permanent: true,
                                     );
-                                    var dashboardController = Get.put(
-                                      ContractorDashboardController(),
-                                      permanent: true,
-                                    );
-                                    var contractorJobController = Get.put(
-                                      ContractorJobController(),
-                                      permanent: true,
-                                    );
+
                                     var status =
                                         await contractorProfileController
                                             .getProfile();
-                                    await contractorJobController.getJobs();
-                                    await contractorJobController.getAllHired();
 
                                     if (status) {
+                                      var dashboardController = Get.put(
+                                        ContractorDashboardController(),
+                                        permanent: true,
+                                      );
+                                      var contractorJobController = Get.put(
+                                        ContractorJobController(),
+                                        permanent: true,
+                                      );
+                                      await contractorJobController.getJobs();
+                                      await contractorJobController
+                                          .getAllHired();
                                       Get.delete<LoginScreenController>(
                                         force: true,
                                       );

@@ -194,176 +194,241 @@ Future<dynamic> jobDescriptionPopUp(
               ],
             ),
           ),
-          Positioned(
-            bottom: 24.h,
-            child: Row(
-              children: [
-                Obx(() {
-                  return applyJobController.isSaved.value
-                      ? ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                const MaterialStatePropertyAll(Colors.white),
-                            shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  8.r,
-                                ),
-                              ),
-                            ),
+          job.status == 'CLOSED'
+              ? Positioned.fill(
+                  bottom: 24.h,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: MaterialButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      minWidth: MediaQuery.of(context).size.width * 0.80,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      color: primeryRed,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15.h),
+                        child: Text(
+                          'Job Expired',
+                          style: TextStyle(
+                            fontSize: 17.sp,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
-                          onPressed: () async {
-                            bool saved =
-                                await applyJobController.deleteSavedJob(job.id);
-                            if (saved) {
-                              Navigator.pop(context);
-                              showDoneSnackBar("Job removed from saved");
-                            } else {
-                              showErrorSnackBar(
-                                  "Some problem Occured while unsaving the job");
-                            }
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12.h),
-                            child: Icon(
-                              Icons.bookmark,
-                              color: primeryRed,
-                              size: 25.h,
-                            ),
-                          ),
-                        )
-                      : ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                const MaterialStatePropertyAll(Colors.white),
-                            shape: MaterialStatePropertyAll(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  8.r,
-                                ),
-                              ),
-                            ),
-                          ),
-                          onPressed: () async {
-                            bool saved =
-                                await applyJobController.saveJob(job.id);
-                            if (saved) {
-                              Navigator.pop(context);
-                              showDoneSnackBar("Job Saved");
-                            } else {
-                              showErrorSnackBar(
-                                  "Some problem Occured while saving the job");
-                            }
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12.h),
-                            child: Icon(
-                              Icons.bookmark_border,
-                              color: Colors.black,
-                              size: 25.h,
-                            ),
-                          ),
-                        );
-                }),
-                SizedBox(
-                  width: 15.w,
-                ),
-                Obx(
-                  () {
-                    return applyJobController.isApplying.value
-                        ? MaterialButton(
-                            onPressed: () {},
-                            minWidth: MediaQuery.of(context).size.width * 0.65,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                            color: const Color(0xFFFF4E34),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15.h),
-                              child: const CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        : hasApplied
-                            ? MaterialButton(
-                                onPressed: () async {
-                                  bool result = await applyJobController
-                                      .deleteApplication(job.id);
-                                  if (result) {
-                                    Navigator.pop(context);
-                                    showDoneSnackBar("Application withdrawn");
-                                  } else {
-                                    showErrorSnackBar(
-                                      "Some error occured while withdrawing the application",
-                                    );
-                                  }
-                                },
-                                minWidth:
-                                    MediaQuery.of(context).size.width * 0.65,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                color: primeryRed,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15.h),
-                                  child: Text(
-                                    'Withdraw Application',
-                                    style: TextStyle(
-                                      fontSize: 17.sp,
-                                      fontFamily: 'Gilroy',
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Positioned(
+                  bottom: 24.h,
+                  child: Row(
+                    children: [
+                      Obx(() {
+                        return applyJobController.isSavedLoading.value
+                            ? ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      const MaterialStatePropertyAll(
+                                          Colors.white),
+                                  shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        8.r,
+                                      ),
                                     ),
+                                  ),
+                                ),
+                                onPressed: () {},
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                                  child: const CircularProgressIndicator(
+                                    color: primeryRed,
                                   ),
                                 ),
                               )
-                            : MaterialButton(
-                                onPressed: () async {
-                                  if (job.status == 'AVAILABLE') {
-                                    var status = await applyJobController
-                                        .applyJob(job.id);
-                                    debugPrint(status.toString());
-                                    if (status) {
-                                      showDoneSnackBar(
-                                        'Applied for the job of ${job.name}',
-                                      );
-                                      Navigator.pop(context);
-                                    } else {
-                                      showErrorSnackBar(
-                                        'Some problem occured while apply for job',
-                                      );
-                                    }
-                                  } else {
-                                    showErrorSnackBar(
-                                      'Job Unavailable to apply',
-                                    );
-                                  }
-                                },
-                                minWidth:
-                                    MediaQuery.of(context).size.width * 0.65,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                color: const Color(0xFFFF4E34),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15.h),
-                                  child: Text(
-                                    'Apply For This Job',
-                                    style: TextStyle(
-                                      fontSize: 17.sp,
-                                      fontFamily: 'Gilroy',
-                                      fontWeight: FontWeight.w600,
+                            : applyJobController.isSaved.value
+                                ? ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          const MaterialStatePropertyAll(
+                                              Colors.white),
+                                      shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.r,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      bool saved = await applyJobController
+                                          .deleteSavedJob(job.id);
+                                      if (saved) {
+                                        Navigator.pop(context);
+                                        showDoneSnackBar(
+                                            "Job removed from saved");
+                                      } else {
+                                        showErrorSnackBar(
+                                            "Some problem Occured while unsaving the job");
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12.h),
+                                      child: Icon(
+                                        Icons.bookmark,
+                                        color: primeryRed,
+                                        size: 25.h,
+                                      ),
+                                    ),
+                                  )
+                                : ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          const MaterialStatePropertyAll(
+                                              Colors.white),
+                                      shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.r,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      bool saved = await applyJobController
+                                          .saveJob(job.id);
+                                      if (saved) {
+                                        Navigator.pop(context);
+                                        showDoneSnackBar("Job Saved");
+                                      } else {
+                                        showErrorSnackBar(
+                                            "Some problem Occured while saving the job");
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12.h),
+                                      child: Icon(
+                                        Icons.bookmark_border,
+                                        color: Colors.black,
+                                        size: 25.h,
+                                      ),
+                                    ),
+                                  );
+                      }),
+                      SizedBox(
+                        width: 15.w,
+                      ),
+                      Obx(
+                        () {
+                          return applyJobController.isApplying.value
+                              ? MaterialButton(
+                                  onPressed: () {},
+                                  minWidth:
+                                      MediaQuery.of(context).size.width * 0.65,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  color: const Color(0xFFFF4E34),
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 15.h),
+                                    child: const CircularProgressIndicator(
                                       color: Colors.white,
                                     ),
                                   ),
-                                ),
-                              );
-                  },
+                                )
+                              : hasApplied
+                                  ? MaterialButton(
+                                      onPressed: () async {
+                                        bool result = await applyJobController
+                                            .deleteApplication(job.id);
+                                        if (result) {
+                                          Navigator.pop(context);
+                                          showDoneSnackBar(
+                                              "Application withdrawn");
+                                        } else {
+                                          showErrorSnackBar(
+                                            "Some error occured while withdrawing the application",
+                                          );
+                                        }
+                                      },
+                                      minWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.65,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                      ),
+                                      color: primeryRed,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 15.h),
+                                        child: Text(
+                                          'Withdraw Application',
+                                          style: TextStyle(
+                                            fontSize: 17.sp,
+                                            fontFamily: 'Gilroy',
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : MaterialButton(
+                                      onPressed: () async {
+                                        if (job.status == 'AVAILABLE') {
+                                          var status = await applyJobController
+                                              .applyJob(job.id);
+                                          debugPrint(status.toString());
+                                          if (status) {
+                                            showDoneSnackBar(
+                                              'Applied for the job of ${job.name}',
+                                            );
+                                            Navigator.pop(context);
+                                          } else {
+                                            showErrorSnackBar(
+                                              'Some problem occured while apply for job',
+                                            );
+                                          }
+                                        } else {
+                                          showErrorSnackBar(
+                                            'Job Unavailable to apply',
+                                          );
+                                        }
+                                      },
+                                      minWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.65,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                      ),
+                                      color: const Color(0xFFFF4E34),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 15.h),
+                                        child: Text(
+                                          'Apply For This Job',
+                                          style: TextStyle(
+                                            fontSize: 17.sp,
+                                            fontFamily: 'Gilroy',
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         ],
       ),
     ),

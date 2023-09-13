@@ -13,6 +13,7 @@ class ApplyJobController extends GetxController {
   RxList<Job> searchedJobs = <Job>[].obs;
   var isApplying = false.obs;
   var isSaved = false.obs;
+  var isSavedLoading = false.obs;
 
   Future<bool> getAllJobs() async {
     var token = await StorageAccess.getToken();
@@ -25,9 +26,11 @@ class ApplyJobController extends GetxController {
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      var jobs = body['data'] as List;
-      allJobs.clear();
-      allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      if (body['data'] != null) {
+        var jobs = body['data'] as List;
+        allJobs.clear();
+        allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      }
       return true;
     } else {
       return false;
@@ -83,9 +86,11 @@ class ApplyJobController extends GetxController {
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      var jobs = body['data'] as List;
-      appliedJobs.clear();
-      appliedJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      if (body['data'] != null) {
+        var jobs = body['data'] as List;
+        appliedJobs.clear();
+        appliedJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      }
       return true;
     } else {
       return false;
@@ -103,9 +108,11 @@ class ApplyJobController extends GetxController {
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      var jobs = body['data'] as List;
-      savedJobs.clear();
-      savedJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      if (body['data'] != null) {
+        var jobs = body['data'] as List;
+        savedJobs.clear();
+        savedJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      }
       return true;
     } else {
       return false;
@@ -113,6 +120,7 @@ class ApplyJobController extends GetxController {
   }
 
   Future<bool> saveJob(int id) async {
+    isSavedLoading(true);
     var token = await StorageAccess.getToken();
     if (token == null) {
       return false;
@@ -124,13 +132,16 @@ class ApplyJobController extends GetxController {
     if (response.statusCode < 299) {
       isPresentInSavedJobs(id);
       await getSavedJobs();
+      isSavedLoading(false);
       return true;
     } else {
+      isSavedLoading(false);
       return false;
     }
   }
 
   Future<bool> deleteSavedJob(int id) async {
+    isSavedLoading(true);
     var token = await StorageAccess.getToken();
     if (token == null) {
       return false;
@@ -142,8 +153,10 @@ class ApplyJobController extends GetxController {
     if (response.statusCode < 299) {
       isPresentInSavedJobs(id);
       await getSavedJobs();
+      isSavedLoading(false);
       return true;
     } else {
+      isSavedLoading(false);
       return false;
     }
   }

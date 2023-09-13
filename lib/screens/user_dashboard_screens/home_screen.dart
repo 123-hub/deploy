@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                 searchTextController: searchTextController,
                 onTap: () {
                   applyJobController.searchedJobs.clear();
-                  dashboardController.changeDashboardScreen(1);
+                  // dashboardController.changeDashboardScreen(1);
                 },
                 readOnly: true,
               ),

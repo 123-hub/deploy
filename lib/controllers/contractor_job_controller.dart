@@ -308,15 +308,17 @@ class ContractorJobController extends GetxController {
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      var datas = body['data'] as List;
-      allHired.clear();
-      for (var data in datas) {
-        var job = Job.fromJson(data['job']);
-        var hires = LabourProfile.fromJson(data['labour']);
-        if (allHired.containsKey(job.id)) {
-          allHired[job.id]!.add(hires);
-        } else {
-          allHired[job.id] = [hires];
+      if (body['data'] != null) {
+        var datas = body['data'] as List;
+        allHired.clear();
+        for (var data in datas) {
+          var job = Job.fromJson(data['job']);
+          var hires = LabourProfile.fromJson(data['labour']);
+          if (allHired.containsKey(job.id)) {
+            allHired[job.id]!.add(hires);
+          } else {
+            allHired[job.id] = [hires];
+          }
         }
       }
       notifyChildrens();

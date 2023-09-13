@@ -8,16 +8,17 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-Future<dynamic> filterPopUp(BuildContext context, AppStateController appStateController) {
+Future<dynamic> filterPopUp(
+    BuildContext context, AppStateController appStateController) {
   var skillTextController = TextEditingController();
   return showModalBottomSheet(
-      showDragHandle: true,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30),
-        ),
+    showDragHandle: true,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(30),
       ),
+    ),
     context: context,
     builder: (context) => SingleChildScrollView(
       child: Padding(
@@ -166,7 +167,9 @@ Future<dynamic> filterPopUp(BuildContext context, AppStateController appStateCon
                   ),
                   LongButton(
                     text: 'Apply filters',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                   SizedBox(
                     height: 32.h,

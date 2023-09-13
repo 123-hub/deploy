@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/labour_dashboard_controller.dart';
+import 'package:flutter_project_labour_app/screens/user_dashboard_screens/applied_jobs_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/conversation_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/home_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/job_bookmark_screen.dart';
-import 'package:flutter_project_labour_app/screens/user_dashboard_screens/labour_job_search_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/profile_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,7 @@ class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
   final List<Widget> screens = [
     HomeScreen(),
-    LabourJobSearchScreen(),
+    AppliedJobsScreen(),
     JobBookmarkScreen(),
     ConversationScreen(),
     ProfileScreen(),

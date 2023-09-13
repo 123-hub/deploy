@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
-import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_dashboard_screen.dart';
+import 'package:flutter_project_labour_app/controllers/apply_job_controller.dart';
+import 'package:flutter_project_labour_app/models/job.dart';
 import 'package:flutter_project_labour_app/screens/common/job_desc_tile.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
@@ -8,9 +8,10 @@ import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Future<dynamic> contractorJobDescriptionPopUp(
-    BuildContext context, ContractorJobController contractorJobController) {
-  var job = contractorJobController.getJobData();
+Future<dynamic> appliedJobPopUp(
+    BuildContext context, Job job, ApplyJobController applyJobController) {
+  bool hasApplied = applyJobController.isPresentInAppliedJobs(job.id);
+  applyJobController.isPresentInSavedJobs(job.id);
   return showModalBottomSheet(
     useSafeArea: true,
     showDragHandle: true,
@@ -151,14 +152,14 @@ Future<dynamic> contractorJobDescriptionPopUp(
           ),
           Positioned.fill(
             bottom: 24.h,
-            child: Obx(
-              () {
-                return Align(
-                  alignment: Alignment.bottomCenter,
-                  child: contractorJobController.isLoading.value
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Obx(
+                () {
+                  return applyJobController.isApplying.value
                       ? MaterialButton(
                           onPressed: () {},
-                          minWidth: MediaQuery.of(context).size.width * 0.8,
+                          minWidth: MediaQuery.of(context).size.width * 0.80,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.r),
                           ),
@@ -170,39 +171,82 @@ Future<dynamic> contractorJobDescriptionPopUp(
                             ),
                           ),
                         )
-                      : MaterialButton(
-                          onPressed: () async {
-                            contractorJobController.changeLoading(true);
-                            var status =
-                                await contractorJobController.createJob();
-                            if (status) {
-                              Navigator.pop(context);
-                              Get.offAll(() => ClientDashboardScreen());
-                            } else {
-                              showErrorSnackBar('Something went Wrong');
-                            }
-                            contractorJobController.changeLoading(false);
-                          },
-                          minWidth: MediaQuery.of(context).size.width * 0.8,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          color: const Color(0xFFFF4E34),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15.h),
-                            child: Text(
-                              'Publish Job',
-                              style: TextStyle(
-                                fontSize: 17.sp,
-                                fontFamily: 'Gilroy',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                      : hasApplied
+                          ? MaterialButton(
+                              onPressed: () async {
+                                bool result = await applyJobController
+                                    .deleteApplication(job.id);
+                                if (result) {
+                                  Navigator.pop(context);
+                                  showDoneSnackBar("Application withdrawn");
+                                } else {
+                                  showErrorSnackBar(
+                                    "Some error occured while withdrawing the application",
+                                  );
+                                }
+                              },
+                              minWidth:
+                                  MediaQuery.of(context).size.width * 0.80,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
-                            ),
-                          ),
-                        ),
-                );
-              },
+                              color: primeryRed,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 15.h),
+                                child: Text(
+                                  'Withdraw Application',
+                                  style: TextStyle(
+                                    fontSize: 17.sp,
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : MaterialButton(
+                              onPressed: () async {
+                                if (job.status == 'AVAILABLE') {
+                                  var status =
+                                      await applyJobController.applyJob(job.id);
+                                  debugPrint(status.toString());
+                                  if (status) {
+                                    showDoneSnackBar(
+                                      'Applied for the job of ${job.name}',
+                                    );
+                                    Navigator.pop(context);
+                                  } else {
+                                    showErrorSnackBar(
+                                      'Some problem occured while apply for job',
+                                    );
+                                  }
+                                } else {
+                                  showErrorSnackBar(
+                                    'Job Unavailable to apply',
+                                  );
+                                }
+                              },
+                              minWidth:
+                                  MediaQuery.of(context).size.width * 0.80,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              color: const Color(0xFFFF4E34),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 15.h),
+                                child: Text(
+                                  'Apply For This Job',
+                                  style: TextStyle(
+                                    fontSize: 17.sp,
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            );
+                },
+              ),
             ),
           ),
         ],
