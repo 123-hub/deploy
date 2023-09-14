@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/apply_job_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_chat_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_profile_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_chat_controller.dart';
 import 'package:flutter_project_labour_app/controllers/labour_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/controllers/labour_profile_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_dashboard_screen.dart';
@@ -37,10 +39,15 @@ class StartUpScreen extends StatelessWidget {
           LabourDashboardController(),
           permanent: true,
         );
+        var labourChartController = Get.put(
+          LabourChatController(),
+          permanent: true,
+        );
 
         await applyJobController.getAllJobs();
         await applyJobController.getAppliedJobs();
         await applyJobController.getSavedJobs();
+        await labourChartController.getRooms();
         Get.off(() => DashboardScreen());
       } else {
         Get.off(() => LoginScreen());
@@ -60,8 +67,13 @@ class StartUpScreen extends StatelessWidget {
           ContractorJobController(),
           permanent: true,
         );
+        var contractorChatController = Get.put(
+          ContractorChatController(),
+          permanent: true,
+        );
         await contractorJobController.getJobs();
         await contractorJobController.getAllHired();
+        await contractorChatController.getRooms();
         Get.off(() => ClientDashboardScreen());
       } else {
         Get.off(() => LoginScreen());

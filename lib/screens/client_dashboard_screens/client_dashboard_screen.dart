@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_dashboard_controller.dart';
-import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_chat_screen.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_conversation_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_profile_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/user_search_secreen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_home_screen.dart';
@@ -12,13 +12,13 @@ class ClientDashboardScreen extends StatelessWidget {
   final List<Widget> screens = [
     ContractorHomeScreen(),
     UserSearchScreen(),
-    Center(
+    const Center(
       child: Text(
         'CreateJob',
         style: TextStyle(fontSize: 50),
       ),
     ),
-    ClientChatScreen(),
+    ContractorConversationScreen(),
     ClientProfileScreen(),
   ];
   final dashboardController = Get.find<ContractorDashboardController>();

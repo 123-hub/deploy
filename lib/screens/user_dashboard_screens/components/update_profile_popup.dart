@@ -123,7 +123,7 @@ Future<dynamic> updateProfilePopUp(
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: controller.days[i]
-                                ? primeryRed
+                                ? primaryRed
                                 : searchBarColor,
                             borderRadius: BorderRadius.circular(100),
                           ),

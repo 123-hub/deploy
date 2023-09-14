@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           const Icon(
                             Icons.attach_money,
-                            color: primeryRed,
+                            color: primaryRed,
                           ),
                           SizedBox(
                             width: 5.w,

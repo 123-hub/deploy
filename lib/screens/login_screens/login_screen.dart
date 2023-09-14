@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/apply_job_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_chat_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_profile_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_chat_controller.dart';
 import 'package:flutter_project_labour_app/controllers/labour_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/controllers/labour_profile_controller.dart';
 import 'package:flutter_project_labour_app/controllers/login_screen_controller.dart';
@@ -125,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 'Forgot Password?',
                                 style: subtitle.copyWith(
-                                  color: primeryRed,
+                                  color: primaryRed,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -168,9 +170,14 @@ class LoginScreen extends StatelessWidget {
                                         LabourDashboardController(),
                                         permanent: true,
                                       );
+                                      var labourChartController = Get.put(
+                                        LabourChatController(),
+                                        permanent: true,
+                                      );
                                       await applyJobController.getAllJobs();
                                       await applyJobController.getAppliedJobs();
                                       await applyJobController.getSavedJobs();
+                                      await labourChartController.getRooms();
                                       Get.delete<LoginScreenController>(
                                         force: true,
                                       );
@@ -199,9 +206,14 @@ class LoginScreen extends StatelessWidget {
                                         ContractorJobController(),
                                         permanent: true,
                                       );
+                                      var contractorChatController = Get.put(
+                                        ContractorChatController(),
+                                        permanent: true,
+                                      );
                                       await contractorJobController.getJobs();
                                       await contractorJobController
                                           .getAllHired();
+                                      await contractorChatController.getRooms();
                                       Get.delete<LoginScreenController>(
                                         force: true,
                                       );
@@ -264,7 +276,7 @@ class LoginScreen extends StatelessWidget {
                             child: Text(
                               'Create one',
                               style: subtitle.copyWith(
-                                color: primeryRed,
+                                color: primaryRed,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),

@@ -69,7 +69,7 @@ class UserSearchScreen extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.attach_money,
-                          color: primeryRed,
+                          color: primaryRed,
                         ),
                         SizedBox(
                           width: 5.w,
@@ -125,7 +125,7 @@ class UserSearchScreen extends StatelessWidget {
                               Text(
                                 'Mason Baxter',
                                 style:
-                                    authInfoHeading.copyWith(color: primeryRed),
+                                    authInfoHeading.copyWith(color: primaryRed),
                               ),
                               SizedBox(
                                 width: 85.w,

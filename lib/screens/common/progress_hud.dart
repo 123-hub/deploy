@@ -16,7 +16,7 @@ class ProgressHud extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       progressIndicator: const CircularProgressIndicator(
-        color: primeryRed,
+        color: primaryRed,
       ),
       blur: 2,
       inAsyncCall: inAsyncCall,

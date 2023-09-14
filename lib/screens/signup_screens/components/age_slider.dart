@@ -19,8 +19,8 @@ class AgeSlider extends StatelessWidget {
     return SfSliderTheme(
       data: SfSliderThemeData(
         thumbRadius: 20.r,
-        thumbColor: primeryRed,
-        activeTrackColor: primeryRed,
+        thumbColor: primaryRed,
+        activeTrackColor: primaryRed,
         inactiveTrackColor: inactiveTrackColor,
       ),
       child: SfSlider(

@@ -20,7 +20,7 @@ class JobDescTile extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: primeryRed,
+          color: primaryRed,
         ),
         SizedBox(
           height: 13.h,

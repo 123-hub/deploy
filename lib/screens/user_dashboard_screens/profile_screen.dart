@@ -299,14 +299,14 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     const Icon(
                       Icons.logout,
-                      color: primeryRed,
+                      color: primaryRed,
                     ),
                     SizedBox(
                       width: 10.w,
                     ),
                     Text(
                       'Log out',
-                      style: gilroy16sp.copyWith(color: primeryRed),
+                      style: gilroy16sp.copyWith(color: primaryRed),
                     )
                   ],
                 ),

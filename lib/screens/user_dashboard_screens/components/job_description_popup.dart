@@ -207,7 +207,7 @@ Future<dynamic> jobDescriptionPopUp(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
                       ),
-                      color: primeryRed,
+                      color: primaryRed,
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 15.h),
                         child: Text(
@@ -246,7 +246,7 @@ Future<dynamic> jobDescriptionPopUp(
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(vertical: 12.h),
                                   child: const CircularProgressIndicator(
-                                    color: primeryRed,
+                                    color: primaryRed,
                                   ),
                                 ),
                               )
@@ -281,7 +281,7 @@ Future<dynamic> jobDescriptionPopUp(
                                           EdgeInsets.symmetric(vertical: 12.h),
                                       child: Icon(
                                         Icons.bookmark,
-                                        color: primeryRed,
+                                        color: primaryRed,
                                         size: 25.h,
                                       ),
                                     ),
@@ -365,7 +365,7 @@ Future<dynamic> jobDescriptionPopUp(
                                         borderRadius:
                                             BorderRadius.circular(8.r),
                                       ),
-                                      color: primeryRed,
+                                      color: primaryRed,
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 15.h),

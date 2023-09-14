@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: const Color(0xFFFAFAFA),
             colorScheme: ThemeData().colorScheme.copyWith(
                   primary: Colors.black,
-                  secondary: primeryRed,
+                  secondary: primaryRed,
                 ),
             textSelectionTheme: const TextSelectionThemeData(
               selectionColor: Colors.grey,

@@ -48,7 +48,7 @@ class SignUpComplete extends StatelessWidget {
                         Get.offAll(() => LoginScreen());
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(primeryRed),
+                        backgroundColor: MaterialStateProperty.all(primaryRed),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),

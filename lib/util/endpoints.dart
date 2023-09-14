@@ -26,4 +26,9 @@ class Endpoints {
   static const String labourChat = '$labourUrl/chat';
   static const String labourGetRooms = '$labourChat/room';
   static const String labourGetMessages = '$labourChat/message';
+  static const String labourChatStream = 'wss://civil.orgosys.com/v1/ws/labour/chat';
+  static const String contractorChat = '$contractorUrl/chat';
+  static const String contractorGetRooms = '$contractorChat/room';
+  static const String contractorGetMessages = '$contractorChat/message';
+  static const String contractorChatStream = 'wss://civil.orgosys.com/v1/ws/contractor/chat';
 }

@@ -104,7 +104,7 @@ class AdditionalInfoScreen extends StatelessWidget {
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       color: signupScreenController.days[i]
-                                          ? primeryRed
+                                          ? primaryRed
                                           : searchBarColor,
                                       borderRadius: BorderRadius.circular(100),
                                     ),
@@ -141,7 +141,7 @@ class AdditionalInfoScreen extends StatelessWidget {
                             initialLabelIndex: 1,
                             totalSwitches: 2,
                             activeFgColor: Colors.white,
-                            activeBgColor: const [primeryRed, primeryRed],
+                            activeBgColor: const [primaryRed, primaryRed],
                             inactiveBgColor: searchBarColor,
                             cornerRadius: 20,
                             labels: const [

@@ -14,7 +14,7 @@ class SkillCapsule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputChip(
-      backgroundColor: primeryRed,
+      backgroundColor: primaryRed,
       deleteIcon: Material(
         color: Colors.transparent,
         shape: const CircleBorder(

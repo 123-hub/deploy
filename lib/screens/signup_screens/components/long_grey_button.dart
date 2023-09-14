@@ -20,7 +20,7 @@ class LongOutlineButton extends StatelessWidget {
         minimumSize: MaterialStatePropertyAll(Size(double.infinity, 30.h)),
         side: const MaterialStatePropertyAll(
           BorderSide(
-            color: primeryRed,
+            color: primaryRed,
             width: 2,
           ),
         ),
@@ -40,7 +40,7 @@ class LongOutlineButton extends StatelessWidget {
             fontSize: 20.sp,
             fontFamily: 'Branding SF',
             fontWeight: FontWeight.w900,
-            color: primeryRed,
+            color: primaryRed,
           ),
         ),
       ),

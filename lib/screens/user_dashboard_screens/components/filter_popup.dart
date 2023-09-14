@@ -57,8 +57,8 @@ Future<dynamic> filterPopUp(
               () {
                 return SfRangeSliderTheme(
                   data: SfRangeSliderThemeData(
-                    thumbColor: primeryRed,
-                    activeTrackColor: primeryRed,
+                    thumbColor: primaryRed,
+                    activeTrackColor: primaryRed,
                     inactiveTrackColor: inactiveTrackColor,
                   ),
                   child: SfRangeSlider(

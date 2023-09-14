@@ -160,7 +160,7 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
             Obx(
               () => contractorJobController.isLoading.value
                   ? const CircularProgressIndicator(
-                      color: primeryRed,
+                      color: primaryRed,
                     )
                   : ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),

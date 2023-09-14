@@ -190,7 +190,7 @@ Future<dynamic> appliedJobPopUp(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
-                              color: primeryRed,
+                              color: primaryRed,
                               child: Padding(
                                 padding: EdgeInsets.symmetric(vertical: 15.h),
                                 child: Text(
