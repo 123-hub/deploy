@@ -5,6 +5,7 @@ import 'package:flutter_project_labour_app/screens/user_dashboard_screens/compon
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/empty_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_card_without_tag.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
+import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -28,6 +29,7 @@ class AppliedJobsScreen extends StatelessWidget {
                 )
               : SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 20.h,
@@ -39,6 +41,13 @@ class AppliedJobsScreen extends StatelessWidget {
                       JobSearchBar(
                         searchTextController: searchTextController,
                         readOnly: false,
+                      ),
+                      SizedBox(
+                        height: 17.h,
+                      ),
+                      Text(
+                        'Applied Jobs',
+                        style: gilroy18sp,
                       ),
                       SizedBox(
                         height: 17.h,

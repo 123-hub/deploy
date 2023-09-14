@@ -41,7 +41,7 @@ class DashboardScreen extends StatelessWidget {
             BottomNavigationBarItem(
               label: 'Search',
               icon: Image.asset(
-                'assets/images/search_icon.png',
+                'assets/images/applied_jobs.png',
                 height: 20.h,
               ),
             ),

@@ -62,6 +62,7 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
         setState(() {
           _messages.addAll(messages);
         });
+        debugPrint(_messages.toString());
       }
     } else {
       Fluttertoast.showToast(
@@ -96,11 +97,6 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
       isMessageSent = false;
       var currentTime = DateTime.now();
       setState(() {
-        debugPrint(MessageContent(
-          labourMessage: data['labour_message'],
-          contractorMessage: "",
-          time: currentTime,
-        ).toString());
         _messages.insert(
           0,
           MessageContent(
@@ -158,7 +154,7 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            widget.room.contractorName,
+            widget.room.labourName,
             style: authHeading,
           ),
         ),
@@ -180,12 +176,12 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
                           SizedBox(
                             height: 200,
                             child: Lottie.network(
-                              'https://lottie.host/6bff57cf-c1eb-4b72-ba12-6497ee66710d/zPBJsKYOxb.json',
+                              'https://lottie.host/dbcfb096-66b6-4464-b07a-92b7ca003d2b/LQy4Grnruh.json',
                             ),
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'Loading Your Feedbacks!',
+                            'Loading Your Opportunities!',
                             style: authInfoHeading,
                           )
                         ],
@@ -193,10 +189,11 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
                     )
                   else if (_messages.isEmpty)
                     const Center(
-                        child: Text(
-                      'No Chat\'s Found!\nGet Started With Your FeedBacks',
-                      textAlign: TextAlign.center,
-                    ))
+                      child: Text(
+                        'No Chat\'s Found!\nGet Started Now',
+                        textAlign: TextAlign.center,
+                      ),
+                    )
                   else
                     ListView.builder(
                       reverse: true,
@@ -204,7 +201,10 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
                       controller: _controller,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        if (_messages[index].contractorMessage.trim().isEmpty) {
+                        if (_messages[index]
+                            .contractorMessage
+                            .trim()
+                            .isNotEmpty) {
                           debugPrint(_messages[index].toString());
                           return MessageBubble(
                             sender: "You",

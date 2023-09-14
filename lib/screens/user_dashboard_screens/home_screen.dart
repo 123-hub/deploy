@@ -48,59 +48,59 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 17.h,
               ),
-              Row(
-                children: [
-                  Material(
-                    shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.r),
-                      side: const BorderSide(width: 2),
-                    ),
-                    child: InkWell(
-                      onTap: () async {
-                        filterPopUp(context, appStateController);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10.w),
-                        child: Icon(
-                          Icons.tune,
-                          size: 20.h,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 11.w,
-                  ),
-                  Material(
-                    shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.r),
-                      side: const BorderSide(width: 2),
-                    ),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.attach_money,
-                            color: primaryRed,
-                          ),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Text(
-                            'Salary : \$10 - \$100',
-                            style: tileHeader,
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 17.h,
-              ),
+              // Row(
+              //   children: [
+              //     Material(
+              //       shape: ContinuousRectangleBorder(
+              //         borderRadius: BorderRadius.circular(20.r),
+              //         side: const BorderSide(width: 2),
+              //       ),
+              //       child: InkWell(
+              //         onTap: () async {
+              //           filterPopUp(context, appStateController);
+              //         },
+              //         child: Container(
+              //           padding: EdgeInsets.all(10.w),
+              //           child: Icon(
+              //             Icons.tune,
+              //             size: 20.h,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 11.w,
+              //     ),
+              //     Material(
+              //       shape: ContinuousRectangleBorder(
+              //         borderRadius: BorderRadius.circular(20.r),
+              //         side: const BorderSide(width: 2),
+              //       ),
+              //       child: Padding(
+              //         padding:
+              //             EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
+              //         child: Row(
+              //           children: [
+              //             const Icon(
+              //               Icons.attach_money,
+              //               color: primaryRed,
+              //             ),
+              //             SizedBox(
+              //               width: 5.w,
+              //             ),
+              //             Text(
+              //               'Salary : \$10 - \$100',
+              //               style: tileHeader,
+              //             )
+              //           ],
+              //         ),
+              //       ),
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 17.h,
+              // ),
               Text(
                 'Current Listings',
                 style: gilroy18sp,
@@ -108,25 +108,27 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 17.h,
               ),
-              Obx(() {
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: applyJobController.allJobs.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return JobCard(
-                      job: applyJobController.allJobs[index],
-                      onTap: () {
-                        jobDescriptionPopUp(
-                          context,
-                          applyJobController.allJobs[index],
-                          applyJobController,
-                        );
-                      },
-                    );
-                  },
-                );
-              }),
+              Obx(
+                () {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: applyJobController.allJobs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return JobCard(
+                        job: applyJobController.allJobs[index],
+                        onTap: () {
+                          jobDescriptionPopUp(
+                            context,
+                            applyJobController.allJobs[index],
+                            applyJobController,
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),

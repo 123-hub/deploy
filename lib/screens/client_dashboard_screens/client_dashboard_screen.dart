@@ -11,7 +11,7 @@ class ClientDashboardScreen extends StatelessWidget {
   ClientDashboardScreen({super.key});
   final List<Widget> screens = [
     ContractorHomeScreen(),
-    UserSearchScreen(),
+    // UserSearchScreen(),
     const Center(
       child: Text(
         'CreateJob',
@@ -42,13 +42,13 @@ class ClientDashboardScreen extends StatelessWidget {
                 height: 25.h,
               ),
             ),
-            BottomNavigationBarItem(
-              label: 'Search',
-              icon: Image.asset(
-                'assets/images/search_icon.png',
-                height: 25.h,
-              ),
-            ),
+            // BottomNavigationBarItem(
+            //   label: 'Search',
+            //   icon: Image.asset(
+            //     'assets/images/search_icon.png',
+            //     height: 25.h,
+            //   ),
+            // ),
             BottomNavigationBarItem(
               label: 'BookMark',
               icon: Image.asset(

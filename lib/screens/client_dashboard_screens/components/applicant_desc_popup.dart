@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_chat_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/models/labour_profile.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_chat_screen.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_conversation_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/document_card.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/license_card.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/work_experience_card.dart';
@@ -18,6 +21,7 @@ Future<dynamic> applicantDescriptionPopUp(
   ContractorJobController contractorJobController,
 ) {
   bool isHired = contractorJobController.isHired(jobId, profile.id);
+  final chatController = Get.find<ContractorChatController>();
   return showModalBottomSheet(
     useSafeArea: true,
     showDragHandle: true,
@@ -224,28 +228,64 @@ Future<dynamic> applicantDescriptionPopUp(
             bottom: 24.h,
             child: Row(
               children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        const MaterialStatePropertyAll(Colors.white),
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          8.r,
-                        ),
-                      ),
-                    ),
-                  ),
-                  onPressed: () async {},
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.h),
-                    child: Icon(
-                      Icons.chat_outlined,
-                      color: Colors.black,
-                      size: 25.h,
-                    ),
-                  ),
-                ),
+                Obx(() {
+                  return chatController.isChatLoading.value
+                      ? ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                const MaterialStatePropertyAll(Colors.white),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  8.r,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {},
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12.h),
+                            child: const CircularProgressIndicator(
+                              color: primaryRed,
+                            ),
+                          ),
+                        )
+                      : ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                const MaterialStatePropertyAll(Colors.white),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  8.r,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            var room =
+                                await chatController.createRooms(profile.id);
+                            if (room != null) {
+                              Navigator.pop(context);
+                              Get.to(
+                                () => ContractorChatScreen(
+                                  room: room,
+                                ),
+                              );
+                            } else {
+                              showErrorSnackBar("Some problem occurred");
+                            }
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12.h),
+                            child: Icon(
+                              Icons.chat_outlined,
+                              color: Colors.black,
+                              size: 25.h,
+                            ),
+                          ),
+                        );
+                }),
                 SizedBox(
                   width: 15.w,
                 ),

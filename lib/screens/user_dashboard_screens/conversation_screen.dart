@@ -51,6 +51,7 @@ class ConversationScreen extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return ChatCard(
                               room: labourChatController.allRooms[index],
+                              isContractor: false,
                               onTap: () {
                                 debugPrint('Clicked');
                                 Get.to(

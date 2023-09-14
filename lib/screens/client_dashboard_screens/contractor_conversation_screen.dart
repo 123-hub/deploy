@@ -52,11 +52,13 @@ class ContractorConversationScreen extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return ChatCard(
                               room: contractorChatController.allRooms[index],
+                              isContractor: true,
                               onTap: () {
                                 debugPrint('Clicked');
                                 Get.to(
                                   () => ContractorChatScreen(
-                                    room: contractorChatController.allRooms[index],
+                                    room: contractorChatController
+                                        .allRooms[index],
                                   ),
                                 );
                               },

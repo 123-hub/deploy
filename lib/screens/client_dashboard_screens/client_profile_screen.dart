@@ -227,45 +227,46 @@ class ClientProfileScreen extends StatelessWidget {
                   );
                 },
               ),
-              Text(
-                'Recently Hired',
-                style: tileHeader.copyWith(color: aboutGrey),
-              ),
-              SizedBox(
-                height: 22.h,
-              ),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            const AssetImage('assets/images/worker.png'),
-                        radius: 30.r,
-                      ),
-                      Text('Mason Baxter',
-                          style: gilroy12_600.copyWith(color: aboutGrey)),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 25.w,
-                  ),
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            const AssetImage('assets/images/worker.png'),
-                        radius: 30.r,
-                      ),
-                      Text('Mason Baxter',
-                          style: gilroy12_600.copyWith(color: aboutGrey)),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 15.h,
-              ),
+              const Divider(),
+              // Text(
+              //   'Recently Hired',
+              //   style: tileHeader.copyWith(color: aboutGrey),
+              // ),
+              // SizedBox(
+              //   height: 22.h,
+              // ),
+              // Row(
+              //   children: [
+              //     Column(
+              //       children: [
+              //         CircleAvatar(
+              //           backgroundImage:
+              //               const AssetImage('assets/images/worker.png'),
+              //           radius: 30.r,
+              //         ),
+              //         Text('Mason Baxter',
+              //             style: gilroy12_600.copyWith(color: aboutGrey)),
+              //       ],
+              //     ),
+              //     SizedBox(
+              //       width: 25.w,
+              //     ),
+              //     Column(
+              //       children: [
+              //         CircleAvatar(
+              //           backgroundImage:
+              //               const AssetImage('assets/images/worker.png'),
+              //           radius: 30.r,
+              //         ),
+              //         Text('Mason Baxter',
+              //             style: gilroy12_600.copyWith(color: aboutGrey)),
+              //       ],
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 15.h,
+              // ),
               TextButton(
                 onPressed: () {
                   Get.delete<ContractorProfileController>(force: true);

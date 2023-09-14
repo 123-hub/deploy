@@ -3,11 +3,13 @@ import 'package:flutter_project_labour_app/models/room.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class ChatCard extends StatelessWidget {
-  const ChatCard({super.key, required this.room, required this.onTap});
+  const ChatCard({super.key, required this.room, required this.onTap, required this.isContractor});
 
   final Room room;
+  final bool isContractor;
   final VoidCallback onTap;
 
   @override
@@ -42,11 +44,11 @@ class ChatCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              room.contractorName,
+                              isContractor ? room.labourName : room.contractorName,
                               style: authInfoHeading,
                             ),
                             Text(
-                              '${room.createdAt.hour} ${room.createdAt.minute}',
+                              DateFormat.Hm().format(room.createdAt),
                               style: subtitle.copyWith(
                                 fontWeight: FontWeight.w400,
                                 color: timeGrey,
