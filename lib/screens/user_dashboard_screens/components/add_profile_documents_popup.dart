@@ -81,7 +81,7 @@ Future<dynamic> addProfileDocumentPopup(
                       createdAt: null,
                       id: null,
                       updatedAt: null,
-                      labourId: null,
+                      labourId: controller.labourProfile.value!.id,
                     );
                     debugPrint(document.toJson().toString());
                     var added = controller.addDocument(document);

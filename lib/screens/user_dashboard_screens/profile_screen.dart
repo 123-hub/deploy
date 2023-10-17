@@ -136,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Skills',
+                    'Qualifications',
                     style: tileHeader.copyWith(color: aboutGrey),
                   ),
                   IconButton(

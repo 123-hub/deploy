@@ -121,7 +121,7 @@ Future<dynamic> addProfileExperiencePopup(
                       id: null,
                       createdAt: null,
                       updatedAt: null,
-                      labourId: null,
+                      labourId: controller.labourProfile.value!.id,
                     );
                     var added = controller.addExperience(experience);
                     if (added) {

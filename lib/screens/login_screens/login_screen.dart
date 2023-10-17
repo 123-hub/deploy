@@ -211,6 +211,7 @@ class LoginScreen extends StatelessWidget {
                                         permanent: true,
                                       );
                                       await contractorJobController.getJobs();
+                                      await contractorJobController.getAllJobs();
                                       await contractorJobController
                                           .getAllHired();
                                       await contractorChatController.getRooms();

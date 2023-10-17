@@ -39,10 +39,10 @@ class ContractorJobCard extends StatelessWidget {
                     job.enterLocation,
                     style: subtitle.copyWith(color: cardSubtitle),
                   ),
-                  trailing: Text(
-                    '\$${job.salaryRange}',
-                    style: gilroy20sp,
-                  ),
+                  // trailing: Text(
+                  //   '\$${job.salaryRange}',
+                  //   style: gilroy20sp,
+                  // ),
                 ),
                 Text(
                   'Description',

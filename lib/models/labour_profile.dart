@@ -85,4 +85,26 @@ class LabourProfile {
     data['updated_at'] = updatedAt;
     return data;
   }
+
+  LabourProfile copy() {
+    return LabourProfile(
+      id: id,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      dob: dob,
+      expectedHourRate: expectedHourRate,
+      tradeType: tradeType,
+      availabilityDates: availabilityDates,
+      experience: List.from(experience),
+      licenses: List.from(licenses),
+      isDriving: isDriving,
+      licenseExpiryDate: licenseExpiryDate,
+      documents: List.from(documents),
+      isApproved: isApproved,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
 }

@@ -43,7 +43,7 @@ class AddSkillTextField extends StatelessWidget {
           ),
         ),
         suffixIconConstraints: BoxConstraints(maxWidth: 30.sp),
-        hintText: 'Enter Skill',
+        hintText: 'Enter Qualifications',
         hintStyle: TextStyle(
           fontFamily: 'Gilroy',
           fontSize: 16.sp,

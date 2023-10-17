@@ -132,7 +132,7 @@ Future<dynamic> applicantDescriptionPopUp(
                   height: 20.h,
                 ),
                 Text(
-                  'Skills',
+                  'Qualification',
                   style: tileHeader.copyWith(color: aboutGrey),
                 ),
                 SizedBox(

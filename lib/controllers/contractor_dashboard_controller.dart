@@ -5,7 +5,7 @@ class ContractorDashboardController extends GetxController {
   var dashboardIndex = 0.obs;
 
   void changeDashboardScreen(int index) {
-    if (index == 1) {
+    if (index == 2) {
       Get.to(() => CreateJobScreen());
       return;
     }

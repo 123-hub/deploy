@@ -130,7 +130,7 @@ Future<dynamic> addProfileLicensePopUp(
                       id: null,
                       createdAt: null,
                       updatedAt: null,
-                      labourId: null,
+                      labourId: controller.labourProfile.value!.id,
                     );
                     var added = controller.addLicense(license);
                     if (added) {

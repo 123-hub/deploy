@@ -166,6 +166,27 @@ class LabourProfileController extends GetxController {
     }
   }
 
+  Future<bool> updateProfileValues(LabourProfile labourProfile) async {
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.patch(
+      Uri.parse(Endpoints.labourProfile),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode(labourProfile.toJson()),
+    );
+    if (response.statusCode < 299) {
+      _onUpdate(response.body);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void _onUpdate(String response) {
     var body = jsonDecode(response);
     labourProfile.value = LabourProfile.fromJson(body['data']);

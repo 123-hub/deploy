@@ -124,7 +124,7 @@ Future<dynamic> appliedJobPopUp(
                   height: 19.h,
                 ),
                 Text(
-                  'Skills',
+                  'Qualifications',
                   style: gilroy12_600.copyWith(color: jobDescTileTextGrey),
                 ),
                 SizedBox(

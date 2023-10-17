@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_dashboard_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_conversation_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/client_profile_screen.dart';
-import 'package:flutter_project_labour_app/screens/client_dashboard_screens/user_search_secreen.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/all_jobs_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_home_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,7 +11,7 @@ class ClientDashboardScreen extends StatelessWidget {
   ClientDashboardScreen({super.key});
   final List<Widget> screens = [
     ContractorHomeScreen(),
-    // UserSearchScreen(),
+    AllJobsScreen(),
     const Center(
       child: Text(
         'CreateJob',
@@ -42,13 +42,13 @@ class ClientDashboardScreen extends StatelessWidget {
                 height: 25.h,
               ),
             ),
-            // BottomNavigationBarItem(
-            //   label: 'Search',
-            //   icon: Image.asset(
-            //     'assets/images/search_icon.png',
-            //     height: 25.h,
-            //   ),
-            // ),
+            BottomNavigationBarItem(
+              label: 'Search',
+              icon: Image.asset(
+                'assets/images/all_jobs.png',
+                height: 25.h,
+              ),
+            ),
             BottomNavigationBarItem(
               label: 'BookMark',
               icon: Image.asset(

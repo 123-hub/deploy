@@ -189,7 +189,7 @@ class AdditionalInfoScreen extends StatelessWidget {
                         height: 25.h,
                       ),
                       Text(
-                        'Add Skills',
+                        'Add Qualifications',
                         style: authInfoHeading,
                       ),
                       SizedBox(

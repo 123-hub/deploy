@@ -85,14 +85,14 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
                     indent: 15.h,
                     endIndent: 15.h,
                   ),
-                  JobDescTile(
-                    icon: Icons.attach_money,
-                    text: '\$${job.salaryRange}/month',
-                  ),
-                  VerticalDivider(
-                    indent: 15.h,
-                    endIndent: 15.h,
-                  ),
+                  // JobDescTile(
+                  //   icon: Icons.attach_money,
+                  //   text: '\$${job.salaryRange}/month',
+                  // ),
+                  // VerticalDivider(
+                  //   indent: 15.h,
+                  //   endIndent: 15.h,
+                  // ),
                   JobDescTile(
                     icon: Icons.location_on_outlined,
                     text: job.enterLocation,
@@ -124,7 +124,7 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
               height: 19.h,
             ),
             Text(
-              'Skills',
+              'Qualifications',
               style: gilroy12_600.copyWith(color: jobDescTileTextGrey),
             ),
             SizedBox(
