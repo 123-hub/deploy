@@ -99,8 +99,8 @@ Future<dynamic> addContractorProfileDocument(
                       wcbDocument: wcbDocumentTextController.text,
                       businessLicense: businessLicenseTextController.text,
                       documentUrl: documentUrlTextController.text,
-                      id: null,
-                      contractorId: null,
+                      id: 0,
+                      contractorId: controller.contractorProfile.value!.id,
                       createdAt: null,
                       updatedAt: null,
                     );

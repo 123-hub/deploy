@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_chat_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/client_back_app_bar.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/client_empty_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_chat_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/back_appbar.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/chat_card.dart';
@@ -20,7 +21,7 @@ class ContractorConversationScreen extends StatelessWidget {
       child: Obx(
         () {
           return contractorChatController.allRooms.isEmpty
-              ? const EmptyScreen(
+              ? const ClientEmptyScreen(
                   image: 'assets/images/empty_jobs.png',
                   title: 'No Conversations Yet',
                   subtitle: 'Wait till a contractor contacts you',

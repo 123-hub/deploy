@@ -127,7 +127,7 @@ Future<dynamic> addProfileLicensePopUp(
                       from: startDate.toString(),
                       to: endDate.toString(),
                       expiryDate: expiryDate.toString(),
-                      id: null,
+                      id: 0,
                       createdAt: null,
                       updatedAt: null,
                       labourId: controller.labourProfile.value!.id,

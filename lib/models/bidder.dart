@@ -1,7 +1,7 @@
 import 'package:flutter_project_labour_app/models/contractor_document.dart';
 
-class ContractorProfile {
-  ContractorProfile({
+class Bidder {
+  Bidder({
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -16,6 +16,7 @@ class ContractorProfile {
     required this.businessLicenseNumber,
     required this.wcbNumber,
     required this.documents,
+    required this.biddingAmount,
     required this.isApproved,
     required this.createdAt,
     required this.updatedAt,
@@ -33,12 +34,13 @@ class ContractorProfile {
   late String companyFaxNumber;
   late String businessLicenseNumber;
   late String wcbNumber;
+  late num biddingAmount;
   late List<ContractorDocument> documents;
   late bool isApproved;
   late String createdAt;
   late String updatedAt;
 
-  ContractorProfile.fromJson(Map<String, dynamic> json) {
+  Bidder.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
@@ -58,6 +60,7 @@ class ContractorProfile {
     isApproved = json['is_approved'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    biddingAmount = json['bidding_amount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,28 +82,7 @@ class ContractorProfile {
     data['is_approved'] = isApproved;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['bidding_amount'] = biddingAmount;
     return data;
-  }
-
-  ContractorProfile copy() {
-    return ContractorProfile(
-      id: id,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phoneNumber: phoneNumber,
-      dateOfBirth: dateOfBirth,
-      companyName: companyName,
-      companyAddress: companyAddress,
-      companyPhoneNumber: companyPhoneNumber,
-      companyWebsite: companyWebsite,
-      companyFaxNumber: companyFaxNumber,
-      businessLicenseNumber: businessLicenseNumber,
-      wcbNumber: wcbNumber,
-      documents: List.from(documents),
-      isApproved: isApproved,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-    );
   }
 }

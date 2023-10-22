@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/models/job.dart';
+import 'package:flutter_project_labour_app/models/pagination_model.dart';
 import 'package:flutter_project_labour_app/util/endpoints.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_project_labour_app/util/storage_access.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -11,9 +14,16 @@ class ApplyJobController extends GetxController {
   RxList<Job> appliedJobs = <Job>[].obs;
   RxList<Job> savedJobs = <Job>[].obs;
   RxList<Job> searchedJobs = <Job>[].obs;
+  var filterSkills = <String>[].obs;
+  String filterLocation = '';
+  String searchString = '';
+  Rx<PaginationModel?> paginationData = Rx<PaginationModel?>(null);
+  ScrollController scrollController = ScrollController();
   var isApplying = false.obs;
   var isSaved = false.obs;
   var isSavedLoading = false.obs;
+  var isJobLoading = false.obs;
+  var isFetchingJob = false.obs;
 
   Future<bool> getAllJobs() async {
     var token = await StorageAccess.getToken();
@@ -21,18 +31,98 @@ class ApplyJobController extends GetxController {
       return false;
     }
     var response = await http.get(
-      Uri.parse(Endpoints.labourJob),
+      Uri.parse('${Endpoints.labourJob}?limit=5&page=1'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      if (body['data'] != null) {
-        var jobs = body['data'] as List;
+      if (body['data']['jobs'] != null) {
+        var jobs = body['data']['jobs'] as List;
         allJobs.clear();
         allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+        paginationData(PaginationModel.fromJson(body['data']['pagination']));
       }
       return true;
     } else {
+      return false;
+    }
+  }
+
+  Future<bool> getAllJobsNextPage() async {
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    if (paginationData.value!.page >= paginationData.value!.totalPage) {
+      return false;
+    }
+    Map<String, dynamic> params = {
+      'limit': '5',
+      'page': (paginationData.value!.page + 1).toString()
+    };
+    if (searchString.isNotEmpty) {
+      params['query'] = searchString;
+    }
+    if (filterLocation.isNotEmpty) {
+      params['query'] = filterLocation;
+    }
+    if (filterSkills.isNotEmpty) {
+      params['skills'] = filterSkills.join(',');
+    }
+    var response = await http.get(
+      Uri.https(Endpoints.domain, '/v1/labour/jobs', params),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      var jobs = body['data']['jobs'] as List;
+      allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      paginationData(PaginationModel.fromJson(body['data']['pagination']));
+      print(
+        'Page number: ${paginationData.value!.page} || max page: ${paginationData.value!.totalPage}',
+      );
+      return true;
+    } else {
+      showErrorSnackBar("Something went wrong");
+      return false;
+    }
+  }
+
+  Future<bool> applyFilter() async {
+    isJobLoading(true);
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    Map<String, dynamic> params = {'limit': '5', 'page': '1'};
+    if (searchString.isNotEmpty) {
+      params['query'] = searchString;
+    }
+    if (filterLocation.isNotEmpty) {
+      params['query'] = filterLocation;
+    }
+    if (filterSkills.isNotEmpty) {
+      params['skills'] = filterSkills.join(',');
+    }
+    debugPrint(
+        Uri.https(Endpoints.domain, '/v1/labour/jobs', params).toString());
+    var response = await http.get(
+      Uri.https(Endpoints.domain, '/v1/labour/jobs', params),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    debugPrint(response.body);
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      var jobs = body['data']['jobs'] as List;
+      allJobs.clear();
+      allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      paginationData(PaginationModel.fromJson(body['data']['pagination']));
+      isJobLoading(false);
+      return true;
+    } else {
+      isJobLoading(false);
+      showErrorSnackBar("Some problem occurred");
       return false;
     }
   }

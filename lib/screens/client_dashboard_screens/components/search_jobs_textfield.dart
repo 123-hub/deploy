@@ -5,16 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class JobSearchTextField extends StatelessWidget {
   const JobSearchTextField({
     super.key,
-    this.onChanged,
+    this.onSearch,
   });
 
-final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSearch;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
       child: TextField(
+        textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           filled: true,
           fillColor: searchBarColor,
@@ -27,9 +28,8 @@ final ValueChanged<String>? onChanged;
             Icons.search,
             color: searchBarIconColor,
           ),
-          
         ),
-        onChanged: onChanged,
+        onSubmitted: onSearch,
       ),
     );
   }

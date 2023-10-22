@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/models/bidder.dart';
+import 'package:flutter_project_labour_app/models/bided_job.dart';
 import 'package:flutter_project_labour_app/models/job.dart';
 import 'package:flutter_project_labour_app/models/job_model.dart';
 import 'package:flutter_project_labour_app/models/labour_profile.dart';
+import 'package:flutter_project_labour_app/models/pagination_model.dart';
 import 'package:flutter_project_labour_app/util/endpoints.dart';
 import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_project_labour_app/util/storage_access.dart';
@@ -13,12 +16,20 @@ import 'package:get/get.dart';
 class ContractorJobController extends GetxController {
   var duration = Rx<String?>(null);
   var skills = <String>[].obs;
+  var filterSkills = <String>[].obs;
   var myJobs = <Job>[].obs;
   var allJobs = <Job>[].obs;
   var allJobsFiltered = <Job>[].obs;
   var allHired = <int, List<LabourProfile>>{}.obs;
   var currentApplicants = <LabourProfile>[].obs;
+  var currentBidders = <Bidder>[].obs;
   var recentHires = <LabourProfile>[].obs;
+  var allBids = <BidedJob>[].obs;
+  String filterLocation = '';
+  String searchString = '';
+  Rx<PaginationModel?> paginationData = Rx<PaginationModel?>(null);
+  ScrollController scrollController = ScrollController();
+  var isFetchingJob = false.obs;
   final jobNameTextController = TextEditingController();
   final jobTypeTextController = TextEditingController();
   final salaryRangeTextController = TextEditingController();
@@ -36,6 +47,7 @@ class ContractorJobController extends GetxController {
   var isApplicantsLoading = false.obs;
   var isHiring = false.obs;
   var isApplying = false.obs;
+  var isJobLoading = false.obs;
   var jobNameMessage = 'Enter a Job Name';
   var jobTypeMessage = 'Enter a Job Type';
   var salaryRangeMessage = 'Enter a Salary Range';
@@ -119,8 +131,22 @@ class ContractorJobController extends GetxController {
     return false;
   }
 
+  bool addFilterSkill(String skill) {
+    if (!filterSkills.contains(skill)) {
+      filterSkills.add(skill);
+      notifyChildrens();
+      return true;
+    }
+    return false;
+  }
+
   void removeSkill(String skill) {
     skills.remove(skill);
+    notifyChildrens();
+  }
+
+  void removeFilterSkill(String skill) {
+    filterSkills.remove(skill);
     notifyChildrens();
   }
 
@@ -230,18 +256,100 @@ class ContractorJobController extends GetxController {
       return false;
     }
     var response = await http.get(
-      Uri.parse(Endpoints.contractorAllJobs),
+      Uri.parse('${Endpoints.contractorAllJobs}?limit=5&page=1'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      var jobs = body['data'] as List;
-      allJobs.clear();
-      allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
-      allJobsFiltered.clear();
-      allJobsFiltered.addAll(allJobs);
+      if (body['data']['jobs'] != null) {
+        var jobs = body['data']['jobs'] as List;
+        allJobs.clear();
+        allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+        allJobsFiltered.clear();
+        allJobsFiltered.addAll(allJobs);
+        paginationData(PaginationModel.fromJson(body['data']['pagination']));
+      }
       return true;
     } else {
+      return false;
+    }
+  }
+
+  Future<bool> getAllJobsNextPage() async {
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    if (paginationData.value!.page >= paginationData.value!.totalPage) {
+      return false;
+    }
+    Map<String, dynamic> params = {
+      'limit': '5',
+      'page': (paginationData.value!.page + 1).toString()
+    };
+    if (searchString.isNotEmpty) {
+      params['query'] = searchString;
+    }
+    if (filterLocation.isNotEmpty) {
+      params['query'] = filterLocation;
+    }
+    if (filterSkills.isNotEmpty) {
+      params['skills'] = filterSkills.join(',');
+    }
+    var response = await http.get(
+      Uri.https(Endpoints.domain, '/v1/contractor/jobs', params),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      var jobs = body['data']['jobs'] as List;
+      allJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      allJobsFiltered.addAll(jobs.map((e) => Job.fromJson(e)));
+      paginationData(PaginationModel.fromJson(body['data']['pagination']));
+      print(
+          'Page number: ${paginationData.value!.page} || max page: ${paginationData.value!.totalPage}');
+      return true;
+    } else {
+      showErrorSnackBar("Something went wrong");
+      return false;
+    }
+  }
+
+  Future<bool> applyFilter() async {
+    isJobLoading(true);
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    Map<String, dynamic> params = {'limit': '5', 'page': '1'};
+    if (searchString.isNotEmpty) {
+      params['query'] = searchString;
+    }
+    if (filterLocation.isNotEmpty) {
+      params['query'] = filterLocation;
+    }
+    if (filterSkills.isNotEmpty) {
+      params['skills'] = filterSkills.join(',');
+    }
+    debugPrint(
+        Uri.https(Endpoints.domain, '/v1/contractor/jobs', params).toString());
+    var response = await http.get(
+      Uri.https(Endpoints.domain, '/v1/contractor/jobs', params),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    debugPrint(response.body);
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      var jobs = body['data']['jobs'] as List;
+      allJobsFiltered.clear();
+      allJobsFiltered.addAll(jobs.map((e) => Job.fromJson(e)));
+      paginationData(PaginationModel.fromJson(body['data']['pagination']));
+      isJobLoading(false);
+      return true;
+    } else {
+      isJobLoading(false);
+      showErrorSnackBar("Some problem occurred");
       return false;
     }
   }
@@ -304,11 +412,24 @@ class ContractorJobController extends GetxController {
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      var applicants = body['data']['labour'] as List;
-      currentApplicants.clear();
-      currentApplicants.addAll(
-        applicants.map((e) => LabourProfile.fromJson(e)),
-      );
+      if (body['data']['labour'] != null) {
+        var applicants = body['data']['labour'] as List;
+        currentApplicants.clear();
+        currentApplicants.addAll(
+          applicants.map((e) => LabourProfile.fromJson(e)),
+        );
+      } else {
+        currentApplicants.clear();
+      }
+      if (body['data']['contractor'] != null) {
+        var applicants = body['data']['contractor'] as List;
+        currentBidders.clear();
+        currentBidders.addAll(
+          applicants.map((e) => Bidder.fromJson(e)),
+        );
+      } else {
+        currentBidders.clear();
+      }
       changeApplicantsLoading(false);
       return true;
     } else {
@@ -328,6 +449,31 @@ class ContractorJobController extends GetxController {
       headers: {'Authorization': 'Bearer $token'},
     );
     changeIsHiring(false);
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body);
+    if (response.statusCode < 299) {
+      await getAllHired();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> hireContractor(int jobId, int contractorId) async {
+    changeIsHiring(true);
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.post(
+      Uri.parse(
+          '${Endpoints.contractorhired}?contractor_id=$contractorId&id=$jobId'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    changeIsHiring(false);
+    debugPrint(Uri.parse(
+      '${Endpoints.contractorhired}?contractor_id=$contractorId&id=$jobId',
+    ).toString());
     debugPrint(response.statusCode.toString());
     debugPrint(response.body);
     if (response.statusCode < 299) {
@@ -372,6 +518,38 @@ class ContractorJobController extends GetxController {
     }
   }
 
+  Future<bool> getAllBids() async {
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.get(
+      Uri.parse(Endpoints.contractorBidding),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      if (body['data']['job'] != null) {
+        var jobs = body['data']['job'] as List;
+        allBids.addAll(jobs.map((e) => BidedJob.fromJson(e)));
+        allBids.forEach((element) => print(element.id));
+      }
+      print('response: ${allBids.length}');
+      return true;
+    } else {
+      print("Error getting data");
+      return false;
+    }
+  }
+
+  num? hasBid(int id) {
+    var bid = allBids.where((bid) => bid.id == id);
+    if (bid.isEmpty) {
+      return null;
+    }
+    return bid.first.biddingAmount;
+  }
+
   void _jobPostedCleanup() {
     skills.clear();
     jobNameTextController.clear();
@@ -383,7 +561,7 @@ class ContractorJobController extends GetxController {
     descriptionTextController.clear();
   }
 
-  Future<bool> applyJob(int id, num amount) async {
+  Future<bool> bid(int id, num amount) async {
     var token = await StorageAccess.getToken();
     if (token == null) {
       return false;
@@ -393,6 +571,7 @@ class ContractorJobController extends GetxController {
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode < 299) {
+      await getAllBids();
       return true;
     } else {
       return false;

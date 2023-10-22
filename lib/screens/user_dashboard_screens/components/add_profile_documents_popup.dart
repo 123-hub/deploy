@@ -79,7 +79,7 @@ Future<dynamic> addProfileDocumentPopup(
                       documentUrl: documentURLTextController.text,
                       description: descriptionTextController.text,
                       createdAt: null,
-                      id: null,
+                      id: 0,
                       updatedAt: null,
                       labourId: controller.labourProfile.value!.id,
                     );

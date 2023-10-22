@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/models/contractor_document.dart';
@@ -64,6 +65,28 @@ class ContractorProfileController extends GetxController {
       },
       body: jsonEncode(contractorProfile.value!.toJson()),
     );
+    if (response.statusCode < 299) {
+      _onUpdate(response.body);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> updateProfileValue(ContractorProfile profile) async {
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.patch(
+      Uri.parse(Endpoints.contractorProfile),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode(profile.toJson()),
+    );
+    log('${response.statusCode} -> ${response.body}');
     if (response.statusCode < 299) {
       _onUpdate(response.body);
       return true;

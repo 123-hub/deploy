@@ -175,7 +175,7 @@ class LoginScreen extends StatelessWidget {
                                         permanent: true,
                                       );
                                       await applyJobController.getAllJobs();
-                                      await applyJobController.getAppliedJobs();
+                                      applyJobController.getAppliedJobs();
                                       await applyJobController.getSavedJobs();
                                       await labourChartController.getRooms();
                                       Get.delete<LoginScreenController>(
@@ -211,10 +211,10 @@ class LoginScreen extends StatelessWidget {
                                         permanent: true,
                                       );
                                       await contractorJobController.getJobs();
-                                      await contractorJobController.getAllJobs();
-                                      await contractorJobController
-                                          .getAllHired();
-                                      await contractorChatController.getRooms();
+                                      contractorJobController.getAllJobs();
+                                      contractorJobController.getAllHired();
+                                      await contractorJobController.getAllBids();
+                                      contractorChatController.getRooms();
                                       Get.delete<LoginScreenController>(
                                         force: true,
                                       );

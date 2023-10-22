@@ -72,9 +72,10 @@ class StartUpScreen extends StatelessWidget {
           permanent: true,
         );
         await contractorJobController.getJobs();
-        await contractorJobController.getAllJobs();
-        await contractorJobController.getAllHired();
-        await contractorChatController.getRooms();
+        contractorJobController.getAllJobs();
+        contractorJobController.getAllHired();
+        await contractorJobController.getAllBids();
+        contractorChatController.getRooms();
         Get.off(() => ClientDashboardScreen());
       } else {
         Get.off(() => LoginScreen());

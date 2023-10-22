@@ -2,7 +2,8 @@ class Endpoints {
   static const Map<String, String> jsonHeader = {
     'Content-Type': 'application/json'
   };
-  static const String baseUrl = 'https://civil.orgosys.com/v1';
+  static const String domain = 'civil.orgosys.com';
+  static const String baseUrl = 'https://$domain/v1';
   static const String labourUrl = '$baseUrl/labour';
   static const String contractorUrl = '$baseUrl/contractor';
   static const String labourLogin = '$labourUrl/login';
@@ -29,9 +30,11 @@ class Endpoints {
   static const String labourChat = '$labourUrl/chat';
   static const String labourGetRooms = '$labourChat/room';
   static const String labourGetMessages = '$labourChat/message';
-  static const String labourChatStream = 'wss://civil.orgosys.com/v1/ws/labour/chat';
+  static const String labourChatStream =
+      'wss://civil.orgosys.com/v1/ws/labour/chat';
   static const String contractorChat = '$contractorUrl/chat';
   static const String contractorGetRooms = '$contractorChat/room';
   static const String contractorGetMessages = '$contractorChat/message';
-  static const String contractorChatStream = 'wss://civil.orgosys.com/v1/ws/contractor/chat';
+  static const String contractorChatStream =
+      'wss://civil.orgosys.com/v1/ws/contractor/chat';
 }

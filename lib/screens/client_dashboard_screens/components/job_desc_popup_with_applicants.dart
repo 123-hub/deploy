@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/models/job.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/applicant_desc_popup.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/bidder_desc_popup.dart';
 import 'package:flutter_project_labour_app/screens/common/job_desc_tile.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
@@ -151,43 +152,105 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
               height: 19.h,
             ),
             Text(
-              'Applicants',
+              'Labour Applicants',
               style: gilroy12_600.copyWith(color: jobDescTileTextGrey),
             ),
             SizedBox(
               height: 20.h,
             ),
             Obx(
-              () => contractorJobController.isLoading.value
+              () => contractorJobController.isApplicantsLoading.value
                   ? const CircularProgressIndicator(
                       color: primaryRed,
                     )
-                  : ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount:
-                          contractorJobController.currentApplicants.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          onTap: () {
-                            applicantDescriptionPopUp(
-                              context,
-                              contractorJobController.currentApplicants[index],
-                              job.id,
-                              contractorJobController,
+                  : contractorJobController.currentApplicants.isEmpty
+                      ? Text(
+                          "No applicants",
+                          style:
+                              gilroy12_600.copyWith(color: jobDescTileTextGrey),
+                        )
+                      : ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount:
+                              contractorJobController.currentApplicants.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              onTap: () {
+                                applicantDescriptionPopUp(
+                                  context,
+                                  contractorJobController
+                                      .currentApplicants[index],
+                                  job.id,
+                                  contractorJobController,
+                                );
+                              },
+                              leading: const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/profile_2.png'),
+                              ),
+                              title: Text(
+                                  '${contractorJobController.currentApplicants[index].firstName} ${contractorJobController.currentApplicants[index].lastName}'),
+                              subtitle: Text(contractorJobController
+                                  .currentApplicants[index].email),
                             );
                           },
-                          leading: const CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/profile_2.png'),
-                          ),
-                          title: Text(
-                              '${contractorJobController.currentApplicants[index].firstName} ${contractorJobController.currentApplicants[index].lastName}'),
-                          subtitle: Text(contractorJobController
-                              .currentApplicants[index].email),
-                        );
-                      },
-                    ),
+                        ),
+            ),
+            SizedBox(
+              height: 21.h,
+            ),
+            const Divider(),
+            SizedBox(
+              height: 19.h,
+            ),
+            Text(
+              'Bidders',
+              style: gilroy12_600.copyWith(color: jobDescTileTextGrey),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Obx(
+              () => contractorJobController.isApplicantsLoading.value
+                  ? const CircularProgressIndicator(
+                      color: primaryRed,
+                    )
+                  : contractorJobController.currentBidders.isEmpty
+                      ? Text(
+                          "No Bidders",
+                          style:
+                              gilroy12_600.copyWith(color: jobDescTileTextGrey),
+                        )
+                      : ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount:
+                              contractorJobController.currentBidders.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              onTap: () {
+                                bidderDescriptionPopUp(context, contractorJobController.currentBidders[index], job.id,
+                                    contractorJobController);
+                              },
+                              leading: const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/images/profile_2.png'),
+                              ),
+                              title: Text(
+                                '${contractorJobController.currentBidders[index].firstName} ${contractorJobController.currentBidders[index].lastName}',
+                              ),
+                              subtitle: Text(contractorJobController
+                                  .currentBidders[index].email),
+                              trailing: Text(
+                                '\$${contractorJobController.currentBidders[index].biddingAmount}',
+                                style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            );
+                          },
+                        ),
             ),
             SizedBox(
               height: 30.h,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/models/experience.dart';
@@ -171,6 +172,7 @@ class LabourProfileController extends GetxController {
     if (token == null) {
       return false;
     }
+    log(jsonEncode(labourProfile.toJson().toString()));
     var response = await http.patch(
       Uri.parse(Endpoints.labourProfile),
       headers: {
@@ -183,6 +185,7 @@ class LabourProfileController extends GetxController {
       _onUpdate(response.body);
       return true;
     } else {
+      print('${response.statusCode} ${response.body}');
       return false;
     }
   }

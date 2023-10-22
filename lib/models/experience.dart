@@ -12,8 +12,8 @@ class Experience {
     required this.createdAt,
     required this.updatedAt,
   });
-  late int? id;
-  late int? labourId;
+  late int id;
+  late int labourId;
   late String position;
   late String companyName;
   late String description;
