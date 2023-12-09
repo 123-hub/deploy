@@ -9,13 +9,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Future<dynamic> addContractorProfileDocument(
-    BuildContext context, ContractorProfileController controller) {
+    BuildContext context, ContractorProfileController controller,
+    {ContractorDocument? document}) {
   var formKey = GlobalKey<FormState>();
   var ownerDrivingLicenseTextController = TextEditingController();
   var insuranceLiabilityTextController = TextEditingController();
   var wcbDocumentTextController = TextEditingController();
   var businessLicenseTextController = TextEditingController();
   var documentUrlTextController = TextEditingController();
+  if (document != null) {
+    ownerDrivingLicenseTextController.text = document.ownerDrivingLicense;
+    insuranceLiabilityTextController.text = document.insuranceLiability;
+    wcbDocumentTextController.text = document.wcbDocument;
+    businessLicenseTextController.text = document.businessLicense;
+    documentUrlTextController.text = document.documentUrl;
+  }
 
   return showModalBottomSheet(
     showDragHandle: true,
@@ -40,7 +48,7 @@ Future<dynamic> addContractorProfileDocument(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Add Document',
+                document != null ? 'Update Document' : 'Add Document',
                 style: authHeading,
               ),
               SizedBox(
@@ -87,27 +95,42 @@ Future<dynamic> addContractorProfileDocument(
                 height: 20.h,
               ),
               LongButton(
-                text: 'Add Document',
+                text: document != null ? 'Update Document' : 'Add Document',
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     debugPrint('Valid');
-                    var document = ContractorDocument(
-                      ownerDrivingLicense:
-                          ownerDrivingLicenseTextController.text,
-                      insuranceLiability: insuranceLiabilityTextController.text,
-                      wcbDocument: wcbDocumentTextController.text,
-                      businessLicense: businessLicenseTextController.text,
-                      documentUrl: documentUrlTextController.text,
-                      id: 0,
-                      contractorId: controller.contractorProfile.value!.id,
-                      createdAt: null,
-                      updatedAt: null,
-                    );
-                    debugPrint(document.toJson().toString());
-                    var added = controller.addDocument(document);
-                    if (added) {
+                    if (document != null) {
+                      controller.deleteDocument(document);
+                      document.businessLicense =
+                          businessLicenseTextController.text;
+                      document.insuranceLiability =
+                          insuranceLiabilityTextController.text;
+                      document.ownerDrivingLicense =
+                          ownerDrivingLicenseTextController.text;
+                      document.wcbDocument = wcbDocumentTextController.text;
+                      document.documentUrl = documentUrlTextController.text;
+                      controller.addDocument(document);
                       Get.back();
+                    } else {
+                      var document = ContractorDocument(
+                        ownerDrivingLicense:
+                            ownerDrivingLicenseTextController.text,
+                        insuranceLiability:
+                            insuranceLiabilityTextController.text,
+                        wcbDocument: wcbDocumentTextController.text,
+                        businessLicense: businessLicenseTextController.text,
+                        documentUrl: documentUrlTextController.text,
+                        id: 0,
+                        contractorId: controller.contractorProfile.value!.id,
+                        createdAt: null,
+                        updatedAt: null,
+                      );
+                      debugPrint(document.toJson().toString());
+                      var added = controller.addDocument(document);
+                      if (added) {
+                        Get.back();
+                      }
                     }
                   }
                 },

@@ -12,8 +12,8 @@ Future<dynamic> contractorJobFilter(
 ) {
   var skillTextController = TextEditingController();
   var locationTextController = TextEditingController();
-  locationTextController.text = controller.filterLocation;
   List<String> skills = [...controller.filterSkills];
+  List<String> locations = [...controller.filterLocations];
 
   return showModalBottomSheet(
     showDragHandle: true,
@@ -118,22 +118,59 @@ Future<dynamic> contractorJobFilter(
                   SizedBox(
                     height: 15.h,
                   ),
-                  SizedBox(
-                    height: 45.h,
-                    child: TextField(
-                      controller: locationTextController,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: searchBarColor,
-                        hintText: 'Type To Search for location',
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 20.w, vertical: 10.h),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(11.r),
-                          borderSide: BorderSide.none, // No border
-                        ),
+                  TextField(
+                    textInputAction: TextInputAction.go,
+                    controller: locationTextController,
+                    onSubmitted: (String? value) {
+                      if (value != null && value.trim().isNotEmpty) {
+                        myState(() {
+                          locations.add(value);
+                          locationTextController.clear();
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: searchBarColor,
+                      hintText: 'Enter Locations',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.arrow_forward),
+                        onPressed: () {
+                          var value = locationTextController.text;
+                          if (value.isNotEmpty) {
+                            myState(() {
+                              locations.add(value);
+                              locationTextController.clear();
+                            });
+                          }
+                        },
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(11.r),
+                        borderSide: BorderSide.none, // No border
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    direction: Axis.horizontal,
+                    spacing: 10,
+                    children: locations
+                        .map(
+                          (String element) => SkillCapsule(
+                            name: element,
+                            onDelete: () {
+                              myState(() {
+                                locations.remove(element);
+                              });
+                            },
+                          ),
+                        )
+                        .toList(),
                   ),
                   SizedBox(
                     height: 24.h,
@@ -142,9 +179,7 @@ Future<dynamic> contractorJobFilter(
                     text: 'Apply filters',
                     onPressed: () {
                       controller.filterSkills.value = skills;
-                      var location = locationTextController.text.trim();
-                      controller.filterLocation =
-                          location.isEmpty ? '' : location;
+                      controller.filterLocations.value = locations;
                       controller.applyFilter();
                       Navigator.pop(context);
                     },

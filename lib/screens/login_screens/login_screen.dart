@@ -16,8 +16,6 @@ import 'package:flutter_project_labour_app/screens/common/progress_hud.dart';
 import 'package:flutter_project_labour_app/screens/common/role_drop_down_menu.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/role_signup_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
-import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_button.dart';
-import 'package:flutter_project_labour_app/screens/login_screens/components/social_login_divider.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_project_labour_app/util/snackbars.dart';
@@ -62,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                             height: 6.h,
                           ),
                           Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing',
+                            'Unlock a World of Labor Opportunities',
                             style: subtitle.copyWith(color: subtitleGrey),
                           ),
                           SizedBox(
@@ -213,7 +211,8 @@ class LoginScreen extends StatelessWidget {
                                       await contractorJobController.getJobs();
                                       contractorJobController.getAllJobs();
                                       contractorJobController.getAllHired();
-                                      await contractorJobController.getAllBids();
+                                      await contractorJobController
+                                          .getAllBids();
                                       contractorChatController.getRooms();
                                       Get.delete<LoginScreenController>(
                                         force: true,
@@ -235,23 +234,23 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(
                             height: 26.h,
                           ),
-                          const SocialLoginDivider(),
-                          SizedBox(
-                            height: 23.h,
-                          ),
-                          const SocialLoginButton(
-                            name: 'Google',
-                            color: Colors.black,
-                            image: 'assets/images/google.png',
-                          ),
-                          SizedBox(
-                            height: 12.h,
-                          ),
-                          const SocialLoginButton(
-                            name: 'Facebook',
-                            color: Color(0xFF3C5A9A),
-                            image: 'assets/images/facebook.png',
-                          ),
+                          // const SocialLoginDivider(),
+                          // SizedBox(
+                          //   height: 23.h,
+                          // ),
+                          // const SocialLoginButton(
+                          //   name: 'Google',
+                          //   color: Colors.black,
+                          //   image: 'assets/images/google.png',
+                          // ),
+                          // SizedBox(
+                          //   height: 12.h,
+                          // ),
+                          // const SocialLoginButton(
+                          //   name: 'Facebook',
+                          //   color: Color(0xFF3C5A9A),
+                          //   image: 'assets/images/facebook.png',
+                          // ),
                         ],
                       ),
                     ),

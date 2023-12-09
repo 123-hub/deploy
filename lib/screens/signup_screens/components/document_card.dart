@@ -9,33 +9,38 @@ class DocumentCard extends StatelessWidget {
     super.key,
     required this.documentModel,
     required this.onDelete,
+    this.onClick,
   });
 
   final DocumentModel documentModel;
   final VoidCallback onDelete;
+  final VoidCallback? onClick;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.h),
-        child: ListTile(
-          title: Text(
-            documentModel.documentName,
-            style: authInfoHeading,
-          ),
-          subtitle: Text(
-            documentModel.description,
-            style: subtitle.copyWith(color: cardSubtitle),
-          ),
-          trailing: InkWell(
-            onTap: onDelete,
-            child: const Icon(
-              Icons.delete_outline,
-              color: Colors.black,
+    return GestureDetector(
+      onTap: onClick,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          child: ListTile(
+            title: Text(
+              documentModel.documentName,
+              style: authInfoHeading,
+            ),
+            subtitle: Text(
+              documentModel.description,
+              style: subtitle.copyWith(color: cardSubtitle),
+            ),
+            trailing: InkWell(
+              onTap: onDelete,
+              child: const Icon(
+                Icons.delete_outline,
+                color: Colors.black,
+              ),
             ),
           ),
         ),

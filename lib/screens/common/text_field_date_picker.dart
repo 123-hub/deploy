@@ -22,7 +22,7 @@ class TextFieldDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       readOnly: true,
       

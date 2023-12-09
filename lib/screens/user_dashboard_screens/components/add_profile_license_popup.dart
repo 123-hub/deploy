@@ -6,12 +6,14 @@ import 'package:flutter_project_labour_app/screens/common/text_field_date_picker
 import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 Future<dynamic> addProfileLicensePopUp(
-    BuildContext context, LabourProfileController controller) {
+    BuildContext context, LabourProfileController controller,
+    {License? license}) {
   var formKey = GlobalKey<FormState>();
   var licenseNameTextController = TextEditingController();
   var expiryDateTextController = TextEditingController();
@@ -21,6 +23,16 @@ Future<dynamic> addProfileLicensePopUp(
   var startDate = DateTime.now();
   var endDate = DateTime.now();
   var expiryDate = DateTime.now();
+  if (license != null) {
+    licenseNameTextController.text = license.licenseName;
+    descriptionTextController.text = license.description;
+    startDate = DateTime.parse(license.from);
+    endDate = DateTime.parse(license.to);
+    expiryDate = DateTime.parse(license.expiryDate);
+    startDateTextController.text = DateFormat('dd/MM/yyyy').format(startDate);
+    endDateTextController.text = DateFormat('dd/MM/yyyy').format(endDate);
+    expiryDateTextController.text = DateFormat('dd/MM/yyyy').format(expiryDate);
+  }
 
   return showModalBottomSheet(
     showDragHandle: true,
@@ -45,7 +57,7 @@ Future<dynamic> addProfileLicensePopUp(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Add License',
+                license != null ? 'Update License' : 'Add License',
                 style: authHeading,
               ),
               SizedBox(
@@ -113,7 +125,7 @@ Future<dynamic> addProfileLicensePopUp(
                 height: 20.h,
               ),
               LongButton(
-                text: 'Add License',
+                text: license != null ? 'Update License' : 'Add License',
                 onPressed: () {
                   if (formKey.currentState!.validate() &&
                       startDateTextController.text.isNotEmpty &&
@@ -121,21 +133,45 @@ Future<dynamic> addProfileLicensePopUp(
                       expiryDateTextController.text.isNotEmpty) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     debugPrint('Valid');
-                    var license = License(
-                      licenseName: licenseNameTextController.text,
-                      description: descriptionTextController.text,
-                      from: startDate.toString(),
-                      to: endDate.toString(),
-                      expiryDate: expiryDate.toString(),
-                      id: 0,
-                      createdAt: null,
-                      updatedAt: null,
-                      labourId: controller.labourProfile.value!.id,
-                    );
-                    var added = controller.addLicense(license);
-                    if (added) {
-                      debugPrint(license.toJson().toString());
-                      Get.back();
+                    if (startDate.isBefore(endDate)) {
+                      if (endDate.isBefore(expiryDate)) {
+                        if (license != null) {
+                          controller.deleteLicense(license);
+                          license.licenseName = licenseNameTextController.text;
+                          license.description = descriptionTextController.text;
+                          license.from =
+                              '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(startDate)}Z';
+                          license.to =
+                              '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(endDate)}Z';
+                          license.expiryDate =
+                              '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(expiryDate)}Z';
+                          controller.addLicense(license);
+                          Get.back();
+                        } else {
+                          var lic = License(
+                            licenseName: licenseNameTextController.text,
+                            description: descriptionTextController.text,
+                            from: startDate.toString(),
+                            to: endDate.toString(),
+                            expiryDate: expiryDate.toString(),
+                            id: 0,
+                            createdAt: null,
+                            updatedAt: null,
+                            labourId: controller.labourProfile.value!.id,
+                          );
+                          var added = controller.addLicense(lic);
+                          if (added) {
+                            debugPrint(lic.toJson().toString());
+                            Get.back();
+                          }
+                        }
+                      } else {
+                        showErrorSnackBar(
+                          "End date must be before license expire date",
+                        );
+                      }
+                    } else {
+                      showErrorSnackBar("Start date must be before end date");
                     }
                   }
                 },

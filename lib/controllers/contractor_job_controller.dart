@@ -17,6 +17,7 @@ class ContractorJobController extends GetxController {
   var duration = Rx<String?>(null);
   var skills = <String>[].obs;
   var filterSkills = <String>[].obs;
+  var filterLocations = <String>[].obs;
   var myJobs = <Job>[].obs;
   var allJobs = <Job>[].obs;
   var allJobsFiltered = <Job>[].obs;
@@ -25,7 +26,6 @@ class ContractorJobController extends GetxController {
   var currentBidders = <Bidder>[].obs;
   var recentHires = <LabourProfile>[].obs;
   var allBids = <BidedJob>[].obs;
-  String filterLocation = '';
   String searchString = '';
   Rx<PaginationModel?> paginationData = Rx<PaginationModel?>(null);
   ScrollController scrollController = ScrollController();
@@ -256,7 +256,9 @@ class ContractorJobController extends GetxController {
       return false;
     }
     var response = await http.get(
-      Uri.parse('${Endpoints.contractorAllJobs}?limit=5&page=1'),
+      Uri.parse(
+        '${Endpoints.contractorAllJobs}?limit=10&page=1&get_expired_job=false',
+      ),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode < 299) {
@@ -284,14 +286,16 @@ class ContractorJobController extends GetxController {
       return false;
     }
     Map<String, dynamic> params = {
-      'limit': '5',
-      'page': (paginationData.value!.page + 1).toString()
+      'limit': '10',
+      'page': (paginationData.value!.page + 1).toString(),
+      'get_expired_job': false
     };
     if (searchString.isNotEmpty) {
-      params['query'] = searchString;
+      params['query'] = '%$searchString%';
     }
-    if (filterLocation.isNotEmpty) {
-      params['query'] = filterLocation;
+    if (filterLocations.isNotEmpty) {
+      params['locations'] = params['locations'] =
+          filterLocations.map((element) => '%$element%').join(",");
     }
     if (filterSkills.isNotEmpty) {
       params['skills'] = filterSkills.join(',');
@@ -322,12 +326,17 @@ class ContractorJobController extends GetxController {
     if (token == null) {
       return false;
     }
-    Map<String, dynamic> params = {'limit': '5', 'page': '1'};
+    Map<String, dynamic> params = {
+      'limit': '10',
+      'page': '1',
+      'get_expired_job': false,
+    };
     if (searchString.isNotEmpty) {
-      params['query'] = searchString;
+      params['query'] = '%$searchString%';
     }
-    if (filterLocation.isNotEmpty) {
-      params['query'] = filterLocation;
+    if (filterLocations.isNotEmpty) {
+      params['locations'] = params['locations'] =
+          filterLocations.map((element) => '%$element%').join(",");
     }
     if (filterSkills.isNotEmpty) {
       params['skills'] = filterSkills.join(',');
@@ -499,19 +508,24 @@ class ContractorJobController extends GetxController {
         var datas = body['data'] as List;
         allHired.clear();
         for (var data in datas) {
-          var job = Job.fromJson(data['job']);
-          var hires = LabourProfile.fromJson(data['labour']);
-          if (allHired.containsKey(job.id)) {
-            allHired[job.id]!.add(hires);
-          } else {
-            allHired[job.id] = [hires];
+          try {
+            var job = Job.fromJson(data['job']);
+            var hires = LabourProfile.fromJson(data['labour']);
+            if (allHired.containsKey(job.id)) {
+              allHired[job.id]!.add(hires);
+            } else {
+              allHired[job.id] = [hires];
+            }
+          } catch (e) {
+            debugPrint(e.toString());
           }
         }
       }
       notifyChildrens();
-      for (var items in allHired.entries) {
-        debugPrint('${items.key}: ${items.value.map((e) => e.id).toList()}');
-      }
+      // for (var items in allHired.entries) {
+      //   debugPrint('${items.key}: ${items.value.map((e) => e.id).toList()}');
+      // }
+      debugPrint('all hired: ${allHired.string}');
       return true;
     } else {
       return false;

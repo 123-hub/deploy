@@ -9,11 +9,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Future<dynamic> addProfileDocumentPopup(
-    BuildContext context, LabourProfileController controller) {
+  BuildContext context,
+  LabourProfileController controller, {
+  Document? document,
+}) {
   var formKey = GlobalKey<FormState>();
   var documentNameTextController = TextEditingController();
   var documentURLTextController = TextEditingController();
   var descriptionTextController = TextEditingController();
+  if (document != null) {
+    documentNameTextController.text = document.documentName;
+    documentURLTextController.text = document.documentUrl;
+    descriptionTextController.text = document.description;
+  }
 
   return showModalBottomSheet(
     showDragHandle: true,
@@ -38,7 +46,7 @@ Future<dynamic> addProfileDocumentPopup(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Add Document',
+                document != null ? 'Update Document' : 'Add Document',
                 style: authHeading,
               ),
               SizedBox(
@@ -69,24 +77,33 @@ Future<dynamic> addProfileDocumentPopup(
                 height: 20.h,
               ),
               LongButton(
-                text: 'Add Document',
+                text: document != null ? 'Update Document' : 'Add Document',
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     debugPrint('Valid');
-                    var document = Document(
-                      documentName: documentNameTextController.text,
-                      documentUrl: documentURLTextController.text,
-                      description: descriptionTextController.text,
-                      createdAt: null,
-                      id: 0,
-                      updatedAt: null,
-                      labourId: controller.labourProfile.value!.id,
-                    );
-                    debugPrint(document.toJson().toString());
-                    var added = controller.addDocument(document);
-                    if (added) {
+                    if (document != null) {
+                      controller.deleteDocument(document);
+                      document.documentName = documentNameTextController.text;
+                      document.documentUrl = documentURLTextController.text;
+                      document.description = descriptionTextController.text;
+                      controller.addDocument(document);
                       Get.back();
+                    } else {
+                      var doc = Document(
+                        documentName: documentNameTextController.text,
+                        documentUrl: documentURLTextController.text,
+                        description: descriptionTextController.text,
+                        createdAt: null,
+                        id: 0,
+                        updatedAt: null,
+                        labourId: controller.labourProfile.value!.id,
+                      );
+                      debugPrint(doc.toJson().toString());
+                      var added = controller.addDocument(doc);
+                      if (added) {
+                        Get.back();
+                      }
                     }
                   }
                 },

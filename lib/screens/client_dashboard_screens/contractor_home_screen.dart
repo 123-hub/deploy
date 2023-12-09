@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
-import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/client_empty_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/contractor_job_card.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/job_desc_popup_with_applicants.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/helper_screens/update_job_screen.dart';
 import 'package:flutter_project_labour_app/screens/common/progress_hud.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/home_screen_appbar.dart';
-import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:focused_menu/focused_menu.dart';

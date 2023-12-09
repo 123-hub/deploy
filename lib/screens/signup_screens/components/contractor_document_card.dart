@@ -9,48 +9,53 @@ class ContractorDocumentCard extends StatelessWidget {
     super.key,
     required this.documentModel,
     required this.onDelete,
+    this.onTap,
   });
 
   final ContractorDocumentModel documentModel;
   final VoidCallback onDelete;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.h),
-        child: ListTile(
-          title: Text(
-            documentModel.ownerDrivingLicense,
-            style: authInfoHeading,
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 5.h,
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          child: ListTile(
+            title: Text(
+              documentModel.ownerDrivingLicense,
+              style: authInfoHeading,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 5.h,
+                ),
+                Text(
+                  documentModel.insuranceLiability,
+                  style: subtitle.copyWith(color: cardSubtitle),
+                ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Text(
+                  documentModel.businessLicense,
+                  style: subtitle.copyWith(color: cardSubtitle),
+                ),
+              ],
+            ),
+            trailing: InkWell(
+              onTap: onDelete,
+              child: const Icon(
+                Icons.delete_outline,
+                color: Colors.black,
               ),
-              Text(
-                documentModel.insuranceLiability,
-                style: subtitle.copyWith(color: cardSubtitle),
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              Text(
-                documentModel.businessLicense,
-                style: subtitle.copyWith(color: cardSubtitle),
-              ),
-            ],
-          ),
-          trailing: InkWell(
-            onTap: onDelete,
-            child: const Icon(
-              Icons.delete_outline,
-              color: Colors.black,
             ),
           ),
         ),

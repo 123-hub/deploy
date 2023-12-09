@@ -6,12 +6,14 @@ import 'package:flutter_project_labour_app/screens/common/text_field_date_picker
 import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 Future<dynamic> addProfileExperiencePopup(
-    BuildContext context, LabourProfileController controller) {
+    BuildContext context, LabourProfileController controller,
+    {Experience? experience}) {
   var formKey = GlobalKey<FormState>();
   var positionTextController = TextEditingController();
   var companyNameTextController = TextEditingController();
@@ -20,6 +22,15 @@ Future<dynamic> addProfileExperiencePopup(
   var endDateTextController = TextEditingController();
   var startDate = DateTime.now();
   var endDate = DateTime.now();
+  if (experience != null) {
+    positionTextController.text = experience.position;
+    companyNameTextController.text = experience.companyName;
+    descriptionTextController.text = experience.description;
+    startDate = DateTime.parse(experience.from);
+    endDate = DateTime.parse(experience.to);
+    startDateTextController.text = DateFormat('dd/MM/yyyy').format(startDate);
+    endDateTextController.text = DateFormat('dd/MM/yyyy').format(endDate);
+  }
 
   return showModalBottomSheet(
     showDragHandle: true,
@@ -44,7 +55,7 @@ Future<dynamic> addProfileExperiencePopup(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Add Experience',
+                experience != null ? 'Update Experience' : 'Add Experience',
                 style: authHeading,
               ),
               SizedBox(
@@ -105,28 +116,46 @@ Future<dynamic> addProfileExperiencePopup(
                 height: 20.h,
               ),
               LongButton(
-                text: 'Add Experience',
+                text: experience != null ? 'Update Experience' : 'Add Experience',
                 onPressed: () {
                   if (formKey.currentState!.validate() &&
                       startDateTextController.text.isNotEmpty &&
                       endDateTextController.text.isNotEmpty) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     debugPrint('Valid');
-                    var experience = Experience(
-                      position: positionTextController.text,
-                      companyName: companyNameTextController.text,
-                      description: descriptionTextController.text,
-                      from: '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(startDate)}Z',
-                      to: '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(endDate)}Z',
-                      id: 0,
-                      createdAt: null,
-                      updatedAt: null,
-                      labourId: controller.labourProfile.value!.id,
-                    );
-                    var added = controller.addExperience(experience);
-                    if (added) {
-                      debugPrint(experience.toJson().toString());
-                      Get.back();
+                    if (startDate.isBefore(endDate)) {
+                      if (experience != null) {
+                        controller.deleteExperience(experience);
+                        experience.position = positionTextController.text;
+                        experience.companyName = companyNameTextController.text;
+                        experience.description = descriptionTextController.text;
+                        experience.from =
+                            '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(startDate)}Z';
+                        experience.to =
+                            '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(endDate)}Z';
+                        controller.addExperience(experience);
+                        Get.back();
+                      } else {
+                        var exp = Experience(
+                          position: positionTextController.text,
+                          companyName: companyNameTextController.text,
+                          description: descriptionTextController.text,
+                          from:
+                              '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(startDate)}Z',
+                          to: '${DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(endDate)}Z',
+                          id: 0,
+                          createdAt: null,
+                          updatedAt: null,
+                          labourId: controller.labourProfile.value!.id,
+                        );
+                        var added = controller.addExperience(exp);
+                        if (added) {
+                          debugPrint(exp.toJson().toString());
+                          Get.back();
+                        }
+                      }
+                    } else {
+                      showErrorSnackBar("start date must be before end date");
                     }
                   }
                 },

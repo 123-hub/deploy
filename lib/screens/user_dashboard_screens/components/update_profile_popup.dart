@@ -107,7 +107,7 @@ Future<dynamic> updateProfilePopUp(
             ),
             SizedBox(
               width: double.infinity,
-              height: 40.h,
+              height: 60.h,
               child: Obx(() {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,8 +118,8 @@ Future<dynamic> updateProfilePopUp(
                           controller.selectDays(i);
                         },
                         child: Container(
-                          height: 35.h,
-                          width: 35.h,
+                          height: 40.w,
+                          width: 40.w,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: controller.days[i]
@@ -132,7 +132,7 @@ Future<dynamic> updateProfilePopUp(
                               days[i],
                               style: TextStyle(
                                 fontFamily: 'Gilroy',
-                                fontSize: 12.sp,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.bold,
                                 color: controller.days[i]
                                     ? Colors.white

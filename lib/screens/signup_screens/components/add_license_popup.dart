@@ -6,6 +6,7 @@ import 'package:flutter_project_labour_app/screens/common/text_field_date_picker
 import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -121,17 +122,27 @@ Future<dynamic> addLicensePopUp(
                       expiryDateTextController.text.isNotEmpty) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     debugPrint('Valid');
-                    var license = LicenseModel(
-                      licenseName: licenseNameTextController.text,
-                      description: descriptionTextController.text,
-                      from: startDate.toString(),
-                      to: endDate.toString(),
-                      expiryDate: expiryDate.toString(),
-                    );
-                    var added = controller.addLicense(license);
-                    if (added) {
-                      debugPrint(license.toJson().toString());
-                      Get.back();
+                    if (startDate.isBefore(endDate)) {
+                      if (endDate.isBefore(expiryDate)) {
+                        var license = LicenseModel(
+                          licenseName: licenseNameTextController.text,
+                          description: descriptionTextController.text,
+                          from: startDate.toString(),
+                          to: endDate.toString(),
+                          expiryDate: expiryDate.toString(),
+                        );
+                        var added = controller.addLicense(license);
+                        if (added) {
+                          debugPrint(license.toJson().toString());
+                          Get.back();
+                        }
+                      } else {
+                        showErrorSnackBar(
+                          "End date must be before expire date",
+                        );
+                      }
+                    } else {
+                      showErrorSnackBar("Start date must be before end date");
                     }
                   }
                 },

@@ -15,7 +15,7 @@ class ApplyJobController extends GetxController {
   RxList<Job> savedJobs = <Job>[].obs;
   RxList<Job> searchedJobs = <Job>[].obs;
   var filterSkills = <String>[].obs;
-  String filterLocation = '';
+  var filterLocations = <String>[].obs;
   String searchString = '';
   Rx<PaginationModel?> paginationData = Rx<PaginationModel?>(null);
   ScrollController scrollController = ScrollController();
@@ -31,9 +31,11 @@ class ApplyJobController extends GetxController {
       return false;
     }
     var response = await http.get(
-      Uri.parse('${Endpoints.labourJob}?limit=5&page=1'),
+      Uri.parse('${Endpoints.labourJob}?limit=10&page=1&get_expired_job=false'),
       headers: {'Authorization': 'Bearer $token'},
     );
+    debugPrint("Get all jobs called");
+    print(response.statusCode);
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
       if (body['data']['jobs'] != null) {
@@ -57,14 +59,16 @@ class ApplyJobController extends GetxController {
       return false;
     }
     Map<String, dynamic> params = {
-      'limit': '5',
-      'page': (paginationData.value!.page + 1).toString()
+      'limit': '10',
+      'page': (paginationData.value!.page + 1).toString(),
+      'get_expired_job': false,
     };
     if (searchString.isNotEmpty) {
-      params['query'] = searchString;
+      params['query'] = '%$searchString%';
     }
-    if (filterLocation.isNotEmpty) {
-      params['query'] = filterLocation;
+    if (filterLocations.isNotEmpty) {
+      params['locations'] = params['locations'] =
+          filterLocations.map((element) => '%$element%').join(",");
     }
     if (filterSkills.isNotEmpty) {
       params['skills'] = filterSkills.join(',');
@@ -95,12 +99,17 @@ class ApplyJobController extends GetxController {
     if (token == null) {
       return false;
     }
-    Map<String, dynamic> params = {'limit': '5', 'page': '1'};
+    Map<String, dynamic> params = {
+      'limit': '10',
+      'page': '1',
+      'get_expired_job': false,
+    };
     if (searchString.isNotEmpty) {
-      params['query'] = searchString;
+      params['query'] = '%$searchString%';
     }
-    if (filterLocation.isNotEmpty) {
-      params['query'] = filterLocation;
+    if (filterLocations.isNotEmpty) {
+      params['locations'] =
+          filterLocations.map((element) => '%$element%').join(",");
     }
     if (filterSkills.isNotEmpty) {
       params['skills'] = filterSkills.join(',');
@@ -179,7 +188,7 @@ class ApplyJobController extends GetxController {
       if (body['data'] != null) {
         var jobs = body['data'] as List;
         appliedJobs.clear();
-        appliedJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+        appliedJobs.addAll(jobs.reversed.map((e) => Job.fromJson(e)));
       }
       return true;
     } else {

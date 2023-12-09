@@ -51,7 +51,7 @@ class LabourExperienceScreen extends StatelessWidget {
                             height: 6.h,
                           ),
                           Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing',
+                            'Fill in your experience for better chances',
                             style: subtitle.copyWith(color: subtitleGrey),
                           ),
                           SizedBox(
@@ -78,7 +78,7 @@ class LabourExperienceScreen extends StatelessWidget {
                                     signupScreenController.experiences[index];
                                 return AddExperienceCard(
                                   experience: exp,
-                                  onTap: () {
+                                  onDelete: () {
                                     signupScreenController
                                         .deleteExperience(exp);
                                   },
@@ -108,7 +108,7 @@ class LabourExperienceScreen extends StatelessWidget {
                                     signupScreenController.licenses[index];
                                 return LabourLicenseCard(
                                   license: lic,
-                                  onTap: () {
+                                  onDelete: () {
                                     signupScreenController.deleteLicense(lic);
                                   },
                                 );

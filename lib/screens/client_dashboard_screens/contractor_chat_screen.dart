@@ -175,8 +175,14 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
                         children: [
                           SizedBox(
                             height: 200,
-                            child: Lottie.network(
-                              'https://lottie.host/dbcfb096-66b6-4464-b07a-92b7ca003d2b/LQy4Grnruh.json',
+                            // child: Lottie.network(
+                            //   'https://lottie.host/dbcfb096-66b6-4464-b07a-92b7ca003d2b/LQy4Grnruh.json',
+                            // ),
+                            child: Lottie.asset(
+                              'assets/animations/loading.json',
+                              repeat: true,
+                              height: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width,
                             ),
                           ),
                           const SizedBox(height: 12),

@@ -6,6 +6,7 @@ import 'package:flutter_project_labour_app/screens/common/text_field_date_picker
 import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -112,17 +113,21 @@ Future<dynamic> addExperiencePopup(
                       endDateTextController.text.isNotEmpty) {
                     FocusManager.instance.primaryFocus?.unfocus();
                     debugPrint('Valid');
-                    var experience = ExperienceModel(
-                      position: positionTextController.text,
-                      companyName: companyNameTextController.text,
-                      description: descriptionTextController.text,
-                      from: startDate.toString(),
-                      to: endDate.toString(),
-                    );
-                    var added = controller.addExperience(experience);
-                    if (added) {
-                      debugPrint(experience.toJson().toString());
-                      Get.back();
+                    if (startDate.isBefore(endDate)) {
+                      var experience = ExperienceModel(
+                        position: positionTextController.text,
+                        companyName: companyNameTextController.text,
+                        description: descriptionTextController.text,
+                        from: startDate.toString(),
+                        to: endDate.toString(),
+                      );
+                      var added = controller.addExperience(experience);
+                      if (added) {
+                        debugPrint(experience.toJson().toString());
+                        Get.back();
+                      }
+                    } else {
+                      showErrorSnackBar("Start date must be before end date");
                     }
                   }
                 },

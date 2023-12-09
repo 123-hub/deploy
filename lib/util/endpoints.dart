@@ -20,9 +20,11 @@ class Endpoints {
   static const String labourJob = '$labourUrl/jobs';
   static const String labourApplyJobs = '$labourUrl/apply-job';
   static const String labourSaveJob = '$labourUrl/save-job';
+  static const String deleteLabourProfileDoc = '$labourUrl/delete/profile-doc';
   static const String contractorJob = '$contractorUrl/job';
   static const String contractorAllJobs = '$contractorUrl/jobs';
   static const String contractorBidding = '$contractorUrl/bidding';
+  static const String deleteContractorProfileDoc = '$contractorUrl/delete/profile-doc';
 
   static const String contractorJobApplicants =
       '$contractorUrl/job-application';

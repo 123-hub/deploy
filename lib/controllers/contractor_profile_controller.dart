@@ -95,6 +95,24 @@ class ContractorProfileController extends GetxController {
     }
   }
 
+  Future<bool> deleteItem(String type, int id) async {
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    changeIsUpdating(true);
+    var response = await http.delete(
+      Uri.parse('${Endpoints.deleteContractorProfileDoc}?id=$id&type=$type'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    changeIsUpdating(false);
+    if (response.statusCode < 299) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void _onUpdate(String response) {
     var body = jsonDecode(response);
     contractorProfile.value = ContractorProfile.fromJson(body['data']);

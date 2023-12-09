@@ -176,8 +176,14 @@ class _LabourChatScreen extends State<LabourChatScreen> {
                         children: [
                           SizedBox(
                             height: 200,
-                            child: Lottie.network(
-                              'https://lottie.host/6bff57cf-c1eb-4b72-ba12-6497ee66710d/zPBJsKYOxb.json',
+                            // child: Lottie.network(
+                            //   'https://lottie.host/6bff57cf-c1eb-4b72-ba12-6497ee66710d/zPBJsKYOxb.json',
+                            // ),
+                            child: Lottie.asset(
+                              'assets/animations/loading.json',
+                              repeat: true,
+                              height: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width,
                             ),
                           ),
                           const SizedBox(height: 12),

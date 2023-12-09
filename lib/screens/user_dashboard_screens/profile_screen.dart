@@ -198,17 +198,28 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount:
-                    profileController.labourProfile.value!.experience.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return WorkExperienceCard(
-                    experience: profileController
-                        .labourProfile.value!.experience[index],
-                  );
-                },
+              profileController.labourProfile.value!.experience.isEmpty
+                  ? Text(
+                      'No Experience Added',
+                      style: tileHeader.copyWith(
+                        color: subtitleGrey,
+                        fontSize: 12.sp,
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: profileController
+                          .labourProfile.value!.experience.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return WorkExperienceCard(
+                          experience: profileController
+                              .labourProfile.value!.experience[index],
+                        );
+                      },
+                    ),
+              SizedBox(
+                height: 15.h,
               ),
               const Divider(),
               SizedBox(
@@ -235,17 +246,28 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount:
-                    profileController.labourProfile.value!.licenses.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return LicenseCard(
-                    license:
-                        profileController.labourProfile.value!.licenses[index],
-                  );
-                },
+              profileController.labourProfile.value!.licenses.isEmpty
+                  ? Text(
+                      'No Licenses Added',
+                      style: tileHeader.copyWith(
+                        color: subtitleGrey,
+                        fontSize: 12.sp,
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: profileController
+                          .labourProfile.value!.licenses.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return LicenseCard(
+                          license: profileController
+                              .labourProfile.value!.licenses[index],
+                        );
+                      },
+                    ),
+              SizedBox(
+                height: 15.h,
               ),
               const Divider(),
               SizedBox(
@@ -272,18 +294,26 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount:
-                    profileController.labourProfile.value!.documents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProfileDocumentCard(
-                    document:
-                        profileController.labourProfile.value!.documents[index],
-                  );
-                },
-              ),
+              profileController.labourProfile.value!.documents.isEmpty
+                  ? Text(
+                      'No Documents Added',
+                      style: tileHeader.copyWith(
+                        color: subtitleGrey,
+                        fontSize: 12.sp,
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: profileController
+                          .labourProfile.value!.documents.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProfileDocumentCard(
+                          document: profileController
+                              .labourProfile.value!.documents[index],
+                        );
+                      },
+                    ),
               SizedBox(
                 height: 20.h,
               ),

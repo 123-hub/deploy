@@ -3,6 +3,7 @@ import 'package:flutter_project_labour_app/controllers/contractor_profile_contro
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/add_contractor_profile_document_popup.dart';
 import 'package:flutter_project_labour_app/screens/common/progress_hud.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/components/contractor_document_card.dart';
+import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_project_labour_app/util/snackbars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -46,20 +47,55 @@ class ContractorUpdateDocumentScreen extends StatelessWidget {
                       height: 20.h,
                     ),
                     Obx(() {
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: profileController.documents.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var doc = profileController.documents[index];
-                          return ContractorDocumentCard(
-                            documentModel: doc.toModel(),
-                            onDelete: () {
-                              profileController.deleteDocument(doc);
-                            },
-                          );
-                        },
-                      );
+                      return profileController.documents.isEmpty
+                          ? SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.80,
+                              width: MediaQuery.of(context).size.width,
+                              child: Center(
+                                child: Text(
+                                  'Add Documents to show here',
+                                  style: authHeading,
+                                ),
+                              ),
+                            )
+                          : ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: profileController.documents.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var doc = profileController.documents[index];
+                                return ContractorDocumentCard(
+                                  documentModel: doc.toModel(),
+                                  onTap: () {
+                                    addContractorProfileDocument(
+                                      context,
+                                      profileController,
+                                      document:
+                                          profileController.documents[index],
+                                    );
+                                  },
+                                  onDelete: () async {
+                                    if (profileController.documents[index].id !=
+                                        0) {
+                                      var deleted =
+                                          await profileController.deleteItem(
+                                        "documents",
+                                        profileController.documents[index].id!,
+                                      );
+                                      if (deleted) {
+                                        profileController.deleteDocument(doc);
+                                      } else {
+                                        showErrorSnackBar(
+                                          "Error Deleting document",
+                                        );
+                                      }
+                                    } else {
+                                      profileController.deleteDocument(doc);
+                                    }
+                                  },
+                                );
+                              },
+                            );
                     }),
                   ],
                 ),

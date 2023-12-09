@@ -193,6 +193,15 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
                                   '${contractorJobController.currentApplicants[index].firstName} ${contractorJobController.currentApplicants[index].lastName}'),
                               subtitle: Text(contractorJobController
                                   .currentApplicants[index].email),
+                              trailing: contractorJobController.isHired(
+                                      job.id,
+                                      contractorJobController
+                                          .currentApplicants[index].id)
+                                  ? const Icon(
+                                      Icons.check_circle,
+                                      color: Colors.green,
+                                    )
+                                  : null,
                             );
                           },
                         ),
@@ -205,7 +214,7 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
               height: 19.h,
             ),
             Text(
-              'Bidders',
+              'Proposer',
               style: gilroy12_600.copyWith(color: jobDescTileTextGrey),
             ),
             SizedBox(
@@ -218,7 +227,7 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
                     )
                   : contractorJobController.currentBidders.isEmpty
                       ? Text(
-                          "No Bidders",
+                          "No Proposers",
                           style:
                               gilroy12_600.copyWith(color: jobDescTileTextGrey),
                         )
@@ -230,7 +239,11 @@ Future<dynamic> contractorJobDescriptionWithApplicantsPopUp(
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               onTap: () {
-                                bidderDescriptionPopUp(context, contractorJobController.currentBidders[index], job.id,
+                                bidderDescriptionPopUp(
+                                    context,
+                                    contractorJobController
+                                        .currentBidders[index],
+                                    job.id,
                                     contractorJobController);
                               },
                               leading: const CircleAvatar(

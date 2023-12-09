@@ -11,8 +11,8 @@ import 'package:flutter_project_labour_app/screens/client_dashboard_screens/clie
 import 'package:flutter_project_labour_app/screens/login_screens/login_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
 import 'package:flutter_project_labour_app/util/storage_access.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class StartUpScreen extends StatelessWidget {
   const StartUpScreen({super.key});
@@ -88,11 +88,15 @@ class StartUpScreen extends StatelessWidget {
     onStartup();
     return Scaffold(
       body: Center(
-        child: Lottie.asset(
-          'assets/animations/loading.json',
-          repeat: true,
-          height: MediaQuery.of(context).size.width,
-          width: MediaQuery.of(context).size.width,
+        // child: Lottie.asset(
+        //   'assets/animations/loading.json',
+        //   repeat: true,
+        //   height: MediaQuery.of(context).size.width,
+        //   width: MediaQuery.of(context).size.width,
+        // ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 60.w),
+          child: Image.asset("assets/images/logo.png"),
         ),
       ),
     );

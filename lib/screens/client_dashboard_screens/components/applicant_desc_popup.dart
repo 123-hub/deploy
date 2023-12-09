@@ -3,7 +3,6 @@ import 'package:flutter_project_labour_app/controllers/contractor_chat_controlle
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/models/labour_profile.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_chat_screen.dart';
-import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_conversation_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/document_card.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/license_card.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/work_experience_card.dart';

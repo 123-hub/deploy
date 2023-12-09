@@ -42,14 +42,14 @@ class ContractorDocumentScreen extends StatelessWidget {
                             height: 30.h,
                           ),
                           Text(
-                            'Experience Details',
+                            'Documents Details',
                             style: authHeading,
                           ),
                           SizedBox(
                             height: 6.h,
                           ),
                           Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing',
+                            'Add documents to prove your authenticity',
                             style: subtitle.copyWith(color: subtitleGrey),
                           ),
                           SizedBox(

@@ -215,17 +215,28 @@ class ClientProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount:
-                    profileController.contractorProfile.value!.documents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ContractorProfileDocumentCard(
-                    document: profileController
-                        .contractorProfile.value!.documents[index],
-                  );
-                },
+              profileController.contractorProfile.value!.documents.isEmpty
+                  ? Text(
+                      'No Documents Added',
+                      style: tileHeader.copyWith(
+                        color: subtitleGrey,
+                        fontSize: 12.sp,
+                      ),
+                    )
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: profileController
+                          .contractorProfile.value!.documents.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ContractorProfileDocumentCard(
+                          document: profileController
+                              .contractorProfile.value!.documents[index],
+                        );
+                      },
+                    ),
+              SizedBox(
+                height: 15.h,
               ),
               const Divider(),
               // Text(

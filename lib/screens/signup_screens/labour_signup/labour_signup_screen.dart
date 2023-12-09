@@ -41,7 +41,7 @@ class LabourSignUpScreen extends StatelessWidget {
                   height: 6.h,
                 ),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing',
+                  'For a better future',
                   style: subtitle.copyWith(color: subtitleGrey),
                 ),
                 SizedBox(

@@ -54,7 +54,7 @@ class AdditionalInfoScreen extends StatelessWidget {
                         height: 6.h,
                       ),
                       Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing',
+                        'Just some more information before you are ready to go',
                         style: subtitle.copyWith(color: subtitleGrey),
                       ),
                       SizedBox(
