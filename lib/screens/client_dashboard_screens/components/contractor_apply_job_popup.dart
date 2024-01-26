@@ -252,7 +252,7 @@ Future<dynamic> contractorApplyJobPopup(
                                         // }
                                         var bidAmountController =
                                             TextEditingController();
-                                        await showDialog<int>(
+                                        await showDialog<bool>(
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
@@ -275,13 +275,39 @@ Future<dynamic> contractorApplyJobPopup(
                                                     height: 40.h,
                                                     child: ElevatedButton(
                                                       onPressed: () async {
-                                                        var amount =
+                                                        // var amount =
+                                                        //     bidAmountController
+                                                        //         .text
+                                                        //         .trim();
+                                                        // if (amount.isNotEmpty) {
+                                                        //   Navigator.pop(
+                                                        //     context,
+                                                        //   );
+                                                        // }
+                                                        Navigator.pop(
+                                                            context, true);
+                                                        applyJobController
+                                                            .changeIsApplying(
+                                                                true);
+                                                        var result =
+                                                            await applyJobController
+                                                                .bid(
+                                                          job.id,
+                                                          int.parse(
                                                             bidAmountController
                                                                 .text
-                                                                .trim();
-                                                        if (amount.isNotEmpty) {
-                                                          Navigator.pop(
-                                                            context,
+                                                                .trim(),
+                                                          ),
+                                                        );
+                                                        applyJobController
+                                                            .changeIsApplying(
+                                                                false);
+                                                        if (result) {
+                                                          showDoneSnackBar(
+                                                              "Bid registered");
+                                                        } else {
+                                                          showErrorSnackBar(
+                                                            "Was not able to apply",
                                                           );
                                                         }
                                                       },
@@ -305,29 +331,14 @@ Future<dynamic> contractorApplyJobPopup(
                                             );
                                           },
                                         );
-                                        if (bidAmountController.text
-                                            .trim()
-                                            .isNotEmpty) {
-                                          applyJobController
-                                              .changeIsApplying(true);
-                                          var result =
-                                              await applyJobController.bid(
-                                            job.id,
-                                            int.parse(
-                                              bidAmountController.text.trim(),
-                                            ),
-                                          );
-                                          applyJobController
-                                              .changeIsApplying(false);
-                                          if (result) {
-                                            Navigator.pop(context);
-                                            showDoneSnackBar("Bid registered");
-                                          } else {
-                                            showErrorSnackBar(
-                                              "Was not able to apply",
-                                            );
-                                          }
-                                        }
+                                        // if (result != null) {
+                                        //   Navigator.pop(context);
+                                        // }
+                                        // if (bidAmountController.text
+                                        //     .trim()
+                                        //     .isNotEmpty) {
+
+                                        // }
                                       } else {
                                         showErrorSnackBar(
                                           'Job Unavailable to apply',
@@ -364,5 +375,3 @@ Future<dynamic> contractorApplyJobPopup(
     ),
   );
 }
-
-

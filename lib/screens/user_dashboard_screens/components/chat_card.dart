@@ -6,10 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class ChatCard extends StatelessWidget {
-  const ChatCard({super.key, required this.room, required this.onTap, required this.isContractor});
+  const ChatCard(
+      {super.key,
+      required this.room,
+      required this.onTap,
+      required this.isOrganizer});
 
   final Room room;
-  final bool isContractor;
+  final bool isOrganizer;
   final VoidCallback onTap;
 
   @override
@@ -44,7 +48,9 @@ class ChatCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              isContractor ? room.labourName : room.contractorName,
+                              isOrganizer
+                                  ? room.joinerName
+                                  : room.organizerName,
                               style: authInfoHeading,
                             ),
                             Text(

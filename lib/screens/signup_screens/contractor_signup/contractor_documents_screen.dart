@@ -59,7 +59,9 @@ class ContractorDocumentScreen extends StatelessWidget {
                             title: 'Add Document',
                             onTap: () {
                               contractorAddDocumentPopup(
-                                  context, contractorSignUpScreenController);
+                                context,
+                                contractorSignUpScreenController,
+                              );
                             },
                           ),
                           SizedBox(

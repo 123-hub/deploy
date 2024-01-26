@@ -37,7 +37,7 @@ class SignUpComplete extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor el sa incididunt ut labore et dolore magna aliqua.',
+                      'All steps for Sign up has been completed and now you are a valid user of this platform, and can access all features here without any restrictions',
                       style:
                           authInfoHeading.copyWith(color: allSetPageTextColor),
                       textAlign: TextAlign.center,

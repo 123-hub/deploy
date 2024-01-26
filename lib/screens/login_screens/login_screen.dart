@@ -14,6 +14,7 @@ import 'package:flutter_project_labour_app/screens/common/auth_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/screens/common/progress_hud.dart';
 import 'package:flutter_project_labour_app/screens/common/role_drop_down_menu.dart';
+import 'package:flutter_project_labour_app/screens/forgot_password/forget_password_role.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/role_signup_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/dashboard_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
@@ -120,7 +121,7 @@ class LoginScreen extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
-                                showErrorSnackBar("Feature coming soon");
+                                Get.to(() => ForgetPasswordRole());
                               },
                               child: Text(
                                 'Forgot Password?',

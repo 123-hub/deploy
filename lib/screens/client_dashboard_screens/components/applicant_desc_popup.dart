@@ -263,12 +263,13 @@ Future<dynamic> applicantDescriptionPopUp(
                           ),
                           onPressed: () async {
                             var room =
-                                await chatController.createRooms(profile.id);
+                                await chatController.createChatRoom(profile.id, 'labour');
                             if (room != null) {
                               Navigator.pop(context);
                               Get.to(
                                 () => ContractorChatScreen(
                                   room: room,
+                                  isOrganizer: true,
                                 ),
                               );
                             } else {

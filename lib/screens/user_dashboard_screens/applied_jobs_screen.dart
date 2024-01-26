@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_project_labour_app/controllers/apply_job_controller.dart';
+import 'package:flutter_project_labour_app/controllers/labour_dashboard_controller.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/search_jobs_textfield.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/applied_job_popup.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/back_appbar.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/empty_screen.dart';
@@ -12,8 +14,8 @@ import 'package:get/get.dart';
 class AppliedJobsScreen extends StatelessWidget {
   AppliedJobsScreen({super.key});
 
-  final searchTextController = TextEditingController();
   final applyJobController = Get.find<ApplyJobController>();
+  final dashBoardController = Get.find<LabourDashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,12 @@ class AppliedJobsScreen extends StatelessWidget {
                       SizedBox(
                         height: 27.h,
                       ),
-                      JobSearchBar(
-                        searchTextController: searchTextController,
-                        readOnly: false,
+                      JobSearchTextField(
+                        onSearch: (String? value) {
+                          if (value != null) {
+                            applyJobController.searchAppliedJobs(value);
+                          }
+                        },
                       ),
                       SizedBox(
                         height: 17.h,
@@ -57,9 +62,9 @@ class AppliedJobsScreen extends StatelessWidget {
                           return ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: applyJobController.appliedJobs.length,
+                            itemCount: applyJobController.appliedJobSearchResult.length,
                             itemBuilder: (BuildContext context, int index) {
-                              var job = applyJobController.appliedJobs[index];
+                              var job = applyJobController.appliedJobSearchResult[index];
                               return JobCardWithoutTag(
                                 job: job,
                                 onTap: () {

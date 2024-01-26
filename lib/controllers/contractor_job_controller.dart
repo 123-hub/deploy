@@ -28,8 +28,11 @@ class ContractorJobController extends GetxController {
   var allBids = <BidedJob>[].obs;
   String searchString = '';
   Rx<PaginationModel?> paginationData = Rx<PaginationModel?>(null);
+  Rx<PaginationModel?> allJobsPaginationData = Rx<PaginationModel?>(null);
   ScrollController scrollController = ScrollController();
+  ScrollController myJobsScrollController = ScrollController();
   var isFetchingJob = false.obs;
+  var isFetchingMyJobs = false.obs;
   final jobNameTextController = TextEditingController();
   final jobTypeTextController = TextEditingController();
   final salaryRangeTextController = TextEditingController();
@@ -236,13 +239,41 @@ class ContractorJobController extends GetxController {
       return false;
     }
     var response = await http.get(
-      Uri.parse(Endpoints.contractorJob),
+      Uri.parse('${Endpoints.contractorJob}?limit=10&page=1'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
-      var jobs = body['data'] as List;
+      var jobs = body['data']['jobs'] as List;
+      allJobsPaginationData(
+          PaginationModel.fromJson(body['data']['pagination']));
       myJobs.clear();
+      myJobs.addAll(jobs.map((e) => Job.fromJson(e)));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> getJobsNextPage() async {
+    if (allJobsPaginationData.value!.page >=
+        allJobsPaginationData.value!.totalPage) {
+      return false;
+    }
+    var token = await StorageAccess.getToken();
+    if (token == null) {
+      return false;
+    }
+    var response = await http.get(
+      Uri.parse(
+          '${Endpoints.contractorJob}?limit=10&page=${allJobsPaginationData.value!.page + 1}'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode < 299) {
+      var body = jsonDecode(response.body);
+      var jobs = body['data']['jobs'] as List;
+      allJobsPaginationData(
+          PaginationModel.fromJson(body['data']['pagination']));
       myJobs.addAll(jobs.map((e) => Job.fromJson(e)));
       return true;
     } else {
@@ -288,7 +319,7 @@ class ContractorJobController extends GetxController {
     Map<String, dynamic> params = {
       'limit': '10',
       'page': (paginationData.value!.page + 1).toString(),
-      'get_expired_job': false
+      'get_expired_job': 'false'
     };
     if (searchString.isNotEmpty) {
       params['query'] = '%$searchString%';
@@ -329,7 +360,7 @@ class ContractorJobController extends GetxController {
     Map<String, dynamic> params = {
       'limit': '10',
       'page': '1',
-      'get_expired_job': false,
+      'get_expired_job': 'false',
     };
     if (searchString.isNotEmpty) {
       params['query'] = '%$searchString%';
@@ -586,6 +617,7 @@ class ContractorJobController extends GetxController {
     );
     if (response.statusCode < 299) {
       await getAllBids();
+      Get.back();
       return true;
     } else {
       return false;

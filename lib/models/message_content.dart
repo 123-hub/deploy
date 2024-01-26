@@ -1,22 +1,22 @@
 class MessageContent {
-  late String labourMessage;
-  late String contractorMessage;
+  late String joinerMessage;
+  late String organizerMessage;
   late DateTime time;
 
   MessageContent.fromJson(json) {
-    labourMessage = json['labour_message'];
-    contractorMessage = json['contractor_message'];
+    joinerMessage = json['joiner_message'];
+    organizerMessage = json['organizer_message'];
     time = DateTime.parse(json['created_at']);
   }
 
   MessageContent({
-    required this.labourMessage,
-    required this.contractorMessage,
+    required this.joinerMessage,
+    required this.organizerMessage,
     required this.time,
   });
 
   @override
   String toString() {
-    return '{labour: $labourMessage, contractor: $contractorMessage, time: $time}';
+    return '{joiner: $joinerMessage, organizer: $organizerMessage, time: $time}';
   }
 }

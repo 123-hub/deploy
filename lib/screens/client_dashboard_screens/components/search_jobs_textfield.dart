@@ -6,15 +6,18 @@ class JobSearchTextField extends StatelessWidget {
   const JobSearchTextField({
     super.key,
     this.onSearch,
+    this.controller,
   });
 
   final ValueChanged<String>? onSearch;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 40,
       child: TextField(
+        controller: controller,
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           filled: true,

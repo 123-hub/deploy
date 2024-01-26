@@ -53,6 +53,7 @@ class _LabourChatScreen extends State<LabourChatScreen> {
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
+      print(body);
       if (body['data'] != null) {
         var jobs = (body['data'] as List);
         var messages = <MessageContent>[];
@@ -99,8 +100,8 @@ class _LabourChatScreen extends State<LabourChatScreen> {
         _messages.insert(
           0,
           MessageContent(
-            labourMessage: "",
-            contractorMessage: data['contractor_message'],
+            joinerMessage: "",
+            organizerMessage: data['contractor_message'],
             time: currentTime,
           ),
         );
@@ -123,8 +124,9 @@ class _LabourChatScreen extends State<LabourChatScreen> {
 
   void _sendMessage() {
     final message = messageTextController.text.trim();
+    print('{"joiner_message": "$message"}');
     if (message.isNotEmpty) {
-      channel!.sink.add('{"labour_message": "$message"}');
+      channel!.sink.add('{"joiner_message": "$message"}');
       messageTextController.clear();
       setState(() {
         var currentTime = DateTime.now();
@@ -132,8 +134,8 @@ class _LabourChatScreen extends State<LabourChatScreen> {
         _messages.insert(
           0,
           MessageContent(
-            labourMessage: message,
-            contractorMessage: "",
+            joinerMessage: message,
+            organizerMessage: "",
             time: currentTime,
           ),
         );
@@ -155,7 +157,7 @@ class _LabourChatScreen extends State<LabourChatScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            widget.room.contractorName,
+            widget.room.organizerName,
             style: authHeading,
           ),
         ),
@@ -204,10 +206,10 @@ class _LabourChatScreen extends State<LabourChatScreen> {
                       controller: _controller,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        if (_messages[index].contractorMessage.length > 0) {
+                        if (_messages[index].organizerMessage.length > 0) {
                           return MessageBubble(
-                            sender: widget.room.contractorName,
-                            text: _messages[index].contractorMessage,
+                            sender: widget.room.organizerName,
+                            text: _messages[index].organizerMessage,
                             isMe: false,
                             dateTime: _messages[index].time.toString(),
                             currentTime: _messages[index].time.toString(),
@@ -215,7 +217,7 @@ class _LabourChatScreen extends State<LabourChatScreen> {
                         } else {
                           return MessageBubble(
                             sender: "You",
-                            text: _messages[index].labourMessage,
+                            text: _messages[index].joinerMessage,
                             isMe: true,
                             dateTime: _messages[index].time.toString(),
                             currentTime: _messages[index].time.toString(),

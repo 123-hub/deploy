@@ -28,7 +28,7 @@ class ContractorDocumentCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 8.h),
           child: ListTile(
             title: Text(
-              documentModel.ownerDrivingLicense,
+              documentModel.ownerDrivingLicense!,
               style: authInfoHeading,
             ),
             subtitle: Column(
@@ -38,14 +38,14 @@ class ContractorDocumentCard extends StatelessWidget {
                   height: 5.h,
                 ),
                 Text(
-                  documentModel.insuranceLiability,
+                  documentModel.insuranceLiability!,
                   style: subtitle.copyWith(color: cardSubtitle),
                 ),
                 SizedBox(
                   height: 5.h,
                 ),
                 Text(
-                  documentModel.businessLicense,
+                  documentModel.businessLicense!,
                   style: subtitle.copyWith(color: cardSubtitle),
                 ),
               ],

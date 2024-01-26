@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_chat_controller.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_job_controller.dart';
 import 'package:flutter_project_labour_app/models/bidder.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/contractor_profile_document_card.dart';
+import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_chat_screen.dart';
 import 'package:flutter_project_labour_app/screens/common/company_info_tile.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
@@ -16,7 +18,7 @@ Future<dynamic> bidderDescriptionPopUp(
   int jobId,
   ContractorJobController contractorJobController,
 ) {
-  // final chatController = Get.find<ContractorChatController>();
+  final chatController = Get.find<ContractorChatController>();
   return showModalBottomSheet(
     useSafeArea: true,
     showDragHandle: true,
@@ -192,54 +194,120 @@ Future<dynamic> bidderDescriptionPopUp(
           ),
           Positioned(
             bottom: 24.h,
-            child: Obx(() {
-              return contractorJobController.isHiring.value
-                  ? MaterialButton(
-                      onPressed: () {},
-                      minWidth: MediaQuery.of(context).size.width * 0.82,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      color: const Color(0xFFFF4E34),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15.h),
-                        child: const CircularProgressIndicator(
-                            color: Colors.white),
-                      ),
-                    )
-                  : MaterialButton(
-                      onPressed: () async {
-                        bool success =
-                            await contractorJobController.hireContractor(
-                          jobId,
-                          profile.id,
-                        );
-                        if (success) {
-                          Navigator.pop(context);
-                          showDoneSnackBar('Bid Accepted');
-                        } else {
-                          showErrorSnackBar('Some Problem Occured');
-                        }
-                      },
-                      minWidth: MediaQuery.of(context).size.width * 0.82,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      color: const Color(0xFFFF4E34),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15.h),
-                        child: Text(
-                          'Choose bid',
-                          style: TextStyle(
-                            fontSize: 17.sp,
-                            fontFamily: 'Gilroy',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+            child: Row(
+              children: [
+                Obx(() {
+                  return chatController.isChatLoading.value
+                      ? ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                const MaterialStatePropertyAll(Colors.white),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  8.r,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-            }),
+                          onPressed: () async {},
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12.h),
+                            child: const CircularProgressIndicator(
+                              color: primaryRed,
+                            ),
+                          ),
+                        )
+                      : ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                const MaterialStatePropertyAll(Colors.white),
+                            shape: MaterialStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  8.r,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            var room = await chatController.createChatRoom(
+                                profile.id, 'contractor');
+                            if (room != null) {
+                              Navigator.pop(context);
+                              Get.to(
+                                () => ContractorChatScreen(
+                                  room: room,
+                                  isOrganizer: true,
+                                ),
+                              );
+                            } else {
+                              showErrorSnackBar("Some problem occurred");
+                            }
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12.h),
+                            child: Icon(
+                              Icons.chat_outlined,
+                              color: Colors.black,
+                              size: 25.h,
+                            ),
+                          ),
+                        );
+                }),
+                SizedBox(
+                  width: 15.w,
+                ),
+                Obx(() {
+                  return contractorJobController.isHiring.value
+                      ? MaterialButton(
+                          onPressed: () {},
+                          minWidth: MediaQuery.of(context).size.width * 0.65,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          color: const Color(0xFFFF4E34),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15.h),
+                            child: const CircularProgressIndicator(
+                                color: Colors.white),
+                          ),
+                        )
+                      : MaterialButton(
+                          onPressed: () async {
+                            bool success =
+                                await contractorJobController.hireContractor(
+                              jobId,
+                              profile.id,
+                            );
+                            if (success) {
+                              Navigator.pop(context);
+                              showDoneSnackBar('Bid Accepted');
+                            } else {
+                              showErrorSnackBar('Some Problem Occured');
+                            }
+                          },
+                          minWidth: MediaQuery.of(context).size.width * 0.65,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          color: const Color(0xFFFF4E34),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15.h),
+                            child: Text(
+                              'Choose bid',
+                              style: TextStyle(
+                                fontSize: 17.sp,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        );
+                }),
+              ],
+            ),
           ),
         ],
       ),

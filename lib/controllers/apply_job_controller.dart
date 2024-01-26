@@ -24,6 +24,24 @@ class ApplyJobController extends GetxController {
   var isSavedLoading = false.obs;
   var isJobLoading = false.obs;
   var isFetchingJob = false.obs;
+  var applyJobSearchController = TextEditingController();
+  var appliedJobSearchResult = <Job>[].obs;
+
+  void searchAppliedJobs(String text) {
+    appliedJobSearchResult.clear();
+    if (text.trim().isEmpty) {
+      appliedJobSearchResult.addAll(appliedJobs);
+      return;
+    }
+    var searchString = text.toLowerCase();
+    var result = appliedJobs.where((element) =>
+        element.name.toLowerCase().contains(searchString) ||
+        element.description.toLowerCase().contains(searchString) ||
+        element.enterLocation.toLowerCase().contains(searchString));
+    if (result.isNotEmpty) {
+      appliedJobSearchResult.addAll(result);
+    }
+  }
 
   Future<bool> getAllJobs() async {
     var token = await StorageAccess.getToken();
@@ -61,7 +79,7 @@ class ApplyJobController extends GetxController {
     Map<String, dynamic> params = {
       'limit': '10',
       'page': (paginationData.value!.page + 1).toString(),
-      'get_expired_job': false,
+      'get_expired_job': 'false',
     };
     if (searchString.isNotEmpty) {
       params['query'] = '%$searchString%';
@@ -102,7 +120,7 @@ class ApplyJobController extends GetxController {
     Map<String, dynamic> params = {
       'limit': '10',
       'page': '1',
-      'get_expired_job': false,
+      'get_expired_job': 'false',
     };
     if (searchString.isNotEmpty) {
       params['query'] = '%$searchString%';
@@ -114,8 +132,7 @@ class ApplyJobController extends GetxController {
     if (filterSkills.isNotEmpty) {
       params['skills'] = filterSkills.join(',');
     }
-    debugPrint(
-        Uri.https(Endpoints.domain, '/v1/labour/jobs', params).toString());
+
     var response = await http.get(
       Uri.https(Endpoints.domain, '/v1/labour/jobs', params),
       headers: {'Authorization': 'Bearer $token'},

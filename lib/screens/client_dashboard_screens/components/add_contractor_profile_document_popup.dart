@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_profile_controller.dart';
+import 'package:flutter_project_labour_app/controllers/file_upload_controller.dart';
 import 'package:flutter_project_labour_app/models/contractor_document.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
+import 'package:flutter_project_labour_app/screens/common/underline_text_field_clickable.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/pick_a_file.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
+import 'package:flutter_project_labour_app/util/upload_file.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -17,12 +24,24 @@ Future<dynamic> addContractorProfileDocument(
   var wcbDocumentTextController = TextEditingController();
   var businessLicenseTextController = TextEditingController();
   var documentUrlTextController = TextEditingController();
+
+  var documentList = List<File?>.filled(5, null);
+  var fileUploadCOntroller = Get.put(FileUploadController());
+  var links = List<String>.filled(5, '');
+
   if (document != null) {
-    ownerDrivingLicenseTextController.text = document.ownerDrivingLicense;
-    insuranceLiabilityTextController.text = document.insuranceLiability;
-    wcbDocumentTextController.text = document.wcbDocument;
-    businessLicenseTextController.text = document.businessLicense;
-    documentUrlTextController.text = document.documentUrl;
+    ownerDrivingLicenseTextController.text =
+        getFileName(document.ownerDrivingLicense);
+    links[0] = document.ownerDrivingLicense;
+    insuranceLiabilityTextController.text =
+        getFileName(document.insuranceLiability);
+    links[1] = document.insuranceLiability;
+    wcbDocumentTextController.text = getFileName(document.wcbDocument);
+    links[2] = document.wcbDocument;
+    businessLicenseTextController.text = getFileName(document.businessLicense);
+    links[3] = document.businessLicense;
+    documentUrlTextController.text = getFileName(document.documentUrl);
+    links[4] = document.documentUrl;
   }
 
   return showModalBottomSheet(
@@ -54,85 +73,142 @@ Future<dynamic> addContractorProfileDocument(
               SizedBox(
                 height: 32.h,
               ),
-              UnderlineTextField(
+              UnderlineTextFieldClickable(
                 controller: ownerDrivingLicenseTextController,
-                hintText: 'Enter Owner Driving license',
+                hintText: 'Select Owner Driving license',
                 validator: validate,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              UnderlineTextField(
-                controller: insuranceLiabilityTextController,
-                hintText: 'Enter insurance liability',
-                validator: validate,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              UnderlineTextField(
-                controller: wcbDocumentTextController,
-                hintText: 'Enter WCB document',
-                validator: validate,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              UnderlineTextField(
-                controller: businessLicenseTextController,
-                hintText: 'Enter Business License',
-                validator: validate,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              UnderlineTextField(
-                controller: documentUrlTextController,
-                hintText: 'Enter Document URL',
-                validator: validate,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              LongButton(
-                text: document != null ? 'Update Document' : 'Add Document',
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    debugPrint('Valid');
-                    if (document != null) {
-                      controller.deleteDocument(document);
-                      document.businessLicense =
-                          businessLicenseTextController.text;
-                      document.insuranceLiability =
-                          insuranceLiabilityTextController.text;
-                      document.ownerDrivingLicense =
-                          ownerDrivingLicenseTextController.text;
-                      document.wcbDocument = wcbDocumentTextController.text;
-                      document.documentUrl = documentUrlTextController.text;
-                      controller.addDocument(document);
-                      Get.back();
-                    } else {
-                      var document = ContractorDocument(
-                        ownerDrivingLicense:
-                            ownerDrivingLicenseTextController.text,
-                        insuranceLiability:
-                            insuranceLiabilityTextController.text,
-                        wcbDocument: wcbDocumentTextController.text,
-                        businessLicense: businessLicenseTextController.text,
-                        documentUrl: documentUrlTextController.text,
-                        id: 0,
-                        contractorId: controller.contractorProfile.value!.id,
-                        createdAt: null,
-                        updatedAt: null,
-                      );
-                      debugPrint(document.toJson().toString());
-                      var added = controller.addDocument(document);
-                      if (added) {
-                        Get.back();
-                      }
-                    }
+                onClick: () async {
+                  var value = await pickAFile();
+                  if (value != null) {
+                    ownerDrivingLicenseTextController.text = value['name'];
+                    documentList[0] = value['file'];
                   }
+                },
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              UnderlineTextFieldClickable(
+                controller: insuranceLiabilityTextController,
+                hintText: 'Select insurance liability',
+                validator: validate,
+                onClick: () async {
+                  var value = await pickAFile();
+                  if (value != null) {
+                    insuranceLiabilityTextController.text = value['name'];
+                    documentList[1] = value['file'];
+                  }
+                },
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              UnderlineTextFieldClickable(
+                controller: wcbDocumentTextController,
+                hintText: 'Select WCB document',
+                validator: validate,
+                onClick: () async {
+                  var value = await pickAFile();
+                  if (value != null) {
+                    wcbDocumentTextController.text = value['name'];
+                    documentList[2] = value['file'];
+                  }
+                },
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              UnderlineTextFieldClickable(
+                controller: businessLicenseTextController,
+                hintText: 'Select Business License',
+                validator: validate,
+                onClick: () async {
+                  var value = await pickAFile();
+                  if (value != null) {
+                    businessLicenseTextController.text = value['name'];
+                    documentList[3] = value['file'];
+                  }
+                },
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              UnderlineTextFieldClickable(
+                controller: documentUrlTextController,
+                hintText: 'Select Document URL',
+                validator: validate,
+                onClick: () async {
+                  var value = await pickAFile();
+                  if (value != null) {
+                    documentUrlTextController.text = value['name'];
+                    documentList[4] = value['file'];
+                  }
+                },
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Obx(
+                () {
+                  return fileUploadCOntroller.isUploading.value
+                      ? const InactiveLongButton()
+                      : LongButton(
+                          text: document != null
+                              ? 'Update Document'
+                              : 'Add Document',
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              debugPrint('Valid');
+                              fileUploadCOntroller.changeIsUploading(true);
+                              print(documentList);
+                              for (int i = 0; i < documentList.length; i++) {
+                                if (documentList[i] != null) {
+                                  var url = await uploadFile(
+                                    userType: 'contractor',
+                                    file: documentList[i]!,
+                                  );
+                                  if (url == null) {
+                                    showErrorSnackBar(
+                                      '${documentList[i]!.path.split('/').last} was not uploaded',
+                                    );
+                                    break;
+                                  }
+                                  links[i] = url;
+                                }
+                              }
+                              fileUploadCOntroller.changeIsUploading(false);
+                              if (document != null) {
+                                controller.deleteDocument(document);
+                                document.businessLicense = links[3];
+                                document.insuranceLiability = links[1];
+                                document.ownerDrivingLicense = links[0];
+                                document.wcbDocument = links[2];
+                                document.documentUrl = links[4];
+                                controller.addDocument(document);
+                                Get.back();
+                              } else {
+                                var document = ContractorDocument(
+                                  ownerDrivingLicense: links[0],
+                                  insuranceLiability: links[1],
+                                  wcbDocument: links[2],
+                                  businessLicense: links[3],
+                                  documentUrl: links[4],
+                                  id: 0,
+                                  contractorId:
+                                      controller.contractorProfile.value!.id,
+                                  createdAt: null,
+                                  updatedAt: null,
+                                );
+                                debugPrint(document.toJson().toString());
+                                var added = controller.addDocument(document);
+                                if (added) {
+                                  Get.back();
+                                }
+                              }
+                            }
+                          },
+                        );
                 },
               ),
               SizedBox(
@@ -144,4 +220,8 @@ Future<dynamic> addContractorProfileDocument(
       ),
     ),
   );
+}
+
+String getFileName(String url) {
+  return url.split('/').last;
 }

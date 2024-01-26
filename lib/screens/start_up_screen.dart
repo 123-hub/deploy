@@ -59,12 +59,12 @@ class StartUpScreen extends StatelessWidget {
       );
       var success = await contractProfileController.getProfile();
       if (success) {
-        var dashboardController = Get.put(
-          ContractorDashboardController(),
-          permanent: true,
-        );
         var contractorJobController = Get.put(
           ContractorJobController(),
+          permanent: true,
+        );
+        var dashboardController = Get.put(
+          ContractorDashboardController(),
           permanent: true,
         );
         var contractorChatController = Get.put(

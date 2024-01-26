@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/controllers/forgot_password_controller.dart';
 import 'package:flutter_project_labour_app/screens/common/auth_appbar.dart';
+import 'package:flutter_project_labour_app/screens/forgot_password/forgot_password_enter_email.dart';
 import 'package:flutter_project_labour_app/screens/signup_screens/components/long_grey_button.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/contractor_signup/enter_contractor_email_screen.dart';
-import 'package:flutter_project_labour_app/screens/signup_screens/labour_signup/enter_email_screen.dart';
 import 'package:flutter_project_labour_app/util/app_colors.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class RoleSignUpScreen extends StatelessWidget {
-  const RoleSignUpScreen({super.key});
-
+class ForgetPasswordRole extends StatelessWidget {
+  ForgetPasswordRole({super.key});
+  final forgotPasswordController = Get.put(ForgotPasswordController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +29,14 @@ class RoleSignUpScreen extends StatelessWidget {
                   height: 71.h,
                 ),
                 Text(
-                  'What you want to sign up as?',
+                  'Choose your role',
                   style: authHeading,
                 ),
                 SizedBox(
                   height: 6.h,
                 ),
                 Text(
-                  'Tell us what role you want to sign up as',
+                  'What was your role in your account',
                   style: subtitle.copyWith(color: subtitleGrey),
                 ),
                 SizedBox(
@@ -45,7 +45,8 @@ class RoleSignUpScreen extends StatelessWidget {
                 LongOutlineButton(
                   text: 'Labour',
                   onPressed: () {
-                    Get.off(() => EnterEmailScreen());
+                    forgotPasswordController.role = 'labour';
+                    Get.off(() => ForgotPasswordEnterEmail());
                   },
                 ),
                 SizedBox(
@@ -54,7 +55,8 @@ class RoleSignUpScreen extends StatelessWidget {
                 LongOutlineButton(
                   text: 'Contractor',
                   onPressed: () {
-                    Get.off(() => EnterContractorEmailScreen());
+                    forgotPasswordController.role = 'contractor';
+                    Get.off(() => ForgotPasswordEnterEmail());
                   },
                 ),
               ],

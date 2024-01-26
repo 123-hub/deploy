@@ -58,7 +58,7 @@ class ContractorChatController extends GetxController {
     }
   }
 
-  Future<Room?> createRooms(int labourId) async {
+  Future<Room?> createChatRoom(int labourId, String type) async {
     isChatLoading(true);
     var token = await StorageAccess.getToken();
     if (token == null) {
@@ -66,7 +66,7 @@ class ContractorChatController extends GetxController {
       return null;
     }
     var response = await http.post(
-      Uri.parse('${Endpoints.contractorGetRooms}?labour_id=$labourId'),
+      Uri.parse('${Endpoints.contractorGetRooms}?joiner_id=$labourId&joiner_type=$type'),
       headers: {'Authorization': 'Bearer $token'},
     );
     isChatLoading(false);

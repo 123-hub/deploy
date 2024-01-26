@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_project_labour_app/controllers/file_upload_controller.dart';
 import 'package:flutter_project_labour_app/controllers/labour_signup_screen_controller.dart';
 import 'package:flutter_project_labour_app/models/document_model.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
 import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
+import 'package:flutter_project_labour_app/screens/common/underline_text_field_clickable.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
+import 'package:flutter_project_labour_app/util/pick_a_file.dart';
+import 'package:flutter_project_labour_app/util/snackbars.dart';
+import 'package:flutter_project_labour_app/util/upload_file.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +21,9 @@ Future<dynamic> addDocumentPopup(
   var documentNameTextController = TextEditingController();
   var documentURLTextController = TextEditingController();
   var descriptionTextController = TextEditingController();
+
+  var fileUploadCOntroller = Get.put(FileUploadController());
+  File? file;
 
   return showModalBottomSheet(
     showDragHandle: true,
@@ -52,10 +62,17 @@ Future<dynamic> addDocumentPopup(
               SizedBox(
                 height: 20.h,
               ),
-              UnderlineTextField(
+              UnderlineTextFieldClickable(
                 controller: documentURLTextController,
-                hintText: 'Enter Document URL',
+                hintText: 'Select a Document',
                 validator: validate,
+                onClick: () async {
+                  var value = await pickAFile();
+                  if (value != null) {
+                    documentURLTextController.text = value['name'];
+                    file = value['file'];
+                  }
+                },
               ),
               SizedBox(
                 height: 20.h,
@@ -68,23 +85,41 @@ Future<dynamic> addDocumentPopup(
               SizedBox(
                 height: 20.h,
               ),
-              LongButton(
-                text: 'Add Document',
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                    debugPrint('Valid');
-                    var document = DocumentModel(
-                      documentName: documentNameTextController.text,
-                      documentUrl: documentURLTextController.text,
-                      description: descriptionTextController.text,
-                    );
-                    debugPrint(document.toJson().toString());
-                    var added = controller.addDocument(document);
-                    if (added) {
-                      Get.back();
-                    }
-                  }
+              Obx(
+                () {
+                  return fileUploadCOntroller.isUploading.value
+                      ? const InactiveLongButton()
+                      : LongButton(
+                          text: 'Add Document',
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              debugPrint('Valid');
+                              fileUploadCOntroller.changeIsUploading(true);
+                              var url = await uploadFile(
+                                userType: 'contractor',
+                                file: file!,
+                              );
+                              fileUploadCOntroller.changeIsUploading(false);
+                              if (url == null) {
+                                showErrorSnackBar(
+                                  '${file!.path.split('/').last} was not uploaded',
+                                );
+                              } else {
+                                var document = DocumentModel(
+                                  documentName: documentNameTextController.text,
+                                  documentUrl: url,
+                                  description: descriptionTextController.text,
+                                );
+                                debugPrint(document.toJson().toString());
+                                var added = controller.addDocument(document);
+                                if (added) {
+                                  Get.back();
+                                }
+                              }
+                            }
+                          },
+                        );
                 },
               ),
               SizedBox(

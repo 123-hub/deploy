@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_labour_app/controllers/contractor_chat_controller.dart';
+import 'package:flutter_project_labour_app/controllers/contractor_profile_controller.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/client_back_app_bar.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/client_empty_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_chat_screen.dart';
@@ -12,6 +13,7 @@ class ContractorConversationScreen extends StatelessWidget {
   ContractorConversationScreen({super.key});
   final searchTextController = TextEditingController();
   final contractorChatController = Get.find<ContractorChatController>();
+  final contractorProfileController = Get.find<ContractorProfileController>();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -49,15 +51,20 @@ class ContractorConversationScreen extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: contractorChatController.allRooms.length,
                           itemBuilder: (BuildContext context, int index) {
+                            var room = contractorChatController.allRooms[index];
+                            var isOrganizer = contractorProfileController
+                                    .contractorProfile.value!.id ==
+                                room.organizerId;
                             return ChatCard(
-                              room: contractorChatController.allRooms[index],
-                              isContractor: true,
+                              room: room,
+                              isOrganizer: isOrganizer,
                               onTap: () {
                                 debugPrint('Clicked');
                                 Get.to(
                                   () => ContractorChatScreen(
                                     room: contractorChatController
                                         .allRooms[index],
+                                    isOrganizer: isOrganizer,
                                   ),
                                 );
                               },

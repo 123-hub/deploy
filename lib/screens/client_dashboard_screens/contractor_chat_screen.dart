@@ -21,8 +21,10 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class ContractorChatScreen extends StatefulWidget {
   static String id = 'FeedbackChatScreen';
   final Room room;
+  final bool isOrganizer;
 
-  const ContractorChatScreen({super.key, required this.room});
+  const ContractorChatScreen(
+      {super.key, required this.room, required this.isOrganizer});
 
   @override
   _ContractorChatScreen createState() => _ContractorChatScreen();
@@ -53,6 +55,7 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
     );
     if (response.statusCode < 299) {
       var body = jsonDecode(response.body);
+      print(body);
       if (body['data'] != null) {
         var jobs = (body['data'] as List);
         var messages = <MessageContent>[];
@@ -89,6 +92,7 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
       headers: {'Authorization': 'Bearer $token'},
     );
 
+
     channel!.stream.listen((message) {
       if (kDebugMode) {
         print('MESSAGE: $message');
@@ -99,13 +103,23 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
       setState(() {
         _messages.insert(
           0,
-          MessageContent(
-            labourMessage: data['labour_message'],
-            contractorMessage: "",
-            time: currentTime,
-          ),
+          widget.isOrganizer
+              ? MessageContent(
+                  joinerMessage: data['joiner_message'],
+                  organizerMessage: "",
+                  time: currentTime,
+                )
+              : MessageContent(
+                  joinerMessage: "",
+                  organizerMessage: data['organizer_message'],
+                  time: currentTime,
+                ),
         );
       });
+    }, onDone: () {
+      debugPrint('Stream ended');
+    }, onError: (error) {
+      debugPrint('Error: $error');
     });
   }
 
@@ -117,26 +131,39 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
 
   void _sendMessage() {
     final message = messageTextController.text.trim();
+
     if (message.isNotEmpty) {
-      channel!.sink.add('{"contractor_message": "$message"}');
+      print(
+        '{${widget.isOrganizer ? "organizer_message" : "joiner_message"}: "$message"}',
+      );
+      channel!.sink.add(
+          '{${widget.isOrganizer ? "organizer_message" : "joiner_message"}: "$message"}');
       messageTextController.clear();
-      setState(() {
-        var currentTime = DateTime.now();
-        isMessageSent = true;
-        debugPrint(MessageContent(
-          labourMessage: "",
-          contractorMessage: message,
-          time: currentTime,
-        ).toString());
-        _messages.insert(
-          0,
-          MessageContent(
-            labourMessage: "",
-            contractorMessage: message,
+      setState(
+        () {
+          var currentTime = DateTime.now();
+          isMessageSent = true;
+          debugPrint(MessageContent(
+            joinerMessage: "",
+            organizerMessage: message,
             time: currentTime,
-          ),
-        );
-      });
+          ).toString());
+          _messages.insert(
+            0,
+            widget.isOrganizer
+                ? MessageContent(
+                    joinerMessage: "",
+                    organizerMessage: message,
+                    time: currentTime,
+                  )
+                : MessageContent(
+                    joinerMessage: message,
+                    organizerMessage: "",
+                    time: currentTime,
+                  ),
+          );
+        },
+      );
     }
   }
 
@@ -148,13 +175,16 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Entered the screen");
     double screenHeight = MediaQuery.of(context).size.height;
     return Form(
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            widget.room.labourName,
+            widget.isOrganizer
+                ? widget.room.joinerName
+                : widget.room.organizerName,
             style: authHeading,
           ),
         ),
@@ -208,21 +238,23 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         if (_messages[index]
-                            .contractorMessage
+                            .organizerMessage
                             .trim()
                             .isNotEmpty) {
                           debugPrint(_messages[index].toString());
                           return MessageBubble(
                             sender: "You",
-                            text: _messages[index].contractorMessage,
+                            text: _messages[index].organizerMessage,
                             isMe: true,
                             dateTime: _messages[index].time.toString(),
                             currentTime: _messages[index].time.toString(),
                           );
                         } else {
                           return MessageBubble(
-                            sender: widget.room.labourName,
-                            text: _messages[index].labourMessage,
+                            sender: widget.isOrganizer
+                                ? widget.room.joinerName
+                                : widget.room.organizerName,
+                            text: _messages[index].joinerMessage,
                             isMe: false,
                             dateTime: _messages[index].time.toString(),
                             currentTime: _messages[index].time.toString(),
@@ -327,7 +359,8 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
 }
 
 class MessageBubble extends StatefulWidget {
-  MessageBubble({
+  const MessageBubble({
+    super.key,
     required this.sender,
     required this.text,
     required this.isMe,
@@ -416,7 +449,9 @@ class _MessageBubbleState extends State<MessageBubble> {
                                     child: Text(
                                       isExpanded
                                           ? widget.text
-                                          : '${widget.text.length > 300 ? widget.text.substring(0, 300) : widget.text}',
+                                          : widget.text.length > 300
+                                              ? widget.text.substring(0, 300)
+                                              : widget.text,
                                       textAlign: widget.isMe
                                           ? TextAlign.right
                                           : TextAlign.left,
