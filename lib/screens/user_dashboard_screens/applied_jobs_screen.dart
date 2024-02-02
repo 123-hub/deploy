@@ -6,7 +6,6 @@ import 'package:flutter_project_labour_app/screens/user_dashboard_screens/compon
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/back_appbar.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/empty_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_card_without_tag.dart';
-import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

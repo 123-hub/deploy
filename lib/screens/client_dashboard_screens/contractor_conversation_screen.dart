@@ -5,7 +5,6 @@ import 'package:flutter_project_labour_app/screens/client_dashboard_screens/comp
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/components/client_empty_screen.dart';
 import 'package:flutter_project_labour_app/screens/client_dashboard_screens/contractor_chat_screen.dart';
 import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/chat_card.dart';
-import 'package:flutter_project_labour_app/screens/user_dashboard_screens/components/job_search_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -37,14 +36,14 @@ class ContractorConversationScreen extends StatelessWidget {
                       SizedBox(
                         height: 27.h,
                       ),
-                      JobSearchBar(
-                        searchTextController: searchTextController,
-                        onTap: () {},
-                        readOnly: false,
-                      ),
-                      SizedBox(
-                        height: 17.h,
-                      ),
+                      // JobSearchBar(
+                      //   searchTextController: searchTextController,
+                      //   onTap: () {},
+                      //   readOnly: false,
+                      // ),
+                      // SizedBox(
+                      //   height: 17.h,
+                      // ),
                       Obx(() {
                         return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),

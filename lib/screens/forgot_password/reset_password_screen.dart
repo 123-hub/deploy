@@ -80,7 +80,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         primaryIcon: Icons.lock_outline,
                         textInputType: TextInputType.visiblePassword,
                         showPassword:
-                            forgotPasswordController.showPassword.value,
+                            forgotPasswordController.showConfirmPassword.value,
                         visibilityButton: () {
                           forgotPasswordController.changeShowConfirmPassword();
                         },

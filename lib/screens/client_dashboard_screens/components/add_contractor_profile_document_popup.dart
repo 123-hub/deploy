@@ -5,7 +5,6 @@ import 'package:flutter_project_labour_app/controllers/contractor_profile_contro
 import 'package:flutter_project_labour_app/controllers/file_upload_controller.dart';
 import 'package:flutter_project_labour_app/models/contractor_document.dart';
 import 'package:flutter_project_labour_app/screens/common/long_button.dart';
-import 'package:flutter_project_labour_app/screens/common/underline_text_field.dart';
 import 'package:flutter_project_labour_app/screens/common/underline_text_field_clickable.dart';
 import 'package:flutter_project_labour_app/screens/common/validate_function.dart';
 import 'package:flutter_project_labour_app/util/font_styles.dart';

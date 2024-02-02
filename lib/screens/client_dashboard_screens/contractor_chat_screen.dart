@@ -92,7 +92,6 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
       headers: {'Authorization': 'Bearer $token'},
     );
 
-
     channel!.stream.listen((message) {
       if (kDebugMode) {
         print('MESSAGE: $message');
@@ -134,10 +133,11 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
 
     if (message.isNotEmpty) {
       print(
-        '{${widget.isOrganizer ? "organizer_message" : "joiner_message"}: "$message"}',
+        '{"${widget.isOrganizer ? "organizer_message" : "joiner_message"}": "$message"}',
       );
       channel!.sink.add(
-          '{${widget.isOrganizer ? "organizer_message" : "joiner_message"}: "$message"}');
+        '{"${widget.isOrganizer ? "organizer_message" : "joiner_message"}": "$message"}',
+      );
       messageTextController.clear();
       setState(
         () {
@@ -273,7 +273,7 @@ class _ContractorChatScreen extends State<ContractorChatScreen> {
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please';
+                          return 'Please enter some text';
                         }
                         return null;
                       },

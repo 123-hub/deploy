@@ -35,14 +35,14 @@ class ConversationScreen extends StatelessWidget {
                       SizedBox(
                         height: 27.h,
                       ),
-                      JobSearchBar(
-                        searchTextController: searchTextController,
-                        onTap: () {},
-                        readOnly: false,
-                      ),
-                      SizedBox(
-                        height: 17.h,
-                      ),
+                      // JobSearchBar(
+                      //   searchTextController: searchTextController,
+                      //   onTap: () {},
+                      //   readOnly: false,
+                      // ),
+                      // SizedBox(
+                      //   height: 17.h,
+                      // ),
                       Obx(() {
                         return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),

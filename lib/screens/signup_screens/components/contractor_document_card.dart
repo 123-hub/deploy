@@ -28,7 +28,9 @@ class ContractorDocumentCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 8.h),
           child: ListTile(
             title: Text(
-              documentModel.ownerDrivingLicense!,
+              documentModel.ownerDrivingLicense!.startsWith('https')
+                  ? documentModel.ownerDrivingLicense!.split("/").last
+                  : documentModel.ownerDrivingLicense!,
               style: authInfoHeading,
             ),
             subtitle: Column(
@@ -38,14 +40,18 @@ class ContractorDocumentCard extends StatelessWidget {
                   height: 5.h,
                 ),
                 Text(
-                  documentModel.insuranceLiability!,
+                  documentModel.insuranceLiability!.startsWith("http")
+                      ? documentModel.insuranceLiability!.split('/').last
+                      : documentModel.insuranceLiability!,
                   style: subtitle.copyWith(color: cardSubtitle),
                 ),
                 SizedBox(
                   height: 5.h,
                 ),
                 Text(
-                  documentModel.businessLicense!,
+                  documentModel.businessLicense!.startsWith('http')
+                      ? documentModel.insuranceLiability!.split("/").last
+                      : documentModel.insuranceLiability!,
                   style: subtitle.copyWith(color: cardSubtitle),
                 ),
               ],

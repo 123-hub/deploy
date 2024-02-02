@@ -10,7 +10,7 @@ Future<String?> uploadFile(
       : Uri.parse(Endpoints.contractorUploadFile);
 
   var request = http.MultipartRequest('POST', url);
-  // request.headers[''];
+  request.headers['X-API-KEY'] = '549abba1-65eb-426b-99df-32be6cfddb8b';
   request.files.add(await http.MultipartFile.fromPath('file', file.path));
   try {
     var response = await request.send();

@@ -106,6 +106,10 @@ class _LabourChatScreen extends State<LabourChatScreen> {
           ),
         );
       });
+    }, onDone: () {
+      debugPrint('Stream ended');
+    }, onError: (error) {
+      debugPrint('Error: $error');
     });
   }
 
@@ -124,7 +128,6 @@ class _LabourChatScreen extends State<LabourChatScreen> {
 
   void _sendMessage() {
     final message = messageTextController.text.trim();
-    print('{"joiner_message": "$message"}');
     if (message.isNotEmpty) {
       channel!.sink.add('{"joiner_message": "$message"}');
       messageTextController.clear();
@@ -189,16 +192,20 @@ class _LabourChatScreen extends State<LabourChatScreen> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          const Text('Loading Your Feedbacks!')
+                          Text(
+                            'Loading Your Opportunities!',
+                            style: authInfoHeading,
+                          )
                         ],
                       ),
                     )
                   else if (_messages.isEmpty)
                     const Center(
-                        child: Text(
-                      'No Chat\'s Found!\nGet Started With Your FeedBacks',
-                      textAlign: TextAlign.center,
-                    ))
+                      child: Text(
+                        'No Chat\'s Found!\nGet Started Now',
+                        textAlign: TextAlign.center,
+                      ),
+                    )
                   else
                     ListView.builder(
                       reverse: true,
@@ -236,7 +243,7 @@ class _LabourChatScreen extends State<LabourChatScreen> {
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please';
+                          return 'Please enter some text';
                         }
                         return null;
                       },
